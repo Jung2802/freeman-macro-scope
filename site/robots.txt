@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jung2802.github.io/freeman-macro-scope/sitemap.xml
