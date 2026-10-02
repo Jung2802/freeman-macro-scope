@@ -1,0 +1,925 @@
+{
+  "id": "us",
+  "name": { "de": "USA", "en": "United States" },
+  "currency": "USD",
+  "recession": {
+    "fred": "USREC",
+    "source": { "name": "NBER Business Cycle Dating Committee (via FRED: USREC)", "url": "https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions" }
+  },
+  "gdpIndicator": "gdp",
+  "groups": [
+    {
+      "id": "endogenous",
+      "name": { "de": "Endogenous Drivers", "en": "Endogenous Drivers" },
+      "description": {
+        "de": "Binnenwirtschaftliche Treiber: Daten, die aus der US-Wirtschaft selbst entstehen – Stimmung, Geldmenge, Zinsen, Inflation, Arbeitsmarkt, Aktivität und Staatsfinanzen.",
+        "en": "Domestic drivers: data generated inside the US economy itself – sentiment, money supply, rates, inflation, labour market, activity and public finances."
+      }
+    }
+  ],
+  "categories": [
+    { "id": "surveys",   "group": "endogenous", "tone": "growth",  "color": "#a78bfa", "name": { "de": "Frühindikatoren & Umfragen", "en": "Leading Indicators & Surveys" } },
+    { "id": "housing",   "group": "endogenous", "tone": "growth",  "color": "#f59e0b", "name": { "de": "Immobilien", "en": "Housing" } },
+    { "id": "money",     "group": "endogenous", "tone": "neutral", "color": "#22d3ee", "name": { "de": "Geldmenge & Notenbank", "en": "Money Supply & Central Bank" } },
+    { "id": "rates",     "group": "endogenous", "tone": "neutral", "color": "#60a5fa", "name": { "de": "Zinsen", "en": "Interest Rates" } },
+    { "id": "inflation", "group": "endogenous", "tone": "neutral", "color": "#f472b6", "name": { "de": "Inflation", "en": "Inflation" } },
+    { "id": "labour",    "group": "endogenous", "tone": "growth",  "color": "#34d399", "name": { "de": "Arbeitsmarkt", "en": "Labour Market" } },
+    { "id": "activity",  "group": "endogenous", "tone": "growth",  "color": "#a3e635", "name": { "de": "Wachstum & Aktivität", "en": "Growth & Activity" } },
+    { "id": "fiscal",    "group": "endogenous", "tone": "neutral", "color": "#fb923c", "name": { "de": "Staatsfinanzen & Bilanzen", "en": "Public Finances & Balance Sheets" } }
+  ],
+  "indicators": [
+    {
+      "id": "mfg_regional",
+      "category": "surveys",
+      "code": "FED-MFG",
+      "name": { "de": "Industrie-Stimmung (Regionale Fed-Umfragen)", "en": "Manufacturing Sentiment (Regional Fed Surveys)" },
+      "short": { "de": "Industrie-Stimmung", "en": "Manufacturing Sentiment" },
+      "unit": { "de": "Diffusionsindex", "en": "Diffusion index" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "phi": { "fred": "GACDFSA066MSFRBPHI" },
+        "ny":  { "fred": "GACDISA066MSFRBNY" },
+        "dal": { "fred": "BACTSAMFRBDAL" }
+      },
+      "formula": "mean(phi, ny, dal)",
+      "transform": "level",
+      "threshold": 0,
+      "zones": { "above": { "de": "Expansion", "en": "Expansion" }, "below": { "de": "Kontraktion", "en": "Contraction" } },
+      "direction": 1,
+      "gdpRegression": true,
+      "license": "citation",
+      "replaces": { "de": "Ersetzt den ISM Manufacturing PMI (ISM-Daten sind nur für private, nicht-kommerzielle Nutzung lizenziert).", "en": "Replaces the ISM Manufacturing PMI (ISM data is licensed for personal, non-commercial use only)." },
+      "sources": [
+        { "name": "Federal Reserve Bank of Philadelphia – Manufacturing Business Outlook Survey", "url": "https://www.philadelphiafed.org/surveys-and-data/regional-economic-analysis/manufacturing-business-outlook-survey" },
+        { "name": "Federal Reserve Bank of New York – Empire State Manufacturing Survey", "url": "https://www.newyorkfed.org/survey/empire/empiresurvey_overview" },
+        { "name": "Federal Reserve Bank of Dallas – Texas Manufacturing Outlook Survey", "url": "https://www.dallasfed.org/research/surveys/tmos" }
+      ],
+      "description": {
+        "de": "Durchschnitt der allgemeinen Geschäftslage aus drei regionalen Industrieumfragen der US-Notenbank (Philadelphia, New York, Dallas). Ein Diffusionsindex ist der Anteil der Firmen mit Verbesserung minus dem Anteil mit Verschlechterung. Die Umfragen erscheinen jeweils in der Monatsmitte, also vor dem landesweiten ISM-Bericht, und gelten als dessen frühe Annäherung.",
+        "en": "Average of the general business conditions index from three regional Federal Reserve manufacturing surveys (Philadelphia, New York, Dallas). A diffusion index is the share of firms reporting improvement minus the share reporting deterioration. The surveys are released mid-month, ahead of the national ISM report, and are widely used as an early read on it."
+      },
+      "interpretation": {
+        "de": "Werte über 0: mehr Industriefirmen melden eine Verbesserung als eine Verschlechterung. Werte unter 0: umgekehrt. Die Höhe zeigt, wie breit die Bewegung ist.",
+        "en": "Above 0: more manufacturers report improvement than deterioration. Below 0: the reverse. The magnitude shows how broad the move is."
+      }
+    },
+    {
+      "id": "svc_regional",
+      "category": "surveys",
+      "code": "FED-SVC",
+      "name": { "de": "Dienstleistungs-Stimmung (Regionale Fed-Umfragen)", "en": "Services Sentiment (Regional Fed Surveys)" },
+      "short": { "de": "Dienstleistungs-Stimmung", "en": "Services Sentiment" },
+      "unit": { "de": "Diffusionsindex", "en": "Diffusion index" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "phi": { "fred": "GABNDIF066MSFRBPHI" },
+        "dal": { "fred": "TSSOSBACTSAMFRBDAL" }
+      },
+      "formula": "mean(phi, dal)",
+      "transform": "level",
+      "threshold": 0,
+      "zones": { "above": { "de": "Expansion", "en": "Expansion" }, "below": { "de": "Kontraktion", "en": "Contraction" } },
+      "direction": 1,
+      "gdpRegression": true,
+      "license": "citation",
+      "replaces": { "de": "Ersetzt den ISM Services PMI (früher NMI). ISM-Daten sind nur für private, nicht-kommerzielle Nutzung lizenziert.", "en": "Replaces the ISM Services PMI (formerly NMI). ISM data is licensed for personal, non-commercial use only." },
+      "sources": [
+        { "name": "Federal Reserve Bank of Philadelphia – Nonmanufacturing Business Outlook Survey", "url": "https://www.philadelphiafed.org/surveys-and-data/regional-economic-analysis/nonmanufacturing-business-outlook-survey" },
+        { "name": "Federal Reserve Bank of Dallas – Texas Service Sector Outlook Survey", "url": "https://www.dallasfed.org/research/surveys/tssos" }
+      ],
+      "description": {
+        "de": "Durchschnitt der allgemeinen Geschäftsaktivität aus den regionalen Dienstleistungsumfragen der Fed Philadelphia und Dallas. Der Dienstleistungssektor macht rund vier Fünftel der US-Wirtschaftsleistung aus.",
+        "en": "Average of the general business activity index from the Philadelphia and Dallas Fed service-sector surveys. Services account for roughly four fifths of US output."
+      },
+      "interpretation": {
+        "de": "Werte über 0: mehr Dienstleister melden steigende Aktivität als sinkende. Werte unter 0: umgekehrt.",
+        "en": "Above 0: more service firms report rising than falling activity. Below 0: the reverse."
+      }
+    },
+    {
+      "id": "umcsi",
+      "category": "surveys",
+      "code": "UMCSI",
+      "name": { "de": "Verbraucherstimmung (University of Michigan)", "en": "Consumer Sentiment (University of Michigan)" },
+      "short": { "de": "Verbraucherstimmung", "en": "Consumer Sentiment" },
+      "unit": { "de": "Index (1966 Q1 = 100)", "en": "Index (1966 Q1 = 100)" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "UMCSENT" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 85,
+      "zones": { "above": { "de": "Optimistisch", "en": "Optimistic" }, "below": { "de": "Pessimistisch", "en": "Pessimistic" } },
+      "direction": 1,
+      "gdpRegression": true,
+      "license": "restricted",
+      "sources": [
+        { "name": "University of Michigan – Surveys of Consumers", "url": "https://www.sca.isr.umich.edu/" }
+      ],
+      "description": {
+        "de": "Monatliche Umfrage unter US-Haushalten zu ihrer finanziellen Lage, ihren Erwartungen und den Kaufbedingungen. Der private Konsum macht rund zwei Drittel der US-Wirtschaftsleistung aus.",
+        "en": "Monthly survey of US households on their financial situation, expectations and buying conditions. Private consumption is roughly two thirds of US output."
+      },
+      "interpretation": {
+        "de": "Die Schwelle 85 aus der Originalanalyse trennt optimistische von pessimistischen Phasen. Der langjährige Durchschnitt liegt ebenfalls in diesem Bereich.",
+        "en": "The 85 threshold from the original analysis separates optimistic from pessimistic phases. The long-run average sits in the same area."
+      }
+    },
+    {
+      "id": "permits",
+      "category": "housing",
+      "code": "BP",
+      "name": { "de": "Baugenehmigungen", "en": "Building Permits" },
+      "short": { "de": "Baugenehmigungen", "en": "Building Permits" },
+      "unit": { "de": "Tsd. Einheiten (annualisiert, saisonbereinigt)", "en": "Thousand units (SAAR)" },
+      "decimals": 0,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "PERMIT" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": { "above": { "de": "Stark", "en": "Strong" }, "below": { "de": "Schwach", "en": "Weak" } },
+      "direction": 1,
+      "gdpRegression": true,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Census Bureau – New Residential Construction", "url": "https://www.census.gov/construction/nrc/index.html" }
+      ],
+      "description": {
+        "de": "Neu erteilte Baugenehmigungen für private Wohneinheiten. Genehmigungen gehen dem eigentlichen Bau voraus und gelten deshalb als Frühindikator für Bauaktivität, Konsum (Einrichtung) und Beschäftigung.",
+        "en": "Newly authorised private housing units. Permits precede construction and are therefore a leading indicator for building activity, related consumption and employment."
+      },
+      "interpretation": {
+        "de": "Als Schwelle dient der historische Median der Reihe. Darüber: überdurchschnittliche Genehmigungstätigkeit.",
+        "en": "The threshold is the series' historical median. Above it: above-average permit activity."
+      }
+    },
+    {
+      "id": "starts",
+      "category": "housing",
+      "code": "HOUST",
+      "name": { "de": "Baubeginne", "en": "Housing Starts" },
+      "short": { "de": "Baubeginne", "en": "Housing Starts" },
+      "unit": { "de": "Tsd. Einheiten (annualisiert, saisonbereinigt)", "en": "Thousand units (SAAR)" },
+      "decimals": 0,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "HOUST" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": { "above": { "de": "Stark", "en": "Strong" }, "below": { "de": "Schwach", "en": "Weak" } },
+      "direction": 1,
+      "gdpRegression": true,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Census Bureau – New Residential Construction", "url": "https://www.census.gov/construction/nrc/index.html" }
+      ],
+      "description": {
+        "de": "Anzahl begonnener privater Wohnbauprojekte. Ergänzt die Baugenehmigungen: Genehmigungen zeigen die Absicht, Baubeginne die tatsächliche Umsetzung.",
+        "en": "Number of private residential projects started. Complements permits: permits show intent, starts show actual execution."
+      },
+      "interpretation": {
+        "de": "Als Schwelle dient der historische Median. Ein großer Abstand zwischen Genehmigungen und Baubeginnen zeigt einen Rückstau oder ein Auslaufen der Pipeline.",
+        "en": "The threshold is the historical median. A wide gap between permits and starts indicates a backlog or a draining pipeline."
+      }
+    },
+    {
+      "id": "m2",
+      "category": "money",
+      "code": "M2",
+      "name": { "de": "Geldmenge M2 – Wachstum", "en": "M2 Money Supply – Growth" },
+      "short": { "de": "Geldmenge M2", "en": "M2 Money Supply" },
+      "unit": { "de": "% ggü. Vorjahr", "en": "% year over year" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "M2SL" } },
+      "formula": "v",
+      "transform": "yoy",
+      "base": { "unit": { "de": "Mrd. USD", "en": "USD bn" }, "decimals": 1 },
+      "threshold": "mean",
+      "zones": { "above": { "de": "Überdurchschnittlich", "en": "Above average" }, "below": { "de": "Unterdurchschnittlich", "en": "Below average" } },
+      "direction": 1,
+      "gdpRegression": true,
+      "license": "public",
+      "sources": [
+        { "name": "Board of Governors of the Federal Reserve System – H.6 Money Stock Measures", "url": "https://www.federalreserve.gov/releases/h6/" }
+      ],
+      "description": {
+        "de": "M2 umfasst Bargeld, Sichteinlagen, Spareinlagen, kleine Termineinlagen und Geldmarktfonds von Privatanlegern. Die Wachstumsrate zeigt, wie stark die verfügbare Liquidität in der Wirtschaft zu- oder abnimmt.",
+        "en": "M2 comprises currency, demand deposits, savings deposits, small time deposits and retail money market funds. Its growth rate shows how fast liquidity in the economy expands or contracts."
+      },
+      "interpretation": {
+        "de": "Wie in der Originalanalyse wird die Verteilung der Veränderungen mit Standardabweichungs-Bändern ausgewertet. Ausschläge jenseits von 2σ sind historisch selten und fielen oft mit Krisen- oder Notenbankmaßnahmen zusammen.",
+        "en": "As in the original analysis, the distribution of changes is evaluated with standard-deviation bands. Moves beyond 2σ are historically rare and often coincided with crises or central-bank action."
+      }
+    },
+    {
+      "id": "cbbs_gdp",
+      "category": "money",
+      "code": "CBBS",
+      "name": { "de": "Fed-Bilanzsumme in % des BIP", "en": "Fed Balance Sheet as % of GDP" },
+      "short": { "de": "Fed-Bilanz / BIP", "en": "Fed Balance Sheet / GDP" },
+      "unit": { "de": "% des BIP", "en": "% of GDP" },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "walcl": { "fred": "WALCL" },
+        "gdp":   { "fred": "GDP" }
+      },
+      "formula": "walcl / 1000 / gdp * 100",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": { "above": { "de": "Über Durchschnitt", "en": "Above average" }, "below": { "de": "Unter Durchschnitt", "en": "Below average" } },
+      "direction": 1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "Board of Governors of the Federal Reserve System – H.4.1 Factors Affecting Reserve Balances", "url": "https://www.federalreserve.gov/releases/h41/" },
+        { "name": "U.S. Bureau of Economic Analysis – Gross Domestic Product", "url": "https://www.bea.gov/data/gdp/gross-domestic-product" }
+      ],
+      "description": {
+        "de": "Summe aller Vermögenswerte der US-Notenbank (Quartalsdurchschnitt der Wochenwerte) im Verhältnis zum nominalen BIP. Steigt bei Anleihekäufen (Quantitative Easing), sinkt beim Bilanzabbau (Quantitative Tightening).",
+        "en": "Total assets of the Federal Reserve (quarterly average of weekly values) relative to nominal GDP. Rises with asset purchases (quantitative easing), falls with balance-sheet runoff (quantitative tightening)."
+      },
+      "interpretation": {
+        "de": "Ein steigender Anteil bedeutet, dass die Notenbank mehr Liquidität im System hält. Ein sinkender Anteil bedeutet, dass sie Liquidität abzieht.",
+        "en": "A rising share means the central bank holds more liquidity in the system. A falling share means it is withdrawing liquidity."
+      }
+    },
+    {
+      "id": "fedfunds",
+      "category": "rates",
+      "code": "IR%",
+      "name": { "de": "Leitzins (Effective Federal Funds Rate)", "en": "Policy Rate (Effective Federal Funds Rate)" },
+      "short": { "de": "Leitzins", "en": "Fed Funds Rate" },
+      "unit": { "de": "%", "en": "%" },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "FEDFUNDS" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": { "above": { "de": "Über Median", "en": "Above median" }, "below": { "de": "Unter Median", "en": "Below median" } },
+      "direction": -1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "Board of Governors of the Federal Reserve System – H.15 Selected Interest Rates", "url": "https://www.federalreserve.gov/releases/h15/" }
+      ],
+      "description": {
+        "de": "Der effektive Tagesgeldsatz, zu dem sich US-Banken gegenseitig Reserven leihen. Er wird über das Zielband der Federal Reserve gesteuert und ist der wichtigste geldpolitische Zins.",
+        "en": "The effective overnight rate at which US banks lend reserves to each other. It is steered via the Federal Reserve's target range and is the key monetary-policy rate."
+      },
+      "interpretation": {
+        "de": "Höhere Zinsen verteuern Kredite und wirken bremsend. Niedrigere Zinsen wirken stimulierend. Im Score zählt ein hoher Zins deshalb negativ (restriktiv).",
+        "en": "Higher rates make credit more expensive and act as a brake. Lower rates are stimulative. In the score a high rate therefore counts negative (restrictive)."
+      }
+    },
+    {
+      "id": "real_rate",
+      "category": "rates",
+      "code": "RIR%",
+      "name": { "de": "Realer Leitzins (Leitzins minus Inflation)", "en": "Real Policy Rate (Fed Funds minus CPI)" },
+      "short": { "de": "Realer Leitzins", "en": "Real Policy Rate" },
+      "unit": { "de": "Prozentpunkte", "en": "Percentage points" },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": {
+        "ff":  { "fred": "FEDFUNDS" },
+        "cpi": { "fred": "CPIAUCSL", "transform": "yoy" }
+      },
+      "formula": "ff - cpi",
+      "transform": "level",
+      "threshold": 0,
+      "zones": { "above": { "de": "Positiv (restriktiv)", "en": "Positive (restrictive)" }, "below": { "de": "Negativ (expansiv)", "en": "Negative (accommodative)" } },
+      "direction": -1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "Board of Governors of the Federal Reserve System – H.15", "url": "https://www.federalreserve.gov/releases/h15/" },
+        { "name": "U.S. Bureau of Labor Statistics – Consumer Price Index", "url": "https://www.bls.gov/cpi/" }
+      ],
+      "description": {
+        "de": "Leitzins abzüglich der Inflationsrate (CPI, Veränderung ggü. Vorjahr). Zeigt, ob der Zins über oder unter der Teuerung liegt.",
+        "en": "Fed funds rate minus CPI inflation (year over year). Shows whether the policy rate is above or below inflation."
+      },
+      "interpretation": {
+        "de": "Ein positiver Realzins gilt in der Regel als restriktiv, ein negativer als expansiv.",
+        "en": "A positive real rate is generally considered restrictive, a negative one accommodative."
+      }
+    },
+    {
+      "id": "t10",
+      "category": "rates",
+      "code": "T10%",
+      "name": { "de": "Rendite 10-jährige US-Staatsanleihen", "en": "10-Year Treasury Yield" },
+      "short": { "de": "10J-Rendite", "en": "10Y Yield" },
+      "unit": { "de": "%", "en": "%" },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "GS10" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": { "above": { "de": "Über Median", "en": "Above median" }, "below": { "de": "Unter Median", "en": "Below median" } },
+      "direction": -1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "Board of Governors of the Federal Reserve System – H.15 Selected Interest Rates", "url": "https://www.federalreserve.gov/releases/h15/" }
+      ],
+      "description": {
+        "de": "Marktrendite der 10-jährigen US-Staatsanleihe (Monatsdurchschnitt, konstante Laufzeit). Sie ist der Referenzzins für Hypotheken und Unternehmenskredite und bestimmt die Zinslast des Staates mit.",
+        "en": "Market yield on the 10-year US Treasury (monthly average, constant maturity). It is the benchmark for mortgages and corporate credit and drives the government's interest bill."
+      },
+      "interpretation": {
+        "de": "Steigende Renditen erhöhen die Finanzierungskosten von Staat, Firmen und Haushalten.",
+        "en": "Rising yields increase financing costs for government, companies and households."
+      }
+    },
+    {
+      "id": "curve",
+      "category": "rates",
+      "code": "10Y-2Y",
+      "name": { "de": "Zinskurve (10 Jahre minus 2 Jahre)", "en": "Yield Curve (10Y minus 2Y)" },
+      "short": { "de": "Zinskurve 10J–2J", "en": "Yield Curve 10Y–2Y" },
+      "unit": { "de": "Prozentpunkte", "en": "Percentage points" },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "T10Y2Y" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": { "above": { "de": "Normal (steil)", "en": "Normal (upward)" }, "below": { "de": "Invers", "en": "Inverted" } },
+      "direction": 1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "Federal Reserve Bank of St. Louis – 10-Year minus 2-Year Treasury Constant Maturity (T10Y2Y)", "url": "https://fred.stlouisfed.org/series/T10Y2Y" }
+      ],
+      "description": {
+        "de": "Differenz zwischen der 10-jährigen und der 2-jährigen Rendite (Monatsdurchschnitt der Tageswerte). Normalerweise liegen lange Zinsen über kurzen.",
+        "en": "Spread between the 10-year and 2-year yield (monthly average of daily values). Normally long rates sit above short rates."
+      },
+      "interpretation": {
+        "de": "Eine inverse Zinskurve (unter 0) ging historisch vielen US-Rezessionen voraus, mit unterschiedlich langer Vorlaufzeit. Die grauen Flächen im Diagramm zeigen die offiziellen Rezessionen.",
+        "en": "An inverted curve (below 0) historically preceded many US recessions, with varying lead times. Grey areas in the chart mark official recessions."
+      }
+    },
+    {
+      "id": "credit_spread",
+      "category": "rates",
+      "code": "BAA-10Y",
+      "name": { "de": "Kreditaufschlag (Baa-Unternehmensanleihen minus 10J)", "en": "Credit Spread (Baa Corporate minus 10Y)" },
+      "short": { "de": "Kreditaufschlag", "en": "Credit Spread" },
+      "unit": { "de": "Prozentpunkte", "en": "Percentage points" },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "BAA10YM" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": { "above": { "de": "Erhöht", "en": "Elevated" }, "below": { "de": "Niedrig", "en": "Low" } },
+      "direction": -1,
+      "gdpRegression": true,
+      "license": "restricted",
+      "sources": [
+        { "name": "Moody's – Seasoned Baa Corporate Bond Yield relative to 10-Year Treasury (via FRED: BAA10YM)", "url": "https://fred.stlouisfed.org/series/BAA10YM" }
+      ],
+      "description": {
+        "de": "Renditeaufschlag von Unternehmensanleihen mit Baa-Rating gegenüber 10-jährigen Staatsanleihen. Er misst, welche Risikoprämie Investoren für Unternehmenskredite verlangen.",
+        "en": "Yield premium of Baa-rated corporate bonds over 10-year Treasuries. It measures the risk premium investors demand for corporate credit."
+      },
+      "interpretation": {
+        "de": "Steigende Aufschläge zeigen zunehmenden Stress an den Kreditmärkten, sinkende eine entspannte Lage.",
+        "en": "Widening spreads indicate rising credit-market stress, narrowing spreads a calm environment."
+      }
+    },
+    {
+      "id": "cpi",
+      "category": "inflation",
+      "code": "CPIAUCSL",
+      "name": { "de": "Verbraucherpreise (CPI, gesamt)", "en": "Consumer Prices (CPI, headline)" },
+      "short": { "de": "CPI gesamt", "en": "CPI Headline" },
+      "unit": { "de": "% ggü. Vorjahr", "en": "% year over year" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "CPIAUCSL" } },
+      "formula": "v",
+      "transform": "yoy",
+      "base": { "unit": { "de": "Index (1982–84 = 100)", "en": "Index (1982–84 = 100)" }, "decimals": 3 },
+      "threshold": 2,
+      "zones": { "above": { "de": "Über 2 %", "en": "Above 2%" }, "below": { "de": "Unter 2 %", "en": "Below 2%" } },
+      "direction": 1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Bureau of Labor Statistics – Consumer Price Index", "url": "https://www.bls.gov/cpi/" }
+      ],
+      "description": {
+        "de": "Preisentwicklung eines repräsentativen Warenkorbs städtischer Verbraucher, alle Positionen inklusive Energie und Nahrungsmittel.",
+        "en": "Price change of a representative basket for urban consumers, all items including energy and food."
+      },
+      "interpretation": {
+        "de": "Die Linie bei 2 % dient als Orientierung. Das offizielle Fed-Ziel von 2 % bezieht sich auf den PCE-Preisindex. Energiepreise sorgen beim Gesamtindex für starke Schwankungen.",
+        "en": "The 2% line is a reference point. The Fed's official 2% target refers to the PCE price index. Energy prices make the headline index volatile."
+      }
+    },
+    {
+      "id": "core_cpi",
+      "category": "inflation",
+      "code": "CPILFESL",
+      "name": { "de": "Kerninflation (CPI ohne Nahrung & Energie)", "en": "Core CPI (ex Food & Energy)" },
+      "short": { "de": "CPI Kern", "en": "Core CPI" },
+      "unit": { "de": "% ggü. Vorjahr", "en": "% year over year" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "CPILFESL" } },
+      "formula": "v",
+      "transform": "yoy",
+      "base": { "unit": { "de": "Index (1982–84 = 100)", "en": "Index (1982–84 = 100)" }, "decimals": 3 },
+      "threshold": 2,
+      "zones": { "above": { "de": "Über 2 %", "en": "Above 2%" }, "below": { "de": "Unter 2 %", "en": "Below 2%" } },
+      "direction": 1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Bureau of Labor Statistics – Consumer Price Index", "url": "https://www.bls.gov/cpi/" }
+      ],
+      "description": {
+        "de": "Verbraucherpreise ohne die schwankungsanfälligen Komponenten Nahrungsmittel und Energie. Zeigt den zugrunde liegenden Inflationstrend.",
+        "en": "Consumer prices excluding the volatile food and energy components. Shows the underlying inflation trend."
+      },
+      "interpretation": {
+        "de": "Die Kernrate reagiert träger als der Gesamtindex und wird deshalb zur Einschätzung des mittelfristigen Preisdrucks herangezogen.",
+        "en": "The core rate moves more slowly than the headline and is therefore used to gauge medium-term price pressure."
+      }
+    },
+    {
+      "id": "pce_core",
+      "category": "inflation",
+      "code": "PCEPILFE",
+      "name": { "de": "Kern-PCE-Preisindex (Inflationsmaß der Fed)", "en": "Core PCE Price Index (Fed's preferred gauge)" },
+      "short": { "de": "Kern-PCE", "en": "Core PCE" },
+      "unit": { "de": "% ggü. Vorjahr", "en": "% year over year" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "PCEPILFE" } },
+      "formula": "v",
+      "transform": "yoy",
+      "base": { "unit": { "de": "Index (2017 = 100)", "en": "Index (2017 = 100)" }, "decimals": 3 },
+      "threshold": 2,
+      "zones": { "above": { "de": "Über Ziel (2 %)", "en": "Above target (2%)" }, "below": { "de": "Unter Ziel (2 %)", "en": "Below target (2%)" } },
+      "direction": 1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Bureau of Economic Analysis – Personal Consumption Expenditures Price Index", "url": "https://www.bea.gov/data/personal-consumption-expenditures-price-index" }
+      ],
+      "description": {
+        "de": "Preisindex der privaten Konsumausgaben ohne Nahrung und Energie. Auf dieses Maß bezieht sich das Inflationsziel der Federal Reserve von 2 %.",
+        "en": "Personal consumption expenditures price index excluding food and energy. The Federal Reserve's 2% inflation target refers to this measure."
+      },
+      "interpretation": {
+        "de": "Der Abstand zur 2-%-Linie zeigt, wie weit die Inflation vom Notenbankziel entfernt ist.",
+        "en": "The distance to the 2% line shows how far inflation is from the central bank's target."
+      }
+    },
+    {
+      "id": "ppi",
+      "category": "inflation",
+      "code": "PPI All",
+      "name": { "de": "Erzeugerpreise (PPI Final Demand)", "en": "Producer Prices (PPI Final Demand)" },
+      "short": { "de": "PPI gesamt", "en": "PPI Headline" },
+      "unit": { "de": "% ggü. Vorjahr", "en": "% year over year" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "PPIFIS" } },
+      "formula": "v",
+      "transform": "yoy",
+      "base": { "unit": { "de": "Index (Nov. 2009 = 100)", "en": "Index (Nov 2009 = 100)" }, "decimals": 3 },
+      "threshold": 2,
+      "zones": { "above": { "de": "Über 2 %", "en": "Above 2%" }, "below": { "de": "Unter 2 %", "en": "Below 2%" } },
+      "direction": 1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Bureau of Labor Statistics – Producer Price Index", "url": "https://www.bls.gov/ppi/" }
+      ],
+      "description": {
+        "de": "Preise, die inländische Produzenten für Waren, Dienstleistungen und Bauleistungen erhalten (Final Demand). Löst die in der Originalanalyse verwendete, inzwischen eingestellte Reihe PPI Finished Goods (PPIFGS) ab.",
+        "en": "Prices received by domestic producers for goods, services and construction (final demand). Succeeds the discontinued PPI Finished Goods series (PPIFGS) used in the original analysis."
+      },
+      "interpretation": {
+        "de": "Erzeugerpreise laufen den Verbraucherpreisen oft voraus, weil Kostensteigerungen mit Verzögerung weitergegeben werden.",
+        "en": "Producer prices often lead consumer prices because cost increases are passed on with a delay."
+      }
+    },
+    {
+      "id": "core_ppi",
+      "category": "inflation",
+      "code": "PPI Core",
+      "name": { "de": "Erzeugerpreise Kern (Fertigwaren ohne Nahrung & Energie)", "en": "Core PPI (Finished Goods ex Food & Energy)" },
+      "short": { "de": "PPI Kern", "en": "Core PPI" },
+      "unit": { "de": "% ggü. Vorjahr", "en": "% year over year" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "PPICOR" } },
+      "formula": "v",
+      "transform": "yoy",
+      "base": { "unit": { "de": "Index", "en": "Index" }, "decimals": 3 },
+      "threshold": 2,
+      "zones": { "above": { "de": "Über 2 %", "en": "Above 2%" }, "below": { "de": "Unter 2 %", "en": "Below 2%" } },
+      "direction": 1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Bureau of Labor Statistics – Producer Price Index", "url": "https://www.bls.gov/ppi/" }
+      ],
+      "description": {
+        "de": "Erzeugerpreise für Fertigwaren ohne Nahrungsmittel und Energie. Zeigt den zugrunde liegenden Kostendruck in der Produktion.",
+        "en": "Producer prices for finished goods excluding food and energy. Shows underlying cost pressure in production."
+      },
+      "interpretation": {
+        "de": "Vergleiche die Kernrate mit dem Gesamt-PPI: Ein großer Abstand zeigt, dass Energie- oder Nahrungsmittelpreise den Gesamtwert treiben.",
+        "en": "Compare with headline PPI: a large gap shows that energy or food prices are driving the headline."
+      }
+    },
+    {
+      "id": "nfp",
+      "category": "labour",
+      "code": "NFP",
+      "name": { "de": "Beschäftigung außerhalb der Landwirtschaft (Nonfarm Payrolls)", "en": "Nonfarm Payrolls" },
+      "short": { "de": "Nonfarm Payrolls", "en": "Nonfarm Payrolls" },
+      "unit": { "de": "% ggü. Vorjahr", "en": "% year over year" },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "PAYEMS" } },
+      "formula": "v",
+      "transform": "yoy",
+      "base": { "unit": { "de": "Tsd. Beschäftigte", "en": "Thousand persons" }, "decimals": 0, "showChange": true },
+      "threshold": "mean",
+      "zones": { "above": { "de": "Überdurchschnittlich", "en": "Above average" }, "below": { "de": "Unterdurchschnittlich", "en": "Below average" } },
+      "direction": 1,
+      "gdpRegression": true,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Bureau of Labor Statistics – Current Employment Statistics (Employment Situation Report)", "url": "https://www.bls.gov/ces/" }
+      ],
+      "description": {
+        "de": "Zahl der Beschäftigten außerhalb der Landwirtschaft aus dem monatlichen Arbeitsmarktbericht (Employment Situation Report). Gezeigt wird die 12-Monats-Wachstumsrate wie in der Originalanalyse. Die monatliche Veränderung in Tausend steht in der Datentabelle.",
+        "en": "Number of nonfarm employees from the monthly Employment Situation Report. Shown is the 12-month growth rate as in the original analysis. The monthly change in thousands is in the data table."
+      },
+      "interpretation": {
+        "de": "Das Beschäftigungswachstum spiegelt die Einkommensbasis des Konsums wider. Anhaltend negative Raten traten historisch nur in Rezessionen auf.",
+        "en": "Payroll growth reflects the income base for consumption. Persistently negative rates have historically occurred only in recessions."
+      }
+    },
+    {
+      "id": "unrate",
+      "category": "labour",
+      "code": "UNRATE",
+      "name": { "de": "Arbeitslosenquote", "en": "Unemployment Rate" },
+      "short": { "de": "Arbeitslosenquote", "en": "Unemployment Rate" },
+      "unit": { "de": "%", "en": "%" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "UNRATE" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": { "above": { "de": "Über Median", "en": "Above median" }, "below": { "de": "Unter Median", "en": "Below median" } },
+      "direction": -1,
+      "gdpRegression": true,
+      "sahm": true,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Bureau of Labor Statistics – Current Population Survey", "url": "https://www.bls.gov/cps/" }
+      ],
+      "description": {
+        "de": "Anteil der Arbeitslosen an der Erwerbsbevölkerung (Haushaltsbefragung). Zusätzlich wird die Sahm-Regel berechnet: der Anstieg des 3-Monats-Durchschnitts gegenüber dem Tief der vorangegangenen 12 Monate.",
+        "en": "Unemployed persons as a share of the labour force (household survey). The Sahm rule is also computed: the rise of the 3-month average versus its low of the prior 12 months."
+      },
+      "interpretation": {
+        "de": "Ein Sahm-Wert von 0,5 Prozentpunkten oder mehr fiel historisch mit dem Beginn von US-Rezessionen zusammen. Das ist eine statistische Beobachtung, keine Prognose.",
+        "en": "A Sahm reading of 0.5 percentage points or more has historically coincided with the start of US recessions. This is a statistical observation, not a forecast."
+      }
+    },
+    {
+      "id": "claims",
+      "category": "labour",
+      "code": "ICSA",
+      "name": { "de": "Erstanträge auf Arbeitslosenhilfe", "en": "Initial Jobless Claims" },
+      "short": { "de": "Erstanträge", "en": "Initial Claims" },
+      "unit": { "de": "Tsd. pro Woche (Monatsdurchschnitt)", "en": "Thousand per week (monthly average)" },
+      "decimals": 0,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "ICSA" } },
+      "formula": "v / 1000",
+      "transform": "level",
+      "threshold": "median",
+      "zones": { "above": { "de": "Über Median", "en": "Above median" }, "below": { "de": "Unter Median", "en": "Below median" } },
+      "direction": -1,
+      "gdpRegression": true,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Department of Labor – Unemployment Insurance Weekly Claims", "url": "https://oui.doleta.gov/unemploy/claims.asp" }
+      ],
+      "description": {
+        "de": "Wöchentliche Erstanträge auf Arbeitslosenunterstützung, hier als Monatsdurchschnitt. Der zeitnaheste Arbeitsmarktindikator, weil er jede Woche erscheint.",
+        "en": "Weekly initial claims for unemployment insurance, shown here as a monthly average. The most timely labour-market indicator because it is published weekly."
+      },
+      "interpretation": {
+        "de": "Steigende Erstanträge zeigen zunehmende Entlassungen. Für die Einordnung ist der Trend über mehrere Monate aussagekräftiger als ein einzelner Wert.",
+        "en": "Rising claims indicate increasing layoffs. For context the multi-month trend is more informative than a single reading."
+      }
+    },
+    {
+      "id": "jolts",
+      "category": "labour",
+      "code": "JOLTS",
+      "name": { "de": "Offene Stellen (JOLTS)", "en": "Job Openings (JOLTS)" },
+      "short": { "de": "Offene Stellen", "en": "Job Openings" },
+      "unit": { "de": "Mio.", "en": "Million" },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "JTSJOL" } },
+      "formula": "v / 1000",
+      "transform": "level",
+      "threshold": "median",
+      "zones": { "above": { "de": "Über Median", "en": "Above median" }, "below": { "de": "Unter Median", "en": "Below median" } },
+      "direction": 1,
+      "gdpRegression": true,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Bureau of Labor Statistics – Job Openings and Labor Turnover Survey", "url": "https://www.bls.gov/jlt/" }
+      ],
+      "description": {
+        "de": "Anzahl der ausgeschriebenen offenen Stellen am Monatsende. Zeigt die Arbeitsnachfrage der Unternehmen.",
+        "en": "Number of job openings on the last business day of the month. Shows companies' demand for labour."
+      },
+      "interpretation": {
+        "de": "Viele offene Stellen bei niedriger Arbeitslosigkeit deuten auf einen angespannten Arbeitsmarkt mit Lohndruck hin.",
+        "en": "Many openings combined with low unemployment indicate a tight labour market with wage pressure."
+      }
+    },
+    {
+      "id": "wages",
+      "category": "labour",
+      "code": "AHE",
+      "name": { "de": "Stundenlöhne (Produktions- & Nicht-Führungskräfte)", "en": "Average Hourly Earnings (Production & Nonsupervisory)" },
+      "short": { "de": "Lohnwachstum", "en": "Wage Growth" },
+      "unit": { "de": "% ggü. Vorjahr", "en": "% year over year" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "AHETPI" } },
+      "formula": "v",
+      "transform": "yoy",
+      "base": { "unit": { "de": "USD pro Stunde", "en": "USD per hour" }, "decimals": 2 },
+      "threshold": "mean",
+      "zones": { "above": { "de": "Überdurchschnittlich", "en": "Above average" }, "below": { "de": "Unterdurchschnittlich", "en": "Below average" } },
+      "direction": 1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Bureau of Labor Statistics – Current Employment Statistics", "url": "https://www.bls.gov/ces/" }
+      ],
+      "description": {
+        "de": "Durchschnittlicher Bruttostundenlohn der Produktions- und Nicht-Führungskräfte im Privatsektor. Diese Reihe reicht weiter zurück als der Gesamtlohn aller Beschäftigten.",
+        "en": "Average hourly earnings of production and nonsupervisory employees in the private sector. This series goes back further than the all-employee measure."
+      },
+      "interpretation": {
+        "de": "Lohnwachstum über der Inflation steigert die Kaufkraft. Dauerhaft hohe Lohnzuwächse können den Preisdruck bei Dienstleistungen erhöhen.",
+        "en": "Wage growth above inflation raises purchasing power. Persistently high wage gains can add to services price pressure."
+      }
+    },
+    {
+      "id": "gdp",
+      "category": "activity",
+      "code": "GDP",
+      "name": { "de": "Reales BIP-Wachstum (annualisiert)", "en": "Real GDP Growth (annualised)" },
+      "short": { "de": "Reales BIP", "en": "Real GDP" },
+      "unit": { "de": "% ggü. Vorquartal, annualisiert", "en": "% q/q, annualised" },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": { "v": { "fred": "A191RL1Q225SBEA" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": { "above": { "de": "Wachstum", "en": "Growth" }, "below": { "de": "Schrumpfung", "en": "Contraction" } },
+      "direction": 1,
+      "gdpRegression": false,
+      "cycles": true,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Bureau of Economic Analysis – Gross Domestic Product", "url": "https://www.bea.gov/data/gdp/gross-domestic-product" }
+      ],
+      "description": {
+        "de": "Veränderung des inflationsbereinigten Bruttoinlandsprodukts gegenüber dem Vorquartal, hochgerechnet auf ein Jahr. Das breiteste Maß der Wirtschaftsleistung. Es dient hier auch als Referenz für die BIP-Scorecards der anderen Indikatoren.",
+        "en": "Change in inflation-adjusted gross domestic product versus the prior quarter, annualised. The broadest measure of output. It also serves as the reference for the other indicators' GDP scorecards."
+      },
+      "interpretation": {
+        "de": "Unter 0: die Wirtschaft schrumpft. Offizielle Rezessionen werden vom NBER anhand mehrerer Indikatoren festgelegt, nicht allein anhand des BIP.",
+        "en": "Below 0: the economy is contracting. Official recessions are dated by the NBER using several indicators, not GDP alone."
+      }
+    },
+    {
+      "id": "indpro",
+      "category": "activity",
+      "code": "INDPRO",
+      "name": { "de": "Industrieproduktion", "en": "Industrial Production" },
+      "short": { "de": "Industrieproduktion", "en": "Industrial Production" },
+      "unit": { "de": "% ggü. Vorjahr", "en": "% year over year" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "INDPRO" } },
+      "formula": "v",
+      "transform": "yoy",
+      "base": { "unit": { "de": "Index (2017 = 100)", "en": "Index (2017 = 100)" }, "decimals": 2 },
+      "threshold": 0,
+      "zones": { "above": { "de": "Wachstum", "en": "Growth" }, "below": { "de": "Rückgang", "en": "Decline" } },
+      "direction": 1,
+      "gdpRegression": true,
+      "license": "public",
+      "sources": [
+        { "name": "Board of Governors of the Federal Reserve System – G.17 Industrial Production and Capacity Utilization", "url": "https://www.federalreserve.gov/releases/g17/" }
+      ],
+      "description": {
+        "de": "Reale Produktionsleistung von Industrie, Bergbau und Versorgern. Ergänzt die Stimmungsumfragen um die tatsächlich produzierte Menge.",
+        "en": "Real output of manufacturing, mining and utilities. Complements the sentiment surveys with actual production volumes."
+      },
+      "interpretation": {
+        "de": "Negative Jahresraten zeigen eine schrumpfende Industrie, das kann auch außerhalb von Gesamtrezessionen vorkommen.",
+        "en": "Negative annual rates show a contracting industrial sector, which can also happen outside economy-wide recessions."
+      }
+    },
+    {
+      "id": "retail",
+      "category": "activity",
+      "code": "RSAFS",
+      "name": { "de": "Einzelhandelsumsätze", "en": "Retail Sales" },
+      "short": { "de": "Einzelhandel", "en": "Retail Sales" },
+      "unit": { "de": "% ggü. Vorjahr (nominal)", "en": "% year over year (nominal)" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "RSAFS" } },
+      "formula": "v",
+      "transform": "yoy",
+      "base": { "unit": { "de": "Mio. USD", "en": "USD million" }, "decimals": 0 },
+      "threshold": "mean",
+      "zones": { "above": { "de": "Überdurchschnittlich", "en": "Above average" }, "below": { "de": "Unterdurchschnittlich", "en": "Below average" } },
+      "direction": 1,
+      "gdpRegression": true,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Census Bureau – Advance Monthly Retail Trade Survey", "url": "https://www.census.gov/retail/index.html" }
+      ],
+      "description": {
+        "de": "Umsätze im Einzelhandel und in der Gastronomie. Der zeitnaheste Indikator für den privaten Konsum.",
+        "en": "Sales at retail and food-service establishments. The most timely indicator of private consumption."
+      },
+      "interpretation": {
+        "de": "Die Reihe ist nominal, enthält also auch Preissteigerungen. Für reales Wachstum vergleiche sie mit der CPI-Inflation.",
+        "en": "The series is nominal, so it includes price increases. For real growth compare it with CPI inflation."
+      }
+    },
+    {
+      "id": "debt_gdp",
+      "category": "fiscal",
+      "code": "Govt",
+      "name": { "de": "Staatsverschuldung in % des BIP", "en": "Federal Debt as % of GDP" },
+      "short": { "de": "Schulden / BIP", "en": "Debt / GDP" },
+      "unit": { "de": "% des BIP", "en": "% of GDP" },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": { "v": { "fred": "GFDEGDQ188S" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 100,
+      "zones": { "above": { "de": "Über 100 %", "en": "Above 100%" }, "below": { "de": "Unter 100 %", "en": "Below 100%" } },
+      "direction": 1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Department of the Treasury, Fiscal Service & Federal Reserve Bank of St. Louis (GFDEGDQ188S)", "url": "https://fred.stlouisfed.org/series/GFDEGDQ188S" }
+      ],
+      "description": {
+        "de": "Gesamte öffentliche Schuld des Bundes im Verhältnis zum nominalen BIP.",
+        "en": "Total public debt of the federal government relative to nominal GDP."
+      },
+      "interpretation": {
+        "de": "Die Originalanalyse markiert 100 % als historisch kritische Zone. Eine hohe Schuldenquote schränkt den fiskalischen Spielraum ein und erhöht die Abhängigkeit von niedrigen Zinsen.",
+        "en": "The original analysis marks 100% as a historically critical zone. A high debt ratio limits fiscal room and increases dependence on low interest rates."
+      }
+    },
+    {
+      "id": "deficit_gdp",
+      "category": "fiscal",
+      "code": "Govt S/D",
+      "name": { "de": "Haushaltssaldo des Bundes in % des BIP", "en": "Federal Surplus/Deficit as % of GDP" },
+      "short": { "de": "Haushaltssaldo / BIP", "en": "Surplus/Deficit / GDP" },
+      "unit": { "de": "% des BIP", "en": "% of GDP" },
+      "decimals": 1,
+      "frequency": "A",
+      "inputs": { "v": { "fred": "FYFSGDA188S" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": { "above": { "de": "Überschuss", "en": "Surplus" }, "below": { "de": "Defizit", "en": "Deficit" } },
+      "direction": -1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Office of Management and Budget & Federal Reserve Bank of St. Louis (FYFSGDA188S)", "url": "https://fred.stlouisfed.org/series/FYFSGDA188S" }
+      ],
+      "description": {
+        "de": "Überschuss (positiv) oder Defizit (negativ) des Bundeshaushalts im Fiskaljahr, im Verhältnis zum BIP.",
+        "en": "Federal budget surplus (positive) or deficit (negative) for the fiscal year, relative to GDP."
+      },
+      "interpretation": {
+        "de": "Defizite bedeuten zusätzliche staatliche Nachfrage, die über Schulden finanziert wird. Im Score zählt ein größeres Defizit deshalb als expansiv.",
+        "en": "Deficits mean additional government demand financed by debt. In the score a larger deficit therefore counts as expansionary."
+      }
+    },
+    {
+      "id": "interest_gdp",
+      "category": "fiscal",
+      "code": "Int/GDP",
+      "name": { "de": "Zinsausgaben des Bundes in % des BIP", "en": "Federal Interest Payments as % of GDP" },
+      "short": { "de": "Zinslast / BIP", "en": "Interest / GDP" },
+      "unit": { "de": "% des BIP", "en": "% of GDP" },
+      "decimals": 2,
+      "frequency": "Q",
+      "inputs": {
+        "int": { "fred": "A091RC1Q027SBEA" },
+        "gdp": { "fred": "GDP" }
+      },
+      "formula": "int / gdp * 100",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": { "above": { "de": "Über Durchschnitt", "en": "Above average" }, "below": { "de": "Unter Durchschnitt", "en": "Below average" } },
+      "direction": 0,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Bureau of Economic Analysis – Federal Government Current Expenditures: Interest Payments (A091RC1Q027SBEA)", "url": "https://fred.stlouisfed.org/series/A091RC1Q027SBEA" },
+        { "name": "U.S. Bureau of Economic Analysis – Gross Domestic Product", "url": "https://www.bea.gov/data/gdp/gross-domestic-product" }
+      ],
+      "description": {
+        "de": "Zinszahlungen des Bundes (annualisiert) im Verhältnis zum nominalen BIP. Zeigt, wie viel der Wirtschaftsleistung allein für den Schuldendienst aufgewendet wird.",
+        "en": "Federal interest payments (annualised) relative to nominal GDP. Shows how much of output goes to debt service alone."
+      },
+      "interpretation": {
+        "de": "Die Zinslast hängt von Schuldenstand und Zinsniveau ab. Steigt beides, steigt sie überproportional. Die Wirkung auf die Wirtschaft ist nicht eindeutig, deshalb fließt der Indikator nicht in den Score ein.",
+        "en": "The interest burden depends on both debt level and rate level; when both rise it climbs disproportionately. Its effect on the economy is ambiguous, so this indicator is not scored."
+      }
+    },
+    {
+      "id": "interest_cover",
+      "category": "fiscal",
+      "code": "Liquidity",
+      "name": { "de": "Zinsdeckung (Steuereinnahmen / Zinsausgaben)", "en": "Interest Cover (Tax Receipts / Interest Payments)" },
+      "short": { "de": "Zinsdeckung", "en": "Interest Cover" },
+      "unit": { "de": "Faktor (x)", "en": "Multiple (x)" },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "tax": { "fred": "W006RC1Q027SBEA" },
+        "int": { "fred": "A091RC1Q027SBEA" }
+      },
+      "formula": "tax / int",
+      "transform": "level",
+      "threshold": "median",
+      "zones": { "above": { "de": "Über Median", "en": "Above median" }, "below": { "de": "Unter Median", "en": "Below median" } },
+      "direction": 0,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Bureau of Economic Analysis – Federal Government Current Tax Receipts (W006RC1Q027SBEA)", "url": "https://fred.stlouisfed.org/series/W006RC1Q027SBEA" },
+        { "name": "U.S. Bureau of Economic Analysis – Federal Interest Payments (A091RC1Q027SBEA)", "url": "https://fred.stlouisfed.org/series/A091RC1Q027SBEA" }
+      ],
+      "description": {
+        "de": "Wie oft die laufenden Steuereinnahmen des Bundes die Zinsausgaben decken (in der Originalanalyse \"Liquidity\"). Ein sinkender Wert bedeutet, dass ein größerer Teil der Einnahmen in den Schuldendienst fließt.",
+        "en": "How many times current federal tax receipts cover interest payments (\"Liquidity\" in the original analysis). A falling value means a larger share of revenue goes to debt service."
+      },
+      "interpretation": {
+        "de": "Eine Kennzahl der fiskalischen Tragfähigkeit. Sie fließt nicht in den Score ein.",
+        "en": "A measure of fiscal sustainability. It is not scored."
+      }
+    }
+  ],
+  "disabled": [
+    {
+      "id": "ism_mfg",
+      "name": "ISM Manufacturing PMI",
+      "reason": "ISM terms of use: personal, non-commercial use only; redistribution requires written permission from ISM Research. Re-enable only with a licence."
+    },
+    {
+      "id": "ism_svc",
+      "name": "ISM Services PMI (formerly NMI)",
+      "reason": "Same licence restriction as ISM Manufacturing PMI."
+    }
+  ]
+}
