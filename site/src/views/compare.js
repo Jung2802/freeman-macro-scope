@@ -1,4 +1,4 @@
-import { loadConfig, loadSeries, loadRecessions, indicatorById, categoryOf } from '../data.js';
+import { loadConfig, loadSeries, loadRecessions, indicatorById } from '../data.js';
 import * as A from '../analysis.js';
 import { C, rgba, ChartSet, lineChart, barChart, recessionBands, recessionPlugin, zeroLine } from '../charts.js';
 import { t, L } from '../i18n.js';
@@ -82,9 +82,8 @@ export async function renderCompare(el, { country, params }) {
     const leadText = best.lag === 0 ? t('cmp.leadNone')
       : best.lag > 0 ? t('cmp.leadA', { n: best.lag, u: unitF, a: L(ia.short), b: L(ib.short) })
         : t('cmp.leadB', { n: -best.lag, u: unitF, a: L(ia.short), b: L(ib.short) });
-    const colA = categoryOf(cfg, ia)?.color || C.purple;
-    let colB = categoryOf(cfg, ib)?.color || C.gold;
-    if (colB === colA) colB = C.gold;
+    const colA = C.line;
+    const colB = C.gold;
 
     body.innerHTML = `
       <div class="metrics">

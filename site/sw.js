@@ -1,8 +1,8 @@
 // Offline support: app shell cache-first, data network-first (falls back to the last copy).
-const VERSION = 'fms-v2';
+const VERSION = 'fms-v3';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'assets/css/app.css', 'assets/vendor/chart.umd.min.js',
-  'assets/icons/icon.svg', 'src/main.js', 'src/i18n.js', 'src/format.js', 'src/data.js', 'src/analysis.js',
+  'assets/icons/icon.svg', 'assets/img/logo-freeman.png', 'assets/img/logo.png', 'assets/img/earth.webp', 'src/main.js', 'src/i18n.js', 'src/format.js', 'src/data.js', 'src/analysis.js',
   'src/charts.js', 'src/ads.js', 'src/site-config.js', 'src/views/overview.js', 'src/views/indicator.js',
   'src/views/compare.js', 'src/views/pages.js',
 ];

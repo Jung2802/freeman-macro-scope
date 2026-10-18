@@ -1,13 +1,14 @@
-// Chart.js helpers in the prototype's visual language (dark, IBM Plex Mono, thin lines).
+// Chart.js helpers in the site's visual language (near-black, Inter, hairlines).
 /* global Chart */
 import { periodIndex } from './analysis.js';
 
 export const C = {
-  bg: '#0b0e14', surface: '#131820', surface2: '#1a2130', border: '#252e3d',
-  text: '#e2e8f0', text2: '#8b9ab0', text3: '#5b6b82',
-  green: '#22c55e', red: '#ef4444', gold: '#f59e0b', blue: '#3b82f6', purple: '#a78bfa',
-  sky: '#38bdf8', amber: '#f59e0b', grid: 'rgba(37,46,61,0.55)',
+  bg: '#08090a', surface: '#0e0f11', surface2: '#151619', border: '#232427',
+  text: '#ececec', text2: '#9b9da1', text3: '#686b70',
+  green: '#a3c4e8', red: '#c4a47c', gold: '#c4a47c', blue: '#7f9bbd', purple: '#b8cce4',
+  sky: '#a3c4e8', amber: '#c4a47c', grid: 'rgba(255,255,255,0.05)', line: '#d3d8df',
 };
+const FONT = "'Inter', system-ui, sans-serif";
 
 export function rgba(hex, a) {
   const h = hex.replace('#', '');
@@ -21,7 +22,7 @@ export function setupDefaults() {
   defaultsSet = true;
   Chart.defaults.color = C.text2;
   Chart.defaults.borderColor = C.border;
-  Chart.defaults.font.family = "'IBM Plex Mono', monospace";
+  Chart.defaults.font.family = FONT;
   Chart.defaults.font.size = 10;
   Chart.defaults.animation.duration = 350;
   Chart.defaults.maintainAspectRatio = false;
@@ -75,7 +76,7 @@ export function thresholdLine(thr, label, color = C.purple) {
       ctx.moveTo(a.left, ty); ctx.lineTo(a.right, ty); ctx.stroke();
       ctx.setLineDash([]);
       if (label) {
-        ctx.font = "9px 'IBM Plex Mono', monospace";
+        ctx.font = `9px ${FONT}`;
         ctx.fillStyle = rgba(color, 0.85);
         ctx.textAlign = 'right';
         ctx.fillText(label, a.right - 4, ty - 4);
@@ -230,10 +231,10 @@ export function sparkline(canvas, vals, { color = C.purple, thr = null } = {}) {
     ctx.beginPath(); ctx.moveTo(pad, Y(thr)); ctx.lineTo(w - pad, Y(thr)); ctx.stroke(); ctx.setLineDash([]);
   }
   const g = ctx.createLinearGradient(0, 0, 0, h);
-  g.addColorStop(0, rgba(color, 0.28)); g.addColorStop(1, rgba(color, 0));
+  g.addColorStop(0, rgba(color, 0.14)); g.addColorStop(1, rgba(color, 0));
   ctx.beginPath();
   vals.forEach((v, i) => (i ? ctx.lineTo(pad + i * sx, Y(v)) : ctx.moveTo(pad, Y(v))));
-  ctx.strokeStyle = color; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.strokeStyle = color; ctx.lineWidth = 1.2; ctx.stroke();
   ctx.lineTo(pad + (vals.length - 1) * sx, h); ctx.lineTo(pad, h); ctx.closePath();
   ctx.fillStyle = g; ctx.fill();
   const lx = pad + (vals.length - 1) * sx, ly = Y(vals[vals.length - 1]);

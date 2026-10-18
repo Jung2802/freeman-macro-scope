@@ -72,8 +72,8 @@ function header() {
   ];
   document.getElementById('topbar').innerHTML = `
     <a class="brand" href="#/${country}" aria-label="${SITE.name}">
-      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#131820"/><circle cx="16" cy="16" r="9.5" fill="none" stroke="#a78bfa" stroke-width="2"/><path d="M8 19l4.5-5 3.5 3 4-6 4 4" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>Freeman<b>Macro</b>Scope</span>
+      <img src="assets/img/logo-freeman.png" alt="Freeman" width="774" height="102">
+      <span class="brand-sub">Macroscope</span>
     </a>
     <nav class="mainnav">${nav.map(([h, n, a]) => `<a href="${h}" class="${a ? 'active' : ''}">${n}</a>`).join('')}</nav>
     <div class="top-controls">
@@ -86,10 +86,11 @@ function footer() {
   document.getElementById('footer').innerHTML = `
     ${adSlot('footer')}
     <div class="foot-inner">
-      <div>
-        <strong>${SITE.name}</strong> · ${t('app.tagline')}<br>
-        <span>${t('foot.disclaimer')}</span><br>
-        <span class="muted">${t('foot.data')}</span>
+      <div class="foot-brand">
+        <img src="assets/img/logo.png" alt="${SITE.name}" width="774" height="157" loading="lazy">
+        <p class="foot-tagline">Macro data. Clearer decisions.</p>
+        <p>${t('app.tagline')}. ${t('foot.disclaimer')}</p>
+        <p class="muted">${t('foot.data')}</p>
       </div>
       <nav class="foot-links">
         <a href="#/methodik">${t('nav.method')}</a><a href="#/quellen">${t('nav.sources')}</a>

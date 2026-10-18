@@ -13,10 +13,10 @@
   "groups": [
     {
       "id": "endogenous",
-      "name": { "de": "Endogenous Drivers", "en": "Endogenous Drivers" },
+      "name": { "de": "Binnenwirtschaft · endogene Treiber", "en": "Domestic economy · endogenous drivers" },
       "description": {
-        "de": "Binnenwirtschaftliche Treiber: Daten, die aus der US-Wirtschaft selbst entstehen – Stimmung, Geldmenge, Zinsen, Inflation, Arbeitsmarkt, Aktivität und Staatsfinanzen.",
-        "en": "Domestic drivers: data generated inside the US economy itself – sentiment, money supply, rates, inflation, labour market, activity and public finances."
+        "de": "Wie geht es der US-Wirtschaft selbst? Hier stehen die Daten, die im Land entstehen: Stimmung der Unternehmen und Verbraucher, Immobilien, Geldmenge, Zinsen, Preise, Jobs, Wachstum und Staatsfinanzen. Zusammen zeigen sie, in welcher Phase des Konjunkturzyklus das Land steht und wie Notenbank und Regierung wahrscheinlich reagieren werden. Frühindikatoren wie Umfragen und Baugenehmigungen laufen dabei der restlichen Wirtschaft voraus.",
+        "en": "How is the US economy itself doing? These are the data generated inside the country: business and consumer sentiment, housing, money supply, rates, prices, jobs, growth and public finances. Together they show which phase of the business cycle the country is in and how the central bank and government are likely to react. Leading indicators such as surveys and building permits run ahead of the rest of the economy."
       }
     }
   ],

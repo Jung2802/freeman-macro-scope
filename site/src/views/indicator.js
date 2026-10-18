@@ -33,7 +33,7 @@ export async function renderIndicator(el, { country, id, tab }) {
   const sc = A.score(series, ind);
   const thr = sc.thr;
   const zc = zoneColors(ind, cat);
-  const accent = cat?.color || C.purple;
+  const accent = C.line;
   const fmtP = (l) => period(l, f);
   const fmtV = (v) => num(v, d);
   const isAbove = (v) => v >= thr;

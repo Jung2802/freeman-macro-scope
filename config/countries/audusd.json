@@ -1,60 +1,166 @@
 {
   "id": "audusd",
-  "name": { "de": "AUD/USD", "en": "AUD/USD" },
+  "name": {
+    "de": "AUD/USD",
+    "en": "AUD/USD"
+  },
   "currency": "AUD/USD",
   "selector": [
-    { "land": "au", "landName": { "de": "Australien", "en": "Australia" }, "group": "exogenous", "vs": "USD" },
-    { "land": "us", "landName": { "de": "USA", "en": "United States" }, "group": "exogenous", "vs": "AUD" }
+    {
+      "land": "au",
+      "landName": {
+        "de": "Australien",
+        "en": "Australia"
+      },
+      "group": "exogenous",
+      "vs": "USD"
+    },
+    {
+      "land": "us",
+      "landName": {
+        "de": "USA",
+        "en": "United States"
+      },
+      "group": "exogenous",
+      "vs": "AUD"
+    }
   ],
   "texts": {
-    "ov.subtitle": { "de": "Australien gegen USA: die wichtigsten zwischenstaatlichen Treiber des Wechselkurses AUD/USD an einem Ort, mit Analyse und Quellen.", "en": "Australia versus the US: the key cross-country drivers of the AUD/USD exchange rate in one place, with analysis and sources." },
-    "ov.scoreSentence": { "de": "{pos} von {n} bewerteten Treibern sprechen aktuell für den AUD (Score > 0), {neg} für den USD (Score < 0).", "en": "{pos} of {n} scored drivers currently favour the AUD (score > 0), {neg} favour the USD (score < 0)." },
-    "ov.scoreLegend": { "de": "+ = Vorteil Australien / Rückenwind für AUD, − = Vorteil USA / Rückenwind für USD. Statistische Zusammenfassung, keine Empfehlung.", "en": "+ = advantage Australia / tailwind for AUD, − = advantage US / tailwind for USD. Statistical summary, not a recommendation." },
-    "info.dirPos": { "de": "höherer Wert = Vorteil Australien, Rückenwind für AUD (+)", "en": "higher = advantage Australia, tailwind for AUD (+)" },
-    "info.dirNeg": { "de": "höherer Wert = Vorteil USA, Rückenwind für USD (−)", "en": "higher = advantage US, tailwind for USD (−)" }
+    "ov.subtitle": {
+      "de": "Australien gegen USA: Welche der beiden Wirtschaften ist gerade stärker? Die wichtigsten Treiber des Wechselkurses AUD/USD an einem Ort, einfach bewertet und mit Quellen.",
+      "en": "Australia versus the US: which of the two economies is stronger right now? The key drivers of the AUD/USD exchange rate in one place, simply scored and with sources."
+    },
+    "ov.scoreSentence": {
+      "de": "{pos} von {n} bewerteten Treibern sprechen aktuell für den AUD (Score > 0), {neg} für den USD (Score < 0).",
+      "en": "{pos} of {n} scored drivers currently favour the AUD (score > 0), {neg} favour the USD (score < 0)."
+    },
+    "ov.scoreLegend": {
+      "de": "+ = Vorteil Australien / Rückenwind für AUD, − = Vorteil USA / Rückenwind für USD. Statistische Zusammenfassung, keine Empfehlung.",
+      "en": "+ = advantage Australia / tailwind for AUD, − = advantage US / tailwind for USD. Statistical summary, not a recommendation."
+    },
+    "info.dirPos": {
+      "de": "höherer Wert = Vorteil Australien, Rückenwind für AUD (+)",
+      "en": "higher = advantage Australia, tailwind for AUD (+)"
+    },
+    "info.dirNeg": {
+      "de": "höherer Wert = Vorteil USA, Rückenwind für USD (−)",
+      "en": "higher = advantage US, tailwind for USD (−)"
+    }
   },
   "recession": {
     "fred": "USREC",
-    "source": { "name": "NBER Business Cycle Dating Committee (via FRED: USREC)", "url": "https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions" }
+    "source": {
+      "name": "NBER Business Cycle Dating Committee (via FRED: USREC)",
+      "url": "https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions"
+    }
   },
   "groups": [
     {
       "id": "exogenous",
-      "name": { "de": "Exogenous Drivers", "en": "Exogenous Drivers" },
+      "name": {
+        "de": "Währungsvergleich · exogene Treiber",
+        "en": "Currency comparison · exogenous drivers"
+      },
       "description": {
-        "de": "Treiber zwischen zwei Volkswirtschaften: Australien im Vergleich zu den USA – Wachstum, Leistungsbilanz, Zinsdifferenz und Aktienmarkt. Positive Werte bedeuten einen Vorteil für Australien und damit Rückenwind für den AUD gegenüber dem USD.",
-        "en": "Drivers between two economies: Australia versus the United States – growth, current account, interest rate differential and equity markets. Positive values mean an advantage for Australia and thus a tailwind for the AUD against the USD."
+        "de": "Ein Wechselkurs ist immer ein Vergleich zweier Länder. Darum stehen hier Australien und die USA direkt nebeneinander: Welche Wirtschaft wächst schneller, verdient mehr mit ihren Exporten, bietet höhere Zinsen und hat den stärkeren Aktienmarkt? Wo Australien vorne liegt, fließt tendenziell Geld nach Australien und der AUD steigt gegenüber dem USD. Plus heißt also: Rückenwind für den AUD, Minus: Rückenwind für den USD.",
+        "en": "An exchange rate always compares two countries. So Australia and the US stand side by side here: which economy grows faster, earns more from its exports, pays higher interest rates and has the stronger stock market? Where Australia leads, money tends to flow to Australia and the AUD rises against the USD. Plus means a tailwind for the AUD, minus a tailwind for the USD."
       }
     }
   ],
   "categories": [
-    { "id": "growth",  "group": "exogenous", "tone": "growth", "color": "#a3e635", "name": { "de": "Relatives Wachstum", "en": "Relative Growth" } },
-    { "id": "bop",     "group": "exogenous", "tone": "growth", "color": "#22d3ee", "name": { "de": "Relative Zahlungsbilanz", "en": "Relative Balance of Payments" } },
-    { "id": "carry",   "group": "exogenous", "tone": "growth", "color": "#60a5fa", "name": { "de": "Zinsdifferenz & Carry", "en": "Interest Rate Differential & Carry" } },
-    { "id": "wealth",  "group": "exogenous", "tone": "growth", "color": "#f59e0b", "name": { "de": "Aktienmarkt / Relativer Wohlstand", "en": "Stock Markets / Relative Wealth" } }
+    {
+      "id": "growth",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#a3e635",
+      "name": {
+        "de": "Relatives Wachstum",
+        "en": "Relative Growth"
+      }
+    },
+    {
+      "id": "bop",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#22d3ee",
+      "name": {
+        "de": "Handel & Zahlungsbilanz",
+        "en": "Trade & Balance of Payments"
+      }
+    },
+    {
+      "id": "carry",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#60a5fa",
+      "name": {
+        "de": "Zinsdifferenz & Carry",
+        "en": "Interest Rate Differential & Carry"
+      }
+    },
+    {
+      "id": "wealth",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#f59e0b",
+      "name": {
+        "de": "Aktienmarkt / Relativer Wohlstand",
+        "en": "Stock Markets / Relative Wealth"
+      }
+    }
   ],
   "indicators": [
     {
       "id": "rel_gdp",
       "category": "growth",
       "code": "GDP-DIFF",
-      "name": { "de": "Relatives BIP-Wachstum (Australien − USA)", "en": "Relative GDP Growth (Australia − US)" },
-      "short": { "de": "Relatives BIP-Wachstum", "en": "Relative GDP Growth" },
-      "unit": { "de": "Prozentpunkte", "en": "Percentage points" },
+      "name": {
+        "de": "Relatives BIP-Wachstum (Australien − USA)",
+        "en": "Relative GDP Growth (Australia − US)"
+      },
+      "short": {
+        "de": "Relatives BIP-Wachstum",
+        "en": "Relative GDP Growth"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
       "decimals": 2,
       "frequency": "Q",
       "inputs": {
-        "aus": { "fred": "NGDPRSAXDCAUQ", "transform": "yoy" },
-        "us":  { "fred": "GDPC1", "transform": "yoy" }
+        "aus": {
+          "fred": "NGDPRSAXDCAUQ",
+          "transform": "yoy"
+        },
+        "us": {
+          "fred": "GDPC1",
+          "transform": "yoy"
+        }
       },
       "formula": "aus - us",
       "transform": "level",
       "threshold": 0,
-      "zones": { "above": { "de": "Australien wächst schneller", "en": "Australia grows faster" }, "below": { "de": "USA wachsen schneller", "en": "US grows faster" } },
+      "zones": {
+        "above": {
+          "de": "Australien wächst schneller",
+          "en": "Australia grows faster"
+        },
+        "below": {
+          "de": "USA wachsen schneller",
+          "en": "US grows faster"
+        }
+      },
       "direction": 1,
       "sources": [
-        { "name": "IMF International Financial Statistics – Real GDP Australia (via FRED: NGDPRSAXDCAUQ)", "url": "https://fred.stlouisfed.org/series/NGDPRSAXDCAUQ" },
-        { "name": "U.S. Bureau of Economic Analysis – Real GDP (via FRED: GDPC1)", "url": "https://fred.stlouisfed.org/series/GDPC1" }
+        {
+          "name": "IMF International Financial Statistics – Real GDP Australia (via FRED: NGDPRSAXDCAUQ)",
+          "url": "https://fred.stlouisfed.org/series/NGDPRSAXDCAUQ"
+        },
+        {
+          "name": "U.S. Bureau of Economic Analysis – Real GDP (via FRED: GDPC1)",
+          "url": "https://fred.stlouisfed.org/series/GDPC1"
+        }
       ],
       "description": {
         "de": "Reales BIP-Wachstum Australiens gegenüber dem Vorjahr minus reales BIP-Wachstum der USA. Zeigt, welche Volkswirtschaft schneller wächst.",
@@ -66,57 +172,217 @@
       }
     },
     {
+      "id": "iron_ore",
+      "category": "bop",
+      "code": "IRON-ORE",
+      "name": {
+        "de": "Eisenerzpreis (wichtigstes Exportgut Australiens)",
+        "en": "Iron Ore Price (Australia's main export)"
+      },
+      "short": {
+        "de": "Eisenerzpreis",
+        "en": "Iron Ore Price"
+      },
+      "unit": {
+        "de": "USD je Tonne",
+        "en": "USD per tonne"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "p": {
+          "fred": "PIORECRUSDM"
+        }
+      },
+      "formula": "p",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Teuer, gut für AUD",
+          "en": "High, supports AUD"
+        },
+        "below": {
+          "de": "Billig, belastet AUD",
+          "en": "Low, weighs on AUD"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "International Monetary Fund – Global price of Iron Ore (via FRED: PIORECRUSDM)",
+          "url": "https://fred.stlouisfed.org/series/PIORECRUSDM"
+        }
+      ],
+      "description": {
+        "de": "Weltmarktpreis für Eisenerz in US-Dollar je Tonne (Monatsdurchschnitt). Eisenerz ist mit gut einem Fünftel der Exporte Australiens wichtigstes Exportgut, Hauptabnehmer sind China und Japan. Nach der PTM-Methodik ist der Eisenerzpreis der eigentliche Score-Treiber der Zahlungsbilanz und ein Frühindikator für AUD/USD.",
+        "en": "World market price of iron ore in US dollars per tonne (monthly average). With over a fifth of exports, iron ore is Australia's most important export, mainly to China and Japan. In the PTM method the iron ore price is the actual scoring driver of the balance of payments and a leading indicator for AUD/USD."
+      },
+      "interpretation": {
+        "de": "Steigt der Eisenerzpreis, verdient Australien mehr mit seinen Exporten. Ausländische Käufer brauchen dafür AUD, das stützt die Währung. Fällt der Preis, verliert der AUD diese Stütze. Der Eisenerzpreis bewegt sich oft vor dem Wechselkurs.",
+        "en": "When the iron ore price rises, Australia earns more from exports and foreign buyers need AUD to pay, which supports the currency. When it falls, the AUD loses that support. Iron ore often moves ahead of the exchange rate."
+      }
+    },
+    {
+      "id": "coal",
+      "category": "bop",
+      "code": "COAL",
+      "name": {
+        "de": "Kohlepreis Australien (zweitwichtigstes Exportgut)",
+        "en": "Australian Coal Price (second-largest export)"
+      },
+      "short": {
+        "de": "Kohlepreis",
+        "en": "Coal Price"
+      },
+      "unit": {
+        "de": "USD je Tonne",
+        "en": "USD per tonne"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "p": {
+          "fred": "PCOALAUUSDM"
+        }
+      },
+      "formula": "p",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Teuer, gut für AUD",
+          "en": "High, supports AUD"
+        },
+        "below": {
+          "de": "Billig, belastet AUD",
+          "en": "Low, weighs on AUD"
+        }
+      },
+      "direction": 0,
+      "sources": [
+        {
+          "name": "International Monetary Fund – Global price of Coal, Australia (via FRED: PCOALAUUSDM)",
+          "url": "https://fred.stlouisfed.org/series/PCOALAUUSDM"
+        }
+      ],
+      "description": {
+        "de": "Preis für australische Kraftwerkskohle in US-Dollar je Tonne (Monatsdurchschnitt). Kohle macht knapp ein Fünftel der Exporte aus, ebenfalls vor allem nach China und Japan.",
+        "en": "Price of Australian thermal coal in US dollars per tonne (monthly average). Coal accounts for almost a fifth of exports, again mainly to China and Japan."
+      },
+      "interpretation": {
+        "de": "Gleiche Logik wie beim Eisenerz: höhere Preise bedeuten mehr Exporteinnahmen und Rückenwind für den AUD. Nach der PTM-Methodik dient Kohle als Bestätigung und bekommt keinen eigenen Score.",
+        "en": "Same logic as iron ore: higher prices mean more export income and a tailwind for the AUD. In the PTM method coal serves as confirmation and is not scored on its own."
+      }
+    },
+    {
       "id": "rel_bop",
       "category": "bop",
       "code": "CA-DIFF",
-      "name": { "de": "Relative Leistungsbilanz (Australien − USA, % des BIP)", "en": "Relative Current Account (Australia − US, % of GDP)" },
-      "short": { "de": "Relative Leistungsbilanz", "en": "Relative Current Account" },
-      "unit": { "de": "Prozentpunkte des BIP", "en": "Percentage points of GDP" },
+      "name": {
+        "de": "Relative Leistungsbilanz (Australien − USA, % des BIP)",
+        "en": "Relative Current Account (Australia − US, % of GDP)"
+      },
+      "short": {
+        "de": "Relative Leistungsbilanz",
+        "en": "Relative Current Account"
+      },
+      "unit": {
+        "de": "Prozentpunkte des BIP",
+        "en": "Percentage points of GDP"
+      },
       "decimals": 2,
       "frequency": "Q",
       "inputs": {
-        "aus": { "fred": "AUSB6BLTT02STSAQ" },
-        "us":  { "fred": "USAB6BLTT02STSAQ" }
+        "aus": {
+          "fred": "AUSB6BLTT02STSAQ"
+        },
+        "us": {
+          "fred": "USAB6BLTT02STSAQ"
+        }
       },
       "formula": "aus - us",
       "transform": "level",
       "threshold": 0,
-      "zones": { "above": { "de": "Australien besser", "en": "Australia stronger" }, "below": { "de": "USA besser", "en": "US stronger" } },
-      "direction": 1,
+      "zones": {
+        "above": {
+          "de": "Australien besser",
+          "en": "Australia stronger"
+        },
+        "below": {
+          "de": "USA besser",
+          "en": "US stronger"
+        }
+      },
+      "direction": 0,
       "sources": [
-        { "name": "OECD Main Economic Indicators – Current Account Balance Australia, % of GDP (via FRED: AUSB6BLTT02STSAQ)", "url": "https://fred.stlouisfed.org/series/AUSB6BLTT02STSAQ" },
-        { "name": "OECD Main Economic Indicators – Current Account Balance United States, % of GDP (via FRED: USAB6BLTT02STSAQ)", "url": "https://fred.stlouisfed.org/series/USAB6BLTT02STSAQ" }
+        {
+          "name": "OECD Main Economic Indicators – Current Account Balance Australia, % of GDP (via FRED: AUSB6BLTT02STSAQ)",
+          "url": "https://fred.stlouisfed.org/series/AUSB6BLTT02STSAQ"
+        },
+        {
+          "name": "OECD Main Economic Indicators – Current Account Balance United States, % of GDP (via FRED: USAB6BLTT02STSAQ)",
+          "url": "https://fred.stlouisfed.org/series/USAB6BLTT02STSAQ"
+        }
       ],
       "description": {
         "de": "Leistungsbilanzsaldo Australiens in % des BIP minus Leistungsbilanzsaldo der USA in % des BIP. Die Leistungsbilanz ist der Kern der Zahlungsbilanz (Handel, Einkommen, Übertragungen).",
         "en": "Australia's current account balance in % of GDP minus the US current account balance in % of GDP. The current account is the core of the balance of payments (trade, income, transfers)."
       },
       "interpretation": {
-        "de": "Über 0: Australiens Außenbilanz ist relativ stärker, es fließt mehr Geld ins Land als heraus. Das stützt tendenziell den AUD. Unter 0: umgekehrt.",
-        "en": "Above 0: Australia's external balance is relatively stronger, more money flows in than out, which tends to support the AUD. Below 0: the reverse."
+        "de": "Über 0: Australiens Außenbilanz ist relativ stärker, unter 0 die der USA. Nach der PTM-Methodik dient dieser Wert als historischer Hintergrund und bekommt keinen eigenen Score. Bewertet wird stattdessen der Preis des wichtigsten Exportguts (Eisenerz).",
+        "en": "Above 0: Australia's external balance is relatively stronger, below 0 the US one. Following the PTM method this serves as historical background and is not scored on its own; the price of the main export (iron ore) is scored instead."
       }
     },
     {
       "id": "rate_diff",
       "category": "carry",
       "code": "IR-DIFF",
-      "name": { "de": "Zinsdifferenz & Carry (Australien − USA)", "en": "Interest Rate Differential & Carry (Australia − US)" },
-      "short": { "de": "Zinsdifferenz", "en": "Rate Differential" },
-      "unit": { "de": "Prozentpunkte", "en": "Percentage points" },
+      "name": {
+        "de": "Zinsdifferenz & Carry (Australien − USA)",
+        "en": "Interest Rate Differential & Carry (Australia − US)"
+      },
+      "short": {
+        "de": "Zinsdifferenz",
+        "en": "Rate Differential"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
       "decimals": 2,
       "frequency": "M",
       "inputs": {
-        "aus": { "fred": "IRSTCI01AUM156N" },
-        "us":  { "fred": "FEDFUNDS" }
+        "aus": {
+          "fred": "IRSTCI01AUM156N"
+        },
+        "us": {
+          "fred": "FEDFUNDS"
+        }
       },
       "formula": "aus - us",
       "transform": "level",
       "threshold": 0,
-      "zones": { "above": { "de": "Carry für AUD", "en": "Carry favours AUD" }, "below": { "de": "Carry für USD", "en": "Carry favours USD" } },
+      "zones": {
+        "above": {
+          "de": "Zinsvorteil AUD",
+          "en": "Yield advantage AUD"
+        },
+        "below": {
+          "de": "Zinsvorteil USD",
+          "en": "Yield advantage USD"
+        }
+      },
       "direction": 1,
       "sources": [
-        { "name": "OECD Main Economic Indicators – Short-term central bank rate Australia (via FRED: IRSTCI01AUM156N)", "url": "https://fred.stlouisfed.org/series/IRSTCI01AUM156N" },
-        { "name": "Board of Governors of the Federal Reserve System – Effective Federal Funds Rate (via FRED: FEDFUNDS)", "url": "https://fred.stlouisfed.org/series/FEDFUNDS" }
+        {
+          "name": "OECD Main Economic Indicators – Short-term central bank rate Australia (via FRED: IRSTCI01AUM156N)",
+          "url": "https://fred.stlouisfed.org/series/IRSTCI01AUM156N"
+        },
+        {
+          "name": "Board of Governors of the Federal Reserve System – Effective Federal Funds Rate (via FRED: FEDFUNDS)",
+          "url": "https://fred.stlouisfed.org/series/FEDFUNDS"
+        }
       ],
       "description": {
         "de": "Kurzfristiger Leitzins Australiens (RBA-Cash-Rate) minus effektiver US-Leitzins (Fed Funds). Die Differenz ist der Zinsvorteil (Carry), den man beim Halten von AUD statt USD erhält.",
@@ -131,23 +397,53 @@
       "id": "rel_stocks",
       "category": "wealth",
       "code": "EQ-DIFF",
-      "name": { "de": "Relative Aktienrendite (Australien − USA, Vorjahr)", "en": "Relative Stock Returns (Australia − US, year on year)" },
-      "short": { "de": "Relative Aktienrendite", "en": "Relative Stock Returns" },
-      "unit": { "de": "Prozentpunkte", "en": "Percentage points" },
+      "name": {
+        "de": "Relative Aktienrendite (Australien − USA, Vorjahr)",
+        "en": "Relative Stock Returns (Australia − US, year on year)"
+      },
+      "short": {
+        "de": "Relative Aktienrendite",
+        "en": "Relative Stock Returns"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
       "decimals": 1,
       "frequency": "Q",
       "inputs": {
-        "aus": { "fred": "SPASTT01AUQ661N", "transform": "yoy" },
-        "us":  { "fred": "SPASTT01USQ661N", "transform": "yoy" }
+        "aus": {
+          "fred": "SPASTT01AUQ661N",
+          "transform": "yoy"
+        },
+        "us": {
+          "fred": "SPASTT01USQ661N",
+          "transform": "yoy"
+        }
       },
       "formula": "aus - us",
       "transform": "level",
       "threshold": 0,
-      "zones": { "above": { "de": "Australische Aktien stärker", "en": "Australian stocks stronger" }, "below": { "de": "US-Aktien stärker", "en": "US stocks stronger" } },
+      "zones": {
+        "above": {
+          "de": "Australische Aktien stärker",
+          "en": "Australian stocks stronger"
+        },
+        "below": {
+          "de": "US-Aktien stärker",
+          "en": "US stocks stronger"
+        }
+      },
       "direction": 1,
       "sources": [
-        { "name": "OECD Main Economic Indicators – Share prices Australia (via FRED: SPASTT01AUQ661N)", "url": "https://fred.stlouisfed.org/series/SPASTT01AUQ661N" },
-        { "name": "OECD Main Economic Indicators – Share prices United States (via FRED: SPASTT01USQ661N)", "url": "https://fred.stlouisfed.org/series/SPASTT01USQ661N" }
+        {
+          "name": "OECD Main Economic Indicators – Share prices Australia (via FRED: SPASTT01AUQ661N)",
+          "url": "https://fred.stlouisfed.org/series/SPASTT01AUQ661N"
+        },
+        {
+          "name": "OECD Main Economic Indicators – Share prices United States (via FRED: SPASTT01USQ661N)",
+          "url": "https://fred.stlouisfed.org/series/SPASTT01USQ661N"
+        }
       ],
       "description": {
         "de": "Jahresveränderung des australischen Aktienindex minus Jahresveränderung des US-Aktienindex (beide OECD, in Landeswährung). Steigende Aktienkurse erhöhen den Wohlstand und ziehen ausländisches Kapital an.",

@@ -1,4 +1,4 @@
-import { loadAll, categoryOf } from '../data.js';
+import { loadAll } from '../data.js';
 import { cycles, lastYears, values, SCORE_MAX, sum } from '../analysis.js';
 import { sparkline, zoneColors, C } from '../charts.js';
 import { t, tc, L } from '../i18n.js';
@@ -17,6 +17,14 @@ export const trendArrow = (tr) => (tr > 0 ? '▲' : tr < 0 ? '▼' : '▶');
 export function zoneLabel(ind, sc) {
   return L(sc.above ? ind.zones.above : ind.zones.below);
 }
+
+const ARROW = '<svg class="arrow" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const svgIcon = (d) => `<svg class="feature-icon" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const ICON = {
+  gauge: svgIcon('<path d="M4 22a12 12 0 0 1 24 0"/><path d="M16 22l6-7"/><circle cx="16" cy="22" r="1.6"/><path d="M8 22h-1M25 22h-1M16 11v1"/>'),
+  clock: svgIcon('<circle cx="16" cy="16" r="11"/><path d="M16 9v7l5 3"/>'),
+  horizon: svgIcon('<path d="M3 24c6-7 15-10 26-10"/><path d="M5 28c6-5 13-7 24-7"/><path d="M6 13l5-4 4 3 6-6"/>'),
+};
 
 // Diverging bar: value in [-max, max] → filled half-bar.
 function divBar(v, max) {
@@ -77,9 +85,9 @@ export async function renderOverview(el, { country }) {
     if (!its.length) return '';
     const sc = its.filter((x) => x.sc.total !== null);
     const catScore = sum(sc.map((x) => x.sc.total));
-    return `<section class="cat-section" data-cat="${cat.id}" style="--cat:${cat.color}">
+    return `<section class="cat-section" data-cat="${cat.id}">
       <div class="cat-head">
-        <h2><span class="dot" style="background:${cat.color}"></span>${esc(L(cat.name))}</h2>
+        <h2>${esc(L(cat.name))}</h2>
         ${sc.length ? `<span class="cat-score" title="${esc(t('ov.catScoreHint'))}">${t('ov.score')} ${scoreChip(catScore)} <small>/ ±${sc.length * SCORE_MAX}</small></span>` : ''}
       </div>
       <div class="card-grid">
@@ -114,7 +122,7 @@ export async function renderOverview(el, { country }) {
     if (!sc.length) return '';
     const v = sum(sc.map((x) => x.sc.total));
     return `<div class="catbar-row">
-      <span class="catbar-name"><span class="dot" style="background:${cat.color}"></span>${esc(L(cat.name))}</span>
+      <span class="catbar-name">${esc(L(cat.name))}</span>
       ${divBar(v, sc.length * SCORE_MAX)}
       <span class="catbar-val">${scoreChip(v)}<small>/ ±${sc.length * SCORE_MAX}</small></span>
     </div>`;
@@ -123,7 +131,7 @@ export async function renderOverview(el, { country }) {
   const tableRows = cfg.categories.flatMap((cat) => ok.filter((x) => x.ind.category === cat.id).map(({ ind, data, sc: s }, k, arr) => {
     const vals = values(data.values);
     return `<tr data-href="#/${country}/${ind.id}">
-      ${k === 0 ? `<td class="cat-cell" rowspan="${arr.length}" style="--cat:${cat.color}">${esc(L(cat.name))}</td>` : ''}
+      ${k === 0 ? `<td class="cat-cell" rowspan="${arr.length}">${esc(L(cat.name))}</td>` : ''}
       <td><a href="#/${country}/${ind.id}">${esc(L(ind.short))}</a></td>
       <td class="mono muted">${esc(ind.code)}</td>
       <td class="num">${num(s.latest, ind.decimals)}</td>
@@ -139,36 +147,52 @@ export async function renderOverview(el, { country }) {
 
   el.innerHTML = `
   <section class="hero">
-    <div>
-      <h1>${t('ov.title', { country: L(cfg.name) })}</h1>
+    <div class="hero-visual" aria-hidden="true"><img src="assets/img/earth.webp" alt="" width="744" height="511" fetchpriority="high"></div>
+    <div class="hero-copy">
+      <p class="eyebrow">${esc(L(group.name))}</p>
+      <h1>${esc(L(cfg.name))}<br><span class="h1-line">${t('ov.heroLine')}</span></h1>
       <p class="hero-sub">${tc(cfg, 'ov.subtitle')}</p>
-      <p class="group-note"><span class="group-tag">${esc(L(group.name))}</span> ${esc(L(group.description))}</p>
-    </div>
-    <div class="hero-meta">
-      <div>${t('ov.dataAsOf')} <strong>${dateTime(index.fetchedAt)}</strong></div>
-      <div class="muted">${t('ov.autoUpdate')}</div>
-    </div>
-  </section>
-
-  <section class="score-panel">
-    <div class="score-main">
-      <div class="metric-label">${t('ov.totalScore')}</div>
-      ${gauge(total, max)}
-      <p class="score-text">${tc(cfg, 'ov.scoreSentence', { pos: nPos, neg: nNeg, n: scored.length })}</p>
-      <div class="score-split">
-        <div><div class="metric-label">${t('score.shortLong')}</div><div class="metric-value">${signed(totShort, 0)}</div><div class="metric-sub">${t('ov.shortHint')}</div></div>
-        <div><div class="metric-label">${t('score.longLong')}</div><div class="metric-value">${signed(totLong, 0)}</div><div class="metric-sub">${t('ov.longHint')}</div></div>
-        <div><div class="metric-label">${t('ov.indicators')}</div><div class="metric-value">${ok.length}</div><div class="metric-sub">${t('ov.scoredOf', { n: scored.length })}</div></div>
+      <div class="hero-actions">
+        <a class="btn-outline" href="#indicators" data-scroll>${t('ov.toIndicators')} ${ARROW}</a>
+        <a class="text-link" href="#/methodik">${t('ov.terms')} ${ARROW}</a>
       </div>
-      <p class="fine">${tc(cfg, 'ov.scoreLegend')} <a href="#/methodik">${t('nav.method')} →</a></p>
-    </div>
-    <div class="score-cats">
-      <div class="metric-label">${t('ov.byCategory')}</div>
-      ${catBars}
+      <p class="hero-meta">${t('ov.dataAsOf')} <strong>${dateTime(index.fetchedAt)}</strong> · ${t('ov.autoUpdate')}</p>
     </div>
   </section>
 
-  <div class="toolbar">
+  <section class="feature-row">
+    <div class="feature">
+      ${ICON.gauge}
+      <h2 title="${esc(t('ov.totalScore'))}">${t('ov.totalShort')}</h2>
+      <div class="feature-value">${signed(total, 0)}<small> / ±${max}</small></div>
+      ${gauge(total, max)}
+      <p>${tc(cfg, 'ov.scoreSentence', { pos: nPos, neg: nNeg, n: scored.length })}</p>
+      <a class="feature-link" href="#/methodik">${t('nav.method')} ${ARROW}</a>
+    </div>
+    <div class="feature">
+      ${ICON.clock}
+      <h2>${t('score.shortLong')}</h2>
+      <div class="feature-value">${signed(totShort, 0)}</div>
+      <p>${t('ov.shortHint')}</p>
+      <a class="feature-link" href="#/${country}/compare">${t('nav.compare')} ${ARROW}</a>
+    </div>
+    <div class="feature">
+      ${ICON.horizon}
+      <h2>${t('score.longLong')}</h2>
+      <div class="feature-value">${signed(totLong, 0)}</div>
+      <p>${t('ov.longHint')} · ${ok.length} ${t('ov.indicators')}, ${t('ov.scoredOf', { n: scored.length })}</p>
+      <a class="feature-link" href="#/quellen">${t('nav.sources')} ${ARROW}</a>
+    </div>
+  </section>
+
+  <section class="section cat-overview">
+    <p class="eyebrow">${t('ov.byCategory')}</p>
+    <p class="section-intro">${esc(L(group.description))}</p>
+    <div class="score-cats">${catBars}</div>
+    <p class="fine">${tc(cfg, 'ov.scoreLegend')}</p>
+  </section>
+
+  <div class="toolbar" id="indicators">
     <input type="search" id="ind-filter" placeholder="${esc(t('ov.filter'))}" aria-label="${esc(t('ov.filter'))}">
     <a class="btn" href="#/${country}/compare">${t('nav.compare')} →</a>
   </div>
@@ -195,9 +219,13 @@ export async function renderOverview(el, { country }) {
   el.querySelectorAll('canvas.spark').forEach((cv) => {
     const it = ok.find((x) => x.ind.id === cv.dataset.id);
     const vals = values(lastYears(it.data.values, it.ind.frequency, it.ind.frequency === 'A' ? 30 : 10));
-    sparkline(cv, vals, { color: categoryOf(cfg, it.ind)?.color || C.purple, thr: it.sc.thr });
+    sparkline(cv, vals, { color: '#c9ced6', thr: it.sc.thr });
   });
 
+  el.querySelectorAll('[data-scroll]').forEach((a) => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    el.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }));
   const filter = el.querySelector('#ind-filter');
   filter.addEventListener('input', () => {
     const q = filter.value.trim().toLowerCase();
@@ -209,5 +237,24 @@ export async function renderOverview(el, { country }) {
     location.hash = tr.dataset.href;
   }));
   fillAds(el);
-  return () => {};
+  return heroScroll(el);
+}
+
+// Earth drifts slower than the page and fades out instead of being cut off at the hero edge.
+function heroScroll(el) {
+  const hero = el.querySelector('.hero');
+  const vis = el.querySelector('.hero-visual');
+  if (!hero || !vis || matchMedia('(prefers-reduced-motion: reduce)').matches) return () => {};
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    const h = hero.offsetHeight || 1;
+    const y = Math.min(Math.max(window.scrollY, 0), h * 1.2);
+    vis.style.setProperty('--hero-shift', `${(y * 0.35).toFixed(1)}px`);
+    vis.style.setProperty('--hero-fade', Math.max(0, 1 - y / (h * 0.85)).toFixed(3));
+  };
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  update();
+  return () => { window.removeEventListener('scroll', onScroll); if (raf) cancelAnimationFrame(raf); };
 }

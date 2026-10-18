@@ -9,13 +9,26 @@ const placeholder = (v) => (v ? esc(v) : `<span class="warn-text">[${t('legal.mi
 const TEXT = {
   method: {
     de: `
+      <h2>Begriffe einfach erklärt</h2>
+      <p>FreemanMacroScope folgt dem Makro-Ansatz der Professional Trading Masterclass (PTM): erst jedes Land für sich bewerten, dann Länder miteinander vergleichen.</p>
+      <ul>
+        <li><strong>Binnenwirtschaft (endogene Treiber):</strong> alles, was in einem Land selbst passiert, etwa Stimmung, Jobs, Preise, Zinsen und Staatsfinanzen. Diese Daten zeigen, in welcher Phase des Konjunkturzyklus das Land steht und wie Notenbank und Regierung wahrscheinlich reagieren.</li>
+        <li><strong>Währungsvergleich (exogene Treiber):</strong> zwei Länder im direkten Vergleich. Ein Wechselkurs wie AUD/USD ist immer relativ: Er steigt, wenn Australien gegenüber den USA stärker wächst, mehr exportiert, höhere Zinsen bietet oder den besseren Aktienmarkt hat, weil dann Geld nach Australien fließt.</li>
+        <li><strong>Frühindikator:</strong> eine Zahl, die sich vor der übrigen Wirtschaft bewegt, zum Beispiel Umfragen unter Firmen, Baugenehmigungen oder der Eisenerzpreis für Australien. Sie zeigen Wendepunkte, bevor sie im BIP sichtbar werden.</li>
+        <li><strong>Score:</strong> eine einfache Bewertung von −10 bis +10 je Indikator. Plus heißt: Die Wirtschaft zieht an oder der Preisdruck steigt (beim Währungsvergleich: Vorteil für das erste Land). Minus heißt das Gegenteil. Der Gesamt-Score ist die Summe.</li>
+        <li><strong>Kurzfristig (K) und langfristig (L):</strong> K misst, wohin sich ein Wert in den letzten rund 6 Monaten bewegt hat. L misst, wo er heute im Vergleich zu seiner gesamten Geschichte steht.</li>
+        <li><strong>Schwelle:</strong> die Linie, die "gut" von "schwach" trennt, etwa 2 % bei der Inflation oder 0 bei Umfragen. Manchmal ist es einfach der historische Normalwert (Median).</li>
+        <li><strong>Diffusionsindex:</strong> Anteil der Firmen, die eine Verbesserung melden, minus Anteil mit Verschlechterung. Über 0 überwiegen die Optimisten.</li>
+        <li><strong>Carry:</strong> der Zinsvorteil, den man bekommt, wenn man die höher verzinste Währung hält. Wichtig ist laut PTM vor allem, in welche Richtung sich die Zinsdifferenz bewegt, denn Währungen laufen den Zinsen oft Monate voraus.</li>
+        <li><strong>Standardabweichung (σ):</strong> das übliche Schwankungsmaß einer Reihe. Ein Wert 2σ vom Normalwert entfernt ist historisch selten.</li>
+      </ul>
       <h2>Datenbasis</h2>
       <p>Alle Reihen stammen aus offiziellen Quellen (Statistikämter, Federal Reserve, Universitäten) und werden über die öffentliche Datenschnittstelle von FRED® (Federal Reserve Bank of St. Louis) abgerufen. Ein automatischer Job lädt die Daten jeden Werktag neu, rechnet sie um und veröffentlicht sie. Niemand tippt etwas von Hand ein.</p>
       <p>Höherfrequente Reihen (täglich, wöchentlich) werden als Durchschnitt pro Monat oder Quartal dargestellt. Ist der laufende Zeitraum noch nicht abgeschlossen, ist der letzte Wert mit <em>Teildaten</em> markiert. Makrodaten werden von den Quellen nachträglich revidiert, deshalb können sich historische Werte leicht ändern.</p>
       <h2>Darstellung</h2>
       <p>Viele Reihen werden als Veränderung gegenüber dem Vorjahr gezeigt (z. B. Inflation, Geldmenge). So werden Niveaus über Jahrzehnte vergleichbar. Das ursprüngliche Niveau steht jeweils in der Datentabelle. Zusammengesetzte Indikatoren (z. B. Fed-Bilanz in % des BIP, Zinsdeckung) werden aus den Rohreihen berechnet. Die Formel steht im Tab „Info &amp; Quellen".</p>
       <h2>Schwellen</h2>
-      <p>Jeder Indikator hat eine Schwelle, die die Grafiken in zwei Zonen teilt: eine feste Marke mit ökonomischer Bedeutung (z. B. 0 bei Diffusionsindizes, 2 % bei Inflation, 0 bei der Zinskurve) oder den historischen Median bzw. Mittelwert der Reihe. Die Farben sind beschreibend: Bei Wachstumsindikatoren steht Grün für expansiv und Rot für kontraktiv. Bei Inflation, Zinsen, Geldmenge und Staatsfinanzen werden neutrale Farben (Blau/Orange) verwendet.</p>
+      <p>Jeder Indikator hat eine Schwelle, die die Grafiken in zwei Zonen teilt: eine feste Marke mit ökonomischer Bedeutung (z. B. 0 bei Diffusionsindizes, 2 % bei Inflation, 0 bei der Zinskurve) oder den historischen Median bzw. Mittelwert der Reihe. Die Farben sind schlicht beschreibend: Eis-Blau steht für die günstige bzw. obere Zone, Sand für die schwächere bzw. untere Zone.</p>
       <h2>Score (−10 bis +10)</h2>
       <p>Der Score fasst zusammen, in welche Richtung ein Indikator aktuell zeigt, angelehnt an die Inflations-/Deflations-Bewertung (I/D) der ursprünglichen Excel-Analyse. Er ist rein statistisch und transparent berechnet:</p>
       <ul>
@@ -33,13 +46,26 @@ const TEXT = {
       <h2>ISM-Daten</h2>
       <p>Die ISM-Einkaufsmanagerindizes (Manufacturing PMI und Services PMI, früher NMI) erscheinen weiterhin. Laut ISM-Nutzungsbedingungen dürfen sie aber nur privat und nicht-kommerziell genutzt werden. Stattdessen nutzt FreemanMacroScope die frei verfügbaren regionalen Industrie- und Dienstleistungsumfragen der Federal Reserve Banks (Philadelphia, New York, Dallas). Sie erscheinen früher im Monat und laufen historisch eng mit dem ISM.</p>`,
     en: `
+      <h2>Key terms in plain words</h2>
+      <p>FreemanMacroScope follows the macro approach of the Professional Trading Masterclass (PTM): first assess each country on its own, then compare countries with each other.</p>
+      <ul>
+        <li><strong>Domestic economy (endogenous drivers):</strong> everything that happens inside one country, such as sentiment, jobs, prices, rates and public finances. These data show which phase of the business cycle the country is in and how the central bank and government are likely to react.</li>
+        <li><strong>Currency comparison (exogenous drivers):</strong> two countries side by side. An exchange rate like AUD/USD is always relative: it rises when Australia grows faster than the US, exports more, pays higher rates or has the stronger stock market, because money then flows to Australia.</li>
+        <li><strong>Leading indicator:</strong> a figure that moves ahead of the rest of the economy, e.g. business surveys, building permits or the iron ore price for Australia. It shows turning points before they appear in GDP.</li>
+        <li><strong>Score:</strong> a simple rating from −10 to +10 per indicator. Plus means the economy is strengthening or price pressure is rising (for a currency comparison: an advantage for the first country). Minus means the opposite. The total score is the sum.</li>
+        <li><strong>Short-term (S) and long-term (L):</strong> S measures where a value has moved over the last ~6 months. L measures where it stands today compared with its whole history.</li>
+        <li><strong>Threshold:</strong> the line separating "strong" from "weak", e.g. 2% for inflation or 0 for surveys. Sometimes it is simply the historical norm (median).</li>
+        <li><strong>Diffusion index:</strong> share of firms reporting improvement minus share reporting deterioration. Above 0, optimists dominate.</li>
+        <li><strong>Carry:</strong> the yield advantage earned by holding the higher-yielding currency. According to PTM, what matters most is the direction of the rate differential, as currencies often move months ahead of rates.</li>
+        <li><strong>Standard deviation (σ):</strong> the usual range of fluctuation of a series. A value 2σ away from normal is historically rare.</li>
+      </ul>
       <h2>Data</h2>
       <p>All series come from official sources (statistical agencies, the Federal Reserve, universities) and are retrieved via the public FRED® interface (Federal Reserve Bank of St. Louis). An automated job reloads, transforms and publishes the data every business day. Nothing is typed in by hand.</p>
       <p>Higher-frequency series (daily, weekly) are shown as monthly or quarterly averages. If the current period is not complete yet, the last value is marked <em>partial</em>. Sources revise macro data, so historical values may change slightly.</p>
       <h2>Presentation</h2>
       <p>Many series are shown as year-over-year change (e.g. inflation, money supply), which makes levels comparable across decades. The original level is always in the data table. Composite indicators (e.g. Fed balance sheet as % of GDP, interest cover) are computed from the raw series. The formula is listed under "Info &amp; Sources".</p>
       <h2>Thresholds</h2>
-      <p>Each indicator has a threshold that splits the charts into two zones: a fixed level with economic meaning (e.g. 0 for diffusion indices, 2% for inflation, 0 for the yield curve) or the series' historical median or mean. Colours are descriptive: for growth indicators green means expansionary and red contractionary. Inflation, rates, money and fiscal indicators use neutral colours (blue/orange).</p>
+      <p>Each indicator has a threshold that splits the charts into two zones: a fixed level with economic meaning (e.g. 0 for diffusion indices, 2% for inflation, 0 for the yield curve) or the series' historical median or mean. Colours are simply descriptive: ice blue marks the favourable or upper zone, sand the weaker or lower zone.</p>
       <h2>Score (−10 to +10)</h2>
       <p>The score summarises which way an indicator currently points, inspired by the inflationary/deflationary (I/D) rating of the original Excel analysis. It is purely statistical and transparent:</p>
       <ul>
@@ -61,14 +87,14 @@ const TEXT = {
     de: (ads) => `
       <h2>Verantwortlich</h2><p>${placeholder(SITE.contact.name)}<br>${placeholder(SITE.contact.address)}<br>${placeholder(SITE.contact.email)}</p>
       <h2>Hosting</h2><p>Diese Website wird über GitHub Pages (GitHub Inc., USA) ausgeliefert. Beim Aufruf verarbeitet GitHub technisch notwendige Verbindungsdaten (z. B. IP-Adresse, Zeitpunkt, aufgerufene Datei), um die Seite auszuliefern und vor Missbrauch zu schützen. Details: <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>.</p>
-      <h2>Keine Cookies, kein Tracking</h2><p>FreemanMacroScope setzt ${ads ? 'selbst ' : ''}keine Cookies und verwendet keine Analyse- oder Tracking-Werkzeuge. Schriften und Skripte werden vom eigenen Server geladen, nicht von Drittanbietern. Im lokalen Speicher deines Browsers wird nur die gewählte Sprache gespeichert. Diese Information verlässt dein Gerät nicht.</p>
+      <h2>Keine Cookies, kein Tracking</h2><p>FreemanMacroScope setzt ${ads ? 'selbst ' : ''}keine Cookies und verwendet keine Analyse- oder Tracking-Werkzeuge. Schriften und Skripte werden vom eigenen Server geladen, nicht von Drittanbietern. Im lokalen Speicher deines Browsers werden nur die gewählte Sprache und das zuletzt gewählte Land gespeichert. Diese Information verlässt dein Gerät nicht.</p>
       ${ads ? `<h2>Werbung (Google AdSense)</h2><p>Zur Finanzierung zeigt diese Website Werbung über Google AdSense (Google Ireland Ltd.). Google kann dabei Cookies setzen und Daten verarbeiten, auch in den USA. Personalisierte Werbung wird nur nach deiner Einwilligung über das Einwilligungsfenster von Google angezeigt. Die Einwilligung kannst du dort jederzeit widerrufen. Details: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google-Werberichtlinien</a>.</p>` : ''}
       <h2>Externe Links</h2><p>Links zu Datenquellen führen zu externen Websites, für deren Datenschutz die jeweiligen Betreiber verantwortlich sind.</p>
       <h2>Deine Rechte</h2><p>Du hast nach dem Schweizer Datenschutzgesetz (DSG) und ggf. der DSGVO das Recht auf Auskunft, Berichtigung und Löschung deiner Daten. Wende dich dazu an die oben genannte Adresse.</p>`,
     en: (ads) => `
       <h2>Controller</h2><p>${placeholder(SITE.contact.name)}<br>${placeholder(SITE.contact.address)}<br>${placeholder(SITE.contact.email)}</p>
       <h2>Hosting</h2><p>This website is served via GitHub Pages (GitHub Inc., USA). When you visit, GitHub processes technically necessary connection data (e.g. IP address, time, requested file) to deliver the site and protect it from abuse. Details: <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>.</p>
-      <h2>No cookies, no tracking</h2><p>FreemanMacroScope ${ads ? 'itself ' : ''}sets no cookies and uses no analytics or tracking tools. Fonts and scripts are served from our own server, not from third parties. Only your language choice is stored in your browser's local storage, and it never leaves your device.</p>
+      <h2>No cookies, no tracking</h2><p>FreemanMacroScope ${ads ? 'itself ' : ''}sets no cookies and uses no analytics or tracking tools. Fonts and scripts are served from our own server, not from third parties. Only your language and last selected country are stored in your browser's local storage, and they never leave your device.</p>
       ${ads ? `<h2>Advertising (Google AdSense)</h2><p>To fund the site, ads are shown via Google AdSense (Google Ireland Ltd.). Google may set cookies and process data, including in the USA. Personalised ads are only shown after you consent via Google's consent dialog, where you can withdraw consent at any time. Details: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google advertising policies</a>.</p>` : ''}
       <h2>External links</h2><p>Links to data sources lead to external websites whose operators are responsible for their privacy practices.</p>
       <h2>Your rights</h2><p>Under the Swiss Federal Act on Data Protection (FADP) and, where applicable, the GDPR you have the right to access, correct and delete your data. Contact the address above.</p>`,
