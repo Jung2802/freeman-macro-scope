@@ -215,8 +215,8 @@
         }
       ],
       "description": {
-        "de": "Weltmarktpreis für Eisenerz in US-Dollar je Tonne (Monatsdurchschnitt). Eisenerz ist mit gut einem Fünftel der Exporte Australiens wichtigstes Exportgut, Hauptabnehmer sind China und Japan. Nach der PTM-Methodik ist der Eisenerzpreis der eigentliche Score-Treiber der Zahlungsbilanz und ein Frühindikator für AUD/USD.",
-        "en": "World market price of iron ore in US dollars per tonne (monthly average). With over a fifth of exports, iron ore is Australia's most important export, mainly to China and Japan. In the PTM method the iron ore price is the actual scoring driver of the balance of payments and a leading indicator for AUD/USD."
+        "de": "Weltmarktpreis für Eisenerz in US-Dollar je Tonne (Monatsdurchschnitt). Eisenerz ist mit gut einem Fünftel der Exporte Australiens wichtigstes Exportgut, Hauptabnehmer sind China und Japan. Darum wird hier der Eisenerzpreis bewertet: Er bewegt sich oft vor dem Wechselkurs und ist damit ein Frühindikator für AUD/USD.",
+        "en": "World market price of iron ore in US dollars per tonne (monthly average). With over a fifth of exports, iron ore is Australia's most important export, mainly to China and Japan. That is why the iron ore price is scored here: it often moves ahead of the exchange rate, making it a leading indicator for AUD/USD."
       },
       "interpretation": {
         "de": "Steigt der Eisenerzpreis, verdient Australien mehr mit seinen Exporten. Ausländische Käufer brauchen dafür AUD, das stützt die Währung. Fällt der Preis, verliert der AUD diese Stütze. Der Eisenerzpreis bewegt sich oft vor dem Wechselkurs.",
@@ -271,8 +271,8 @@
         "en": "Price of Australian thermal coal in US dollars per tonne (monthly average). Coal accounts for almost a fifth of exports, again mainly to China and Japan."
       },
       "interpretation": {
-        "de": "Gleiche Logik wie beim Eisenerz: höhere Preise bedeuten mehr Exporteinnahmen und Rückenwind für den AUD. Nach der PTM-Methodik dient Kohle als Bestätigung und bekommt keinen eigenen Score.",
-        "en": "Same logic as iron ore: higher prices mean more export income and a tailwind for the AUD. In the PTM method coal serves as confirmation and is not scored on its own."
+        "de": "Gleiche Logik wie beim Eisenerz: höhere Preise bedeuten mehr Exporteinnahmen und Rückenwind für den AUD. Kohle dient hier als Bestätigung und bekommt keinen eigenen Score.",
+        "en": "Same logic as iron ore: higher prices mean more export income and a tailwind for the AUD. Coal serves as confirmation here and is not scored on its own."
       }
     },
     {
@@ -330,8 +330,8 @@
         "en": "Australia's current account balance in % of GDP minus the US current account balance in % of GDP. The current account is the core of the balance of payments (trade, income, transfers)."
       },
       "interpretation": {
-        "de": "Über 0: Australiens Außenbilanz ist relativ stärker, unter 0 die der USA. Nach der PTM-Methodik dient dieser Wert als historischer Hintergrund und bekommt keinen eigenen Score. Bewertet wird stattdessen der Preis des wichtigsten Exportguts (Eisenerz).",
-        "en": "Above 0: Australia's external balance is relatively stronger, below 0 the US one. Following the PTM method this serves as historical background and is not scored on its own; the price of the main export (iron ore) is scored instead."
+        "de": "Über 0: Australiens Außenbilanz ist relativ stärker, unter 0 die der USA. Dieser Wert dient als historischer Hintergrund und bekommt keinen eigenen Score. Bewertet wird stattdessen der Preis des wichtigsten Exportguts (Eisenerz).",
+        "en": "Above 0: Australia's external balance is relatively stronger, below 0 the US one. This serves as historical background and is not scored on its own; the price of the main export (iron ore) is scored instead."
       }
     },
     {

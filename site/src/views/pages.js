@@ -10,7 +10,7 @@ const TEXT = {
   method: {
     de: `
       <h2>Begriffe einfach erklärt</h2>
-      <p>FreemanMacroScope folgt dem Makro-Ansatz der Professional Trading Masterclass (PTM): erst jedes Land für sich bewerten, dann Länder miteinander vergleichen.</p>
+      <p>FreemanMacroScope geht in zwei Schritten vor: erst jedes Land für sich bewerten, dann Länder miteinander vergleichen.</p>
       <ul>
         <li><strong>Binnenwirtschaft (endogene Treiber):</strong> alles, was in einem Land selbst passiert, etwa Stimmung, Jobs, Preise, Zinsen und Staatsfinanzen. Diese Daten zeigen, in welcher Phase des Konjunkturzyklus das Land steht und wie Notenbank und Regierung wahrscheinlich reagieren.</li>
         <li><strong>Währungsvergleich (exogene Treiber):</strong> zwei Länder im direkten Vergleich. Ein Wechselkurs wie AUD/USD ist immer relativ: Er steigt, wenn Australien gegenüber den USA stärker wächst, mehr exportiert, höhere Zinsen bietet oder den besseren Aktienmarkt hat, weil dann Geld nach Australien fließt.</li>
@@ -19,7 +19,7 @@ const TEXT = {
         <li><strong>Kurzfristig (K) und langfristig (L):</strong> K misst, wohin sich ein Wert in den letzten rund 6 Monaten bewegt hat. L misst, wo er heute im Vergleich zu seiner gesamten Geschichte steht.</li>
         <li><strong>Schwelle:</strong> die Linie, die "gut" von "schwach" trennt, etwa 2 % bei der Inflation oder 0 bei Umfragen. Manchmal ist es einfach der historische Normalwert (Median).</li>
         <li><strong>Diffusionsindex:</strong> Anteil der Firmen, die eine Verbesserung melden, minus Anteil mit Verschlechterung. Über 0 überwiegen die Optimisten.</li>
-        <li><strong>Carry:</strong> der Zinsvorteil, den man bekommt, wenn man die höher verzinste Währung hält. Wichtig ist laut PTM vor allem, in welche Richtung sich die Zinsdifferenz bewegt, denn Währungen laufen den Zinsen oft Monate voraus.</li>
+        <li><strong>Carry:</strong> der Zinsvorteil, den man bekommt, wenn man die höher verzinste Währung hält. Wichtig ist vor allem, in welche Richtung sich die Zinsdifferenz bewegt, denn Währungen laufen den Zinsen oft Monate voraus.</li>
         <li><strong>Standardabweichung (σ):</strong> das übliche Schwankungsmaß einer Reihe. Ein Wert 2σ vom Normalwert entfernt ist historisch selten.</li>
       </ul>
       <h2>Datenbasis</h2>
@@ -47,7 +47,7 @@ const TEXT = {
       <p>Die ISM-Einkaufsmanagerindizes (Manufacturing PMI und Services PMI, früher NMI) erscheinen weiterhin. Laut ISM-Nutzungsbedingungen dürfen sie aber nur privat und nicht-kommerziell genutzt werden. Stattdessen nutzt FreemanMacroScope die frei verfügbaren regionalen Industrie- und Dienstleistungsumfragen der Federal Reserve Banks (Philadelphia, New York, Dallas). Sie erscheinen früher im Monat und laufen historisch eng mit dem ISM.</p>`,
     en: `
       <h2>Key terms in plain words</h2>
-      <p>FreemanMacroScope follows the macro approach of the Professional Trading Masterclass (PTM): first assess each country on its own, then compare countries with each other.</p>
+      <p>FreemanMacroScope works in two steps: first assess each country on its own, then compare countries with each other.</p>
       <ul>
         <li><strong>Domestic economy (endogenous drivers):</strong> everything that happens inside one country, such as sentiment, jobs, prices, rates and public finances. These data show which phase of the business cycle the country is in and how the central bank and government are likely to react.</li>
         <li><strong>Currency comparison (exogenous drivers):</strong> two countries side by side. An exchange rate like AUD/USD is always relative: it rises when Australia grows faster than the US, exports more, pays higher rates or has the stronger stock market, because money then flows to Australia.</li>
@@ -56,7 +56,7 @@ const TEXT = {
         <li><strong>Short-term (S) and long-term (L):</strong> S measures where a value has moved over the last ~6 months. L measures where it stands today compared with its whole history.</li>
         <li><strong>Threshold:</strong> the line separating "strong" from "weak", e.g. 2% for inflation or 0 for surveys. Sometimes it is simply the historical norm (median).</li>
         <li><strong>Diffusion index:</strong> share of firms reporting improvement minus share reporting deterioration. Above 0, optimists dominate.</li>
-        <li><strong>Carry:</strong> the yield advantage earned by holding the higher-yielding currency. According to PTM, what matters most is the direction of the rate differential, as currencies often move months ahead of rates.</li>
+        <li><strong>Carry:</strong> the yield advantage earned by holding the higher-yielding currency. What matters most is the direction of the rate differential, as currencies often move months ahead of rates.</li>
         <li><strong>Standard deviation (σ):</strong> the usual range of fluctuation of a series. A value 2σ away from normal is historically rare.</li>
       </ul>
       <h2>Data</h2>
