@@ -1,14 +1,18 @@
-// Offline support: app shell cache-first, data network-first (falls back to the last copy).
-const VERSION = 'fms-v3';
+// Offline support: always try the network first (revalidated, so a new deploy shows at once),
+// fall back to the last cached copy only when offline.
+const VERSION = 'fms-v4';
 const SHELL = [
-  './', 'index.html', 'manifest.webmanifest', 'assets/css/app.css', 'assets/vendor/chart.umd.min.js',
-  'assets/icons/icon.svg', 'assets/img/logo-freeman.png', 'assets/img/logo.png', 'assets/img/earth.webp', 'src/main.js', 'src/i18n.js', 'src/format.js', 'src/data.js', 'src/analysis.js',
+  './', 'index.html', 'manifest.webmanifest', 'favicon.ico', 'assets/css/app.css', 'assets/vendor/chart.umd.min.js',
+  'assets/icons/icon.svg', 'assets/img/logo-freeman.png', 'assets/img/logo.png', 'assets/img/earth.webp',
+  'src/main.js', 'src/i18n.js', 'src/format.js', 'src/data.js', 'src/analysis.js',
   'src/charts.js', 'src/ads.js', 'src/site-config.js', 'src/views/overview.js', 'src/views/indicator.js',
   'src/views/compare.js', 'src/views/pages.js',
 ];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(VERSION)
+    .then((c) => c.addAll(SHELL.map((u) => new Request(u, { cache: 'reload' }))))
+    .then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (e) => {
@@ -19,22 +23,12 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin) return;
-  if (url.pathname.includes('/data/') || url.pathname.endsWith('/src/') || e.request.mode === 'navigate') {
-    // network-first
-    e.respondWith(fetch(e.request).then((res) => {
+  // Network first, revalidated past the 10-minute HTTP cache (unchanged files cost only a 304).
+  e.respondWith(fetch(e.request, { cache: 'no-cache' }).then((res) => {
+    if (res.ok) {
       const copy = res.clone();
       caches.open(VERSION).then((c) => c.put(e.request, copy));
-      return res;
-    }).catch(() => caches.match(e.request)));
-    return;
-  }
-  // stale-while-revalidate for code and assets
-  e.respondWith(caches.match(e.request).then((hit) => {
-    const net = fetch(e.request).then((res) => {
-      const copy = res.clone();
-      caches.open(VERSION).then((c) => c.put(e.request, copy));
-      return res;
-    }).catch(() => hit);
-    return hit || net;
-  }));
+    }
+    return res;
+  }).catch(() => caches.match(e.request, { ignoreSearch: true })));
 });
