@@ -23,8 +23,9 @@ export async function renderCompare(el, { country, params }) {
   const cfg = await loadConfig(country);
   const recessions = await loadRecessions(country);
   const ids = cfg.indicators.map((i) => i.id);
-  let a = ids.includes(params.get('a')) ? params.get('a') : 'mfg_regional';
-  let b = ids.includes(params.get('b')) ? params.get('b') : 'claims';
+  const pickId = (wanted, preferred, fallback) => [wanted, preferred].find((x) => ids.includes(x)) ?? fallback;
+  let a = pickId(params.get('a'), 'mfg_regional', ids[0]);
+  let b = pickId(params.get('b'), 'claims', ids.find((x) => x !== a) ?? ids[0]);
   let years = 20;
   let normalize = true;
 
