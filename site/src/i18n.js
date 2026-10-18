@@ -8,6 +8,8 @@ const STRINGS = {
     'err.notFound': 'Seite nicht gefunden.',
     'nav.overview': 'Übersicht', 'nav.compare': 'Vergleich', 'nav.method': 'Methodik', 'nav.sources': 'Quellen',
     'nav.country': 'Land', 'nav.lang': 'Sprache',
+    'nav.group': 'Treiber', 'nav.vs': 'Vergleichswährung', 'nav.vsShort': 'vs.', 'nav.soon': 'bald',
+    'group.endogenous': 'Endogen', 'group.exogenous': 'Exogen',
     'common.source': 'Quelle',
 
     'ov.title': '{country} – Makro-Überblick',
@@ -129,6 +131,8 @@ const STRINGS = {
     'err.notFound': 'Page not found.',
     'nav.overview': 'Overview', 'nav.compare': 'Compare', 'nav.method': 'Methodology', 'nav.sources': 'Sources',
     'nav.country': 'Country', 'nav.lang': 'Language',
+    'nav.group': 'Drivers', 'nav.vs': 'Comparison currency', 'nav.vsShort': 'vs', 'nav.soon': 'soon',
+    'group.endogenous': 'Endogenous', 'group.exogenous': 'Exogenous',
     'common.source': 'Source',
 
     'ov.title': '{country} – Macro Overview',
@@ -266,6 +270,15 @@ export function setLang(l) {
 
 export function t(key, vars) {
   let s = STRINGS[lang][key] ?? STRINGS.en[key] ?? key;
+  if (vars) s = s.replace(/\{(\w+)\}/g, (_, k) => (vars[k] ?? `{${k}}`));
+  return s;
+}
+
+// Like t(), but a country config may override the text via cfg.texts[key] = {de, en}.
+export function tc(cfg, key, vars) {
+  const own = cfg?.texts?.[key];
+  if (!own) return t(key, vars);
+  let s = L(own);
   if (vars) s = s.replace(/\{(\w+)\}/g, (_, k) => (vars[k] ?? `{${k}}`));
   return s;
 }

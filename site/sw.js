@@ -1,5 +1,5 @@
 // Offline support: app shell cache-first, data network-first (falls back to the last copy).
-const VERSION = 'fms-v1';
+const VERSION = 'fms-v2';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'assets/css/app.css', 'assets/vendor/chart.umd.min.js',
   'assets/icons/icon.svg', 'src/main.js', 'src/i18n.js', 'src/format.js', 'src/data.js', 'src/analysis.js',

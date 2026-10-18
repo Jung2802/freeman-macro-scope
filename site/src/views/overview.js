@@ -1,7 +1,7 @@
 import { loadAll, categoryOf } from '../data.js';
 import { cycles, lastYears, values, SCORE_MAX, sum } from '../analysis.js';
 import { sparkline, zoneColors, C } from '../charts.js';
-import { t, L } from '../i18n.js';
+import { t, tc, L } from '../i18n.js';
 import { num, signed, period, dateTime, esc } from '../format.js';
 import { adSlot, fillAds } from '../ads.js';
 
@@ -141,7 +141,7 @@ export async function renderOverview(el, { country }) {
   <section class="hero">
     <div>
       <h1>${t('ov.title', { country: L(cfg.name) })}</h1>
-      <p class="hero-sub">${t('ov.subtitle')}</p>
+      <p class="hero-sub">${tc(cfg, 'ov.subtitle')}</p>
       <p class="group-note"><span class="group-tag">${esc(L(group.name))}</span> ${esc(L(group.description))}</p>
     </div>
     <div class="hero-meta">
@@ -154,13 +154,13 @@ export async function renderOverview(el, { country }) {
     <div class="score-main">
       <div class="metric-label">${t('ov.totalScore')}</div>
       ${gauge(total, max)}
-      <p class="score-text">${t('ov.scoreSentence', { pos: nPos, neg: nNeg, n: scored.length })}</p>
+      <p class="score-text">${tc(cfg, 'ov.scoreSentence', { pos: nPos, neg: nNeg, n: scored.length })}</p>
       <div class="score-split">
         <div><div class="metric-label">${t('score.shortLong')}</div><div class="metric-value">${signed(totShort, 0)}</div><div class="metric-sub">${t('ov.shortHint')}</div></div>
         <div><div class="metric-label">${t('score.longLong')}</div><div class="metric-value">${signed(totLong, 0)}</div><div class="metric-sub">${t('ov.longHint')}</div></div>
         <div><div class="metric-label">${t('ov.indicators')}</div><div class="metric-value">${ok.length}</div><div class="metric-sub">${t('ov.scoredOf', { n: scored.length })}</div></div>
       </div>
-      <p class="fine">${t('ov.scoreLegend')} <a href="#/methodik">${t('nav.method')} →</a></p>
+      <p class="fine">${tc(cfg, 'ov.scoreLegend')} <a href="#/methodik">${t('nav.method')} →</a></p>
     </div>
     <div class="score-cats">
       <div class="metric-label">${t('ov.byCategory')}</div>

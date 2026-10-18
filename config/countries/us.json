@@ -2,6 +2,9 @@
   "id": "us",
   "name": { "de": "USA", "en": "United States" },
   "currency": "USD",
+  "selector": [
+    { "land": "us", "landName": { "de": "USA", "en": "United States" }, "group": "endogenous" }
+  ],
   "recession": {
     "fred": "USREC",
     "source": { "name": "NBER Business Cycle Dating Committee (via FRED: USREC)", "url": "https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions" }

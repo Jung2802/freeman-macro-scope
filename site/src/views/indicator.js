@@ -4,7 +4,7 @@ import {
   C, rgba, ChartSet, lineChart, barChart, doughnut, scatter, gradient,
   zonePlugin, thresholdLine, recessionBands, recessionPlugin, zeroLine, zoneColors,
 } from '../charts.js';
-import { t, L } from '../i18n.js';
+import { t, tc, L } from '../i18n.js';
 import { num, signed, pct, period, dateTime, esc, monthNames } from '../format.js';
 import { adSlot, fillAds } from '../ads.js';
 import { scoreChip, trendWord, trendArrow, zoneLabel, cyclesSection } from './overview.js';
@@ -502,7 +502,7 @@ export async function renderIndicator(el, { country, id, tab }) {
 
     info() {
       const p = panel('info');
-      const dirText = ind.direction > 0 ? t('info.dirPos') : ind.direction < 0 ? t('info.dirNeg') : t('info.dirNone');
+      const dirText = ind.direction > 0 ? tc(cfg, 'info.dirPos') : ind.direction < 0 ? tc(cfg, 'info.dirNeg') : t('info.dirNone');
       p.innerHTML = `
         <div class="charts-grid">
           <div class="chart-card">

@@ -1,1 +1,1 @@
-[{"id":"us","name":{"de":"USA","en":"United States"},"currency":"USD"}]
+[{"id":"us","name":{"de":"USA","en":"United States"},"currency":"USD","selector":[{"land":"us","landName":{"de":"USA","en":"United States"},"group":"endogenous"}]},{"id":"audusd","name":{"de":"AUD/USD","en":"AUD/USD"},"currency":"AUD/USD","selector":[{"land":"au","landName":{"de":"Australien","en":"Australia"},"group":"exogenous","vs":"USD"},{"land":"us","landName":{"de":"USA","en":"United States"},"group":"exogenous","vs":"AUD"}]}]

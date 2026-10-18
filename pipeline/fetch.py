@@ -65,7 +65,7 @@ def fetch_fred(series_id: str, retries: int = 4) -> list[tuple[date, float]]:
                 raise ValueError(f"no observations for {series_id}")
             _raw_cache[series_id] = rows
             return rows
-        except (urllib.error.URLError, ValueError, TimeoutError) as err:
+        except (OSError, ValueError) as err:  # OSError covers URLError, timeouts and dropped connections
             last_err = err
             time.sleep(2 * (attempt + 1))
     raise RuntimeError(f"download failed for {series_id}: {last_err}")
@@ -261,7 +261,7 @@ def run_country(cfg_path: Path) -> tuple[dict, list[str]]:
     write_json(out_dir / "config.json", cfg)
     index = {"country": cid, "fetchedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"), "indicators": status}
     write_json(out_dir / "index.json", index)
-    return {"id": cid, "name": cfg["name"], "currency": cfg.get("currency")}, errors
+    return {"id": cid, "name": cfg["name"], "currency": cfg.get("currency"), "selector": cfg.get("selector", [])}, errors
 
 
 def main() -> int:
@@ -273,7 +273,7 @@ def main() -> int:
     args = parser.parse_args()
 
     countries, errors = [], []
-    for cfg_path in sorted(CONFIG_DIR.glob("*.json")):
+    for cfg_path in sorted(CONFIG_DIR.glob("*.json"), key=lambda p: (p.stem != "us", p.stem)):
         if args.only and cfg_path.stem != args.only:
             continue
         print(f"[{cfg_path.stem}]")

@@ -13,6 +13,8 @@ const PAGES = new Set(['methodik', 'quellen', 'impressum', 'datenschutz', 'discl
 let cleanup = () => {};
 let countries = [{ id: SITE.defaultCountry, name: { de: 'USA', en: 'United States' } }];
 let country = SITE.defaultCountry;
+let land = (() => { try { return localStorage.getItem('fms.land'); } catch { return null; } })();
+const saveLand = () => { try { localStorage.setItem('fms.land', land); } catch { /* private mode */ } };
 
 // Routes: #/  #/us  #/us/<indicator>[/<tab>]  #/us/compare?a=..&b=..  #/<page>
 function parseRoute() {
@@ -27,6 +29,37 @@ function parseRoute() {
   if (!parts[1]) return { view: 'overview', country: c };
   if (parts[1] === 'compare') return { view: 'compare', country: c, params };
   return { view: 'indicator', country: c, id: parts[1], tab: parts[2] };
+}
+
+// Every dataset lists where it appears in the selector: land → group → (exogenous only) comparison currency.
+const entries = () => countries.flatMap((c) => (c.selector?.length ? c.selector : [{ land: c.id, landName: c.name, group: 'endogenous' }]).map((s) => ({ ...s, id: c.id })));
+const GROUPS = ['endogenous', 'exogenous'];
+
+function currentEntry() {
+  const all = entries();
+  return all.find((e) => e.id === country && e.land === land) || all.find((e) => e.id === country) || all[0];
+}
+
+function pick({ land: l, group: g, vs }) {
+  const all = entries().filter((e) => e.land === l);
+  return all.find((e) => e.group === g && (!vs || e.vs === vs)) || all.find((e) => e.group === g) || all[0];
+}
+
+function selectors() {
+  const cur = currentEntry();
+  if (!cur) return '';
+  const all = entries();
+  const lands = [...new Map(all.map((e) => [e.land, e.landName])).entries()];
+  const groupsHere = new Set(all.filter((e) => e.land === cur.land).map((e) => e.group));
+  const vsHere = all.filter((e) => e.land === cur.land && e.group === 'exogenous');
+  const opt = (v, label, sel, dis) => `<option value="${esc(v)}"${sel ? ' selected' : ''}${dis ? ' disabled' : ''}>${esc(label)}</option>`;
+  return `
+    <label class="sr-only" for="land-sel">${t('nav.country')}</label>
+    <select id="land-sel" title="${esc(t('nav.country'))}">${lands.map(([id, n]) => opt(id, L(n), id === cur.land)).join('')}</select>
+    <label class="sr-only" for="group-sel">${t('nav.group')}</label>
+    <select id="group-sel" title="${esc(t('nav.group'))}">${GROUPS.map((g) => opt(g, t('group.' + g) + (groupsHere.has(g) ? '' : ` (${t('nav.soon')})`), g === cur.group, !groupsHere.has(g))).join('')}</select>
+    ${cur.group === 'exogenous' ? `<label class="sr-only" for="vs-sel">${t('nav.vs')}</label>
+    <select id="vs-sel" title="${esc(t('nav.vs'))}">${vsHere.map((e) => opt(e.vs, `${t('nav.vsShort')} ${e.vs}`, e.vs === cur.vs)).join('')}</select>` : ''}`;
 }
 
 function header() {
@@ -44,8 +77,7 @@ function header() {
     </a>
     <nav class="mainnav">${nav.map(([h, n, a]) => `<a href="${h}" class="${a ? 'active' : ''}">${n}</a>`).join('')}</nav>
     <div class="top-controls">
-      <label class="sr-only" for="country-sel">${t('nav.country')}</label>
-      <select id="country-sel" title="${esc(t('nav.country'))}">${countries.map((c) => `<option value="${c.id}"${c.id === country ? ' selected' : ''}>${esc(L(c.name))}</option>`).join('')}</select>
+      ${selectors()}
       <div class="lang-switch" role="group" aria-label="${esc(t('nav.lang'))}">${LANGS.map((l) => `<button data-lang="${l}" class="${l === getLang() ? 'active' : ''}">${l.toUpperCase()}</button>`).join('')}</div>
     </div>`;
 }
@@ -72,6 +104,7 @@ async function render() {
   const seq = ++renderSeq;
   const r = parseRoute();
   if (r.country) country = r.country;
+  if (!entries().some((e) => e.id === country && e.land === land)) land = entries().find((e) => e.id === country)?.land ?? null;
   header();
   cleanup();
   cleanup = () => {};
@@ -101,7 +134,17 @@ document.addEventListener('click', (e) => {
   render();
 });
 document.addEventListener('change', (e) => {
-  if (e.target.id === 'country-sel') location.hash = `#/${e.target.value}`;
+  const cur = currentEntry();
+  if (!cur) return;
+  let next = null;
+  if (e.target.id === 'land-sel') next = pick({ land: e.target.value, group: cur.group, vs: cur.vs });
+  else if (e.target.id === 'group-sel') next = pick({ land: cur.land, group: e.target.value });
+  else if (e.target.id === 'vs-sel') next = pick({ land: cur.land, group: 'exogenous', vs: e.target.value });
+  if (!next) return;
+  land = next.land;
+  saveLand();
+  if (next.id === country) header();
+  else location.hash = `#/${next.id}`;
 });
 window.addEventListener('hashchange', render);
 
