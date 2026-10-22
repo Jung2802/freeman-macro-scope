@@ -13,7 +13,7 @@ const STRINGS = {
     'common.source': 'Quelle',
 
     'ov.title': '{country} – Makro-Überblick',
-    'ov.heroLine': 'Makro im Überblick.', 'ov.totalShort': 'Gesamt-Score', 'ov.toIndicators': 'Zu den Indikatoren', 'ov.terms': 'Begriffe einfach erklärt',
+    'ov.heroLine': 'Was die Märkte bewegt.', 'ov.totalShort': 'Gesamt-Score', 'ov.toIndicators': 'Zu den Indikatoren', 'ov.terms': 'Begriffe einfach erklärt',
     'ov.subtitle': 'Wie steht die Wirtschaft da? Die wichtigsten Daten zu Konjunktur, Geld, Zinsen, Preisen und Jobs an einem Ort, einfach bewertet und mit Quellen.',
     'ov.dataAsOf': 'Datenstand:', 'ov.autoUpdate': 'Wird jeden Werktag automatisch aktualisiert.',
     'ov.totalScore': 'Gesamt-Score (Saldo aller bewerteten Indikatoren)',
@@ -137,7 +137,7 @@ const STRINGS = {
     'common.source': 'Source',
 
     'ov.title': '{country} – Macro Overview',
-    'ov.heroLine': 'Macro at a glance.', 'ov.totalShort': 'Total score', 'ov.toIndicators': 'View indicators', 'ov.terms': 'Key terms explained',
+    'ov.heroLine': 'See what moves markets.', 'ov.totalShort': 'Total score', 'ov.toIndicators': 'View indicators', 'ov.terms': 'Key terms explained',
     'ov.subtitle': 'How is the economy doing? The key data on growth, money, rates, prices and jobs in one place, simply scored and with sources.',
     'ov.dataAsOf': 'Data as of:', 'ov.autoUpdate': 'Updated automatically every business day.',
     'ov.totalScore': 'Total score (sum of all scored indicators)',
