@@ -1,5 +1,5 @@
 import { loadAll } from '../data.js';
-import { cycles, lastYears, values, SCORE_MAX, sum, gdpRegressionScan, implied } from '../analysis.js';
+import { cycles, lastYears, values, SCORE_MAX, sum, gdpRegressionScan, implied, regressorSeries, toQuarterly } from '../analysis.js';
 import { sparkline, zoneColors, C } from '../charts.js';
 import { t, tc, L } from '../i18n.js';
 import { num, signed, period, dateTime, esc } from '../format.js';
@@ -93,11 +93,33 @@ export async function renderOverview(el, { country }) {
   const gdpItem = ok.find((x) => x.ind.id === cfg.gdpIndicator);
   const nowcastParts = gdpItem ? ok
     .filter((x) => x.ind.gdpRegression && (!x.ind.regressionTarget || x.ind.regressionTarget === cfg.gdpIndicator) && x.ind.id !== cfg.gdpIndicator)
-    .map((x) => ({ ind: x.ind, scan: gdpRegressionScan(x.data.values, x.ind.frequency, gdpItem.data.values), latest: values(x.data.values).at(-1) }))
+    .map((x) => {
+      const regSrc = regressorSeries(x.data.values, x.ind.frequency, x.ind.regressorTransform);
+      return { ind: x.ind, scan: gdpRegressionScan(regSrc, x.ind.frequency, gdpItem.data.values), latest: values(regSrc).at(-1) };
+    })
     .filter((x) => x.scan && x.scan.r2 >= GDP_NOWCAST_MIN_R2)
     .map((x) => ({ ...x, value: implied(x.scan, x.latest) })) : [];
   const nowcastWeight = sum(nowcastParts.map((x) => x.scan.r2));
   const nowcastValue = nowcastParts.length ? sum(nowcastParts.map((x) => x.value * x.scan.r2)) / nowcastWeight : null;
+
+  // Indicators redirected to a different target (currently only M2 → CPI, see Methodik) aren't
+  // blended into the GDP figure above — a CPI-implied % and a GDP-implied % aren't the same unit,
+  // averaging them would misrepresent both. But that shouldn't make them invisible here: show
+  // each with its own target and number, so the page still answers "where is X accounted for".
+  const redirectedParts = ok
+    .filter((x) => x.ind.gdpRegression && x.ind.regressionTarget && x.ind.regressionTarget !== cfg.gdpIndicator)
+    .map((x) => {
+      const targetItem = ok.find((t) => t.ind.id === x.ind.regressionTarget);
+      if (!targetItem) return null;
+      const regSrc = regressorSeries(x.data.values, x.ind.frequency, x.ind.regressorTransform);
+      // Same fix as the indicator page: quarterly-average the target first, or a monthly target
+      // like CPI gets reduced to its quarter-start-month reading instead of the quarter's mean.
+      const targetQ = toQuarterly(targetItem.data.values, targetItem.ind.frequency);
+      const scan = gdpRegressionScan(regSrc, x.ind.frequency, targetQ);
+      if (!scan) return null;
+      return { ind: x.ind, targetInd: targetItem.ind, scan, value: implied(scan, values(regSrc).at(-1)) };
+    })
+    .filter(Boolean);
 
   const catBlocks = cfg.categories.map((cat) => {
     const its = ok.filter((x) => x.ind.category === cat.id);
@@ -221,6 +243,12 @@ export async function renderOverview(el, { country }) {
       <thead><tr><th>${t('tbl.indicator')}</th><th>R²</th><th>${t('gdp.lead')}</th><th>${t('ov.nowcastValue')}</th></tr></thead>
       <tbody>${[...nowcastParts].sort((a, b) => b.scan.r2 - a.scan.r2).map((x) => `<tr><td><a href="#/${country}/${x.ind.id}/gdp">${esc(L(x.ind.short))}</a></td><td class="num">${num(x.scan.r2, 2)}</td><td class="num muted">${x.scan.lead}</td><td class="num ${x.value >= 0 ? 'pos' : 'neg'}">${signed(x.value, 1)} %</td></tr>`).join('')}</tbody>
     </table></div>
+    ${redirectedParts.length ? `
+    <p class="fine">${t('ov.nowcastRedirected')}</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>${t('tbl.indicator')}</th><th>${t('ov.nowcastTarget')}</th><th>R²</th><th>${t('gdp.lead')}</th><th>${t('ov.nowcastValue')}</th></tr></thead>
+      <tbody>${redirectedParts.map((x) => `<tr><td><a href="#/${country}/${x.ind.id}/gdp">${esc(L(x.ind.short))}</a></td><td class="muted">${esc(L(x.targetInd.short))}</td><td class="num">${num(x.scan.r2, 2)}</td><td class="num muted">${x.scan.lead}</td><td class="num ${x.value >= 0 ? 'pos' : 'neg'}">${signed(x.value, 1)} %</td></tr>`).join('')}</tbody>
+    </table></div>` : ''}
     <p class="source-note">${t('ov.nowcastNote')}</p>
   </section>` : ''}
 

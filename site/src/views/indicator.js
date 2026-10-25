@@ -46,7 +46,13 @@ export async function renderIndicator(el, { country, id, tab }) {
   // target series is quarterly-averaged first (toQuarterly is a no-op if it's already quarterly,
   // e.g. GDP) so a monthly target like CPI isn't reduced to its quarter-start-month reading.
   const gdpSeriesQ = gdpData ? A.toQuarterly(gdpData.values, targetInd.frequency) : null;
-  const reg = gdpSeriesQ ? A.gdpRegressionScan(series, f, gdpSeriesQ) : null;
+  // Some indicators regress better as a change than as a level (e.g. the unemployment rate's
+  // month-over-month change, Okun's Law's classic form, rather than its level) — set per
+  // indicator in config (`regressorTransform`) based on established macro theory, not picked by
+  // whichever transform happens to maximise R² (see Methodik for the reasoning per indicator).
+  const regressorKind = ind.regressorTransform || 'level';
+  const regressorSrc = A.regressorSeries(series, f, regressorKind);
+  const reg = gdpSeriesQ ? A.gdpRegressionScan(regressorSrc, f, gdpSeriesQ) : null;
   const targetName = targetInd ? L(targetInd.short) : '';
   const latest = vals[vals.length - 1];
   const prev = vals[vals.length - 2];
@@ -397,23 +403,30 @@ export async function renderIndicator(el, { country, id, tab }) {
     gdp() {
       const p = panel('gdp');
       const gd = gdpSeriesQ;
-      const q = A.toQuarterly(series, f);
+      // When the regressor isn't the indicator's own level (e.g. unrate's month-over-month
+      // change, Okun's Law's classic form), every x-axis value below — "latest", the scorecard
+      // steps, the time-series chart — must come from that transformed series, not the level one,
+      // or the numbers would silently be fed into a regression fitted on a different scale.
+      const regVals = A.values(regressorSrc);
+      const regLatest = regVals[regVals.length - 1];
+      const q = A.toQuarterly(regressorSrc, f);
       const gdpMap = new Map(gd);
-      const impliedNow = A.implied(reg, latest);
+      const impliedNow = A.implied(reg, regLatest);
       const q20 = q.slice(-80);
-      const steps = scorecardSteps(vals, d);
+      const steps = scorecardSteps(regVals, d);
       const lead = reg.lead ?? 0;
       const leadLabel = lead ? t('gdp.leadQ', { n: lead, m: Math.round(lead * 3) }) : t('gdp.leadZero');
       const isOutlier = (l) => A.GDP_OUTLIERS.has(l) || A.GDP_OUTLIERS.has(A.shiftQuarter(l, lead));
       const bestR2 = Math.max(...reg.profile.map((x) => x.r2));
       p.innerHTML = `
         <div class="info-box">
-          <strong>${t('gdp.title', { name: L(ind.short), target: targetName })}</strong> — ${t(lead ? 'gdp.method' : 'gdp.methodNoLead', { target: targetName, lead, from: reg.from, n: reg.n })}<br>
+          <strong>${t('gdp.title', { name: L(ind.short), target: targetName })}</strong> — ${t(lead ? 'gdp.method' : 'gdp.methodNoLead', { target: targetName, lead, from: reg.from, n: reg.n })}
+          ${regressorKind !== 'level' ? t('gdp.xformNote', { xform: t(`gdp.xform.${regressorKind}`) }) : ''}<br>
           ${t('gdp.formula')} <span class="mono">${esc(targetInd.code)} ≈ ${num(reg.a, 2)} ${reg.b >= 0 ? '+' : '−'} ${num(Math.abs(reg.b), 3)} × x</span> · R² ${num(reg.r2, 2)}
           ${reg.r2 < 0.05 ? `<br><span class="warn-text-strong">${t('gdp.veryWeak')}</span>` : reg.r2 < 0.2 ? `<br><span class="warn-text">${t('gdp.weak')}</span>` : ''}
         </div>
         <div class="metrics">
-          ${metric(t('gdp.implied', { target: targetName }), `${signed(impliedNow, 1)} %`, t(lead ? 'gdp.impliedSubLead' : 'gdp.impliedSub', { v: fmtV(latest), lead }), impliedNow >= 0 ? 'pos' : 'neg')}
+          ${metric(t('gdp.implied', { target: targetName }), `${signed(impliedNow, 1)} %`, t(lead ? 'gdp.impliedSubLead' : 'gdp.impliedSub', { v: fmtV(regLatest), lead }), impliedNow >= 0 ? 'pos' : 'neg')}
           ${metric(t('gdp.actual', { target: targetName }), `${signed(gd[gd.length - 1][1], 1)} %`, period(gd[gd.length - 1][0], 'Q'), 'blue')}
           ${metric('R²', num(reg.r2, 2), t('gdp.r2Sub', { target: targetName }), 'purple')}
           ${metric(t('gdp.slope'), signed(reg.b, 3), t('gdp.slopeSub', { target: targetName, u: unit }))}
@@ -442,7 +455,7 @@ export async function renderIndicator(el, { country, id, tab }) {
             <div class="chart-title"><span class="dot" style="background:${C.gold}"></span>${t('gdp.scorecard', { target: targetName })}</div>
             <p class="fine">${t('gdp.scorecardIntro')}</p>
             <div class="scorecard-wrap"><table class="scorecard-table${reg.r2 < 0.05 ? ' weak' : ''}">
-              <thead><tr><th>${esc(ind.code)}</th>${steps.map((s) => `<th class="${Math.abs(s - latest) === Math.min(...steps.map((x) => Math.abs(x - latest))) ? 'current' : ''}">${num(s, Math.min(d, 1))}</th>`).join('')}</tr></thead>
+              <thead><tr><th>${esc(ind.code)}${regressorKind !== 'level' ? ` (${t(`gdp.xform.${regressorKind}`)})` : ''}</th>${steps.map((s) => `<th class="${Math.abs(s - regLatest) === Math.min(...steps.map((x) => Math.abs(x - regLatest))) ? 'current' : ''}">${num(s, Math.min(d, 1))}</th>`).join('')}</tr></thead>
               <tbody><tr><th>^${esc(targetInd.code)} %</th>${steps.map((s) => { const g = A.implied(reg, s); return `<td class="${g > 0 ? 'sc-good' : g < 0 ? 'sc-bad' : ''}">${signed(g, 1)}</td>`; }).join('')}</tr></tbody>
             </table></div>
           </div>
@@ -465,7 +478,7 @@ export async function renderIndicator(el, { country, id, tab }) {
         datasets: [
           { label: t('gdp.quarters'), data: reg.points.map((pt) => ({ x: pt.x, y: pt.y, d: pt.d })), backgroundColor: rgba(accent, 0.45), pointRadius: 2.5 },
           { label: t('gdp.fit'), type: 'line', data: [{ x: lo, y: A.implied(reg, lo) }, { x: hi, y: A.implied(reg, hi) }], borderColor: C.gold, borderWidth: 1.5, pointRadius: 0 },
-          { label: t('gdp.now'), data: [{ x: latest, y: impliedNow }], backgroundColor: C.green, pointRadius: 6, pointStyle: 'rectRot' },
+          { label: t('gdp.now'), data: [{ x: regLatest, y: impliedNow }], backgroundColor: C.green, pointRadius: 6, pointStyle: 'rectRot' },
         ],
         xFmt: (v) => num(v, Math.min(d, 1)), yFmt: (v) => `${v}%`,
         tooltip: { callbacks: { label: (c) => ` ${c.raw.d ? period(c.raw.d, 'Q') + ': ' : ''}x ${fmtV(c.raw.x)} → GDP ${signed(c.raw.y, 1)} %` } },
@@ -484,6 +497,11 @@ export async function renderIndicator(el, { country, id, tab }) {
       const baseKeys = data.base ? data.base.map((x) => x[0]) : [];
       const baseIdx = new Map(baseKeys.map((k, i) => [k, i]));
       const bd = ind.base?.decimals ?? 0;
+      // The per-row "implied X" column reads each row's own level value straight into the
+      // regression formula — only correct when the regression was fit on the level itself, not
+      // on a transform (e.g. unrate's month-over-month change). Hide it in that case rather than
+      // show a wrong number; the Scorecard tab already covers that indicator correctly.
+      const showImplCol = reg && regressorKind === 'level';
       const rows = [...series].map((pt, i) => ({ pt, i })).reverse();
       const baseChange = (l) => {
         const j = baseIdx.get(l);
@@ -495,7 +513,7 @@ export async function renderIndicator(el, { country, id, tab }) {
           <thead><tr>
             <th>${t('tbl.period')}</th><th>${esc(L(ind.short))}</th><th>Δ</th>
             ${baseMap ? `<th>${esc(L(ind.base.unit))}</th>${ind.base.showChange ? `<th>Δ ${esc(L(ind.base.unit))}</th>` : ''}` : ''}
-            <th>${t('tbl.zone')}</th><th>${t('c.avg')}</th>${reg ? `<th>Impl. ^${esc(targetInd.code)} %</th>` : ''}
+            <th>${t('tbl.zone')}</th><th>${t('c.avg')}</th>${showImplCol ? `<th>Impl. ^${esc(targetInd.code)} %</th>` : ''}
           </tr></thead>
           <tbody>${rows.map(({ pt: [l, v], i }) => {
             const c = chg[i];
@@ -503,12 +521,12 @@ export async function renderIndicator(el, { country, id, tab }) {
             return `<tr><td>${fmtP(l)}</td><td class="num">${fmtV(v)}</td><td class="num ${c === null ? '' : c >= 0 ? 'pos' : 'neg'}">${c === null ? '—' : signed(c, d)}</td>
               ${baseMap ? `<td class="num muted">${baseMap.has(l) ? num(baseMap.get(l), bd) : '—'}</td>${ind.base.showChange ? `<td class="num ${bc === null ? '' : bc >= 0 ? 'pos' : 'neg'}">${bc === null ? '—' : signed(bc, bd)}</td>` : ''}` : ''}
               <td class="${zoneCls(v)}">${esc(zoneOf(v))}</td><td class="num muted">${roll[i] === null ? '—' : fmtV(roll[i])}</td>
-              ${reg ? `<td class="num">${signed(A.implied(reg, v), 1)}</td>` : ''}</tr>`;
+              ${showImplCol ? `<td class="num">${signed(A.implied(reg, v), 1)}</td>` : ''}</tr>`;
           }).join('')}</tbody>
         </table></div>`;
       p.querySelector('#csv').addEventListener('click', () => {
-        const head = ['period', ind.id, 'change', ...(baseMap ? ['base'] : []), 'zone', 'rolling_avg', ...(reg ? [`implied_${targetInd.id}`] : [])];
-        const lines = series.map(([l, v], i) => [l, v, chg[i] ?? '', ...(baseMap ? [baseMap.get(l) ?? ''] : []), isAbove(v) ? 'above' : 'below', roll[i] ?? '', ...(reg ? [A.implied(reg, v).toFixed(2)] : [])].join(','));
+        const head = ['period', ind.id, 'change', ...(baseMap ? ['base'] : []), 'zone', 'rolling_avg', ...(showImplCol ? [`implied_${targetInd.id}`] : [])];
+        const lines = series.map(([l, v], i) => [l, v, chg[i] ?? '', ...(baseMap ? [baseMap.get(l) ?? ''] : []), isAbove(v) ? 'above' : 'below', roll[i] ?? '', ...(showImplCol ? [A.implied(reg, v).toFixed(2)] : [])].join(','));
         const src = `# ${L(ind.name)} – ${ind.sources.map((s) => s.name).join('; ')} – via FreemanMacroScope\n`;
         const blob = new Blob([src + head.join(',') + '\n' + lines.join('\n')], { type: 'text/csv' });
         const a = document.createElement('a');

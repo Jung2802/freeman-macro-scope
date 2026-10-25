@@ -100,6 +100,31 @@ test('real data: M2 explains far more of CPI inflation (its real transmission ch
   assert.ok(vsCpi.r2 > vsGdp.r2 * 3, `expected M2→CPI (r2=${vsCpi.r2}) to clearly beat M2→GDP (r2=${vsGdp.r2})`);
 });
 
+test('changeSeries computes period-over-period differences and drops the lag', () => {
+  const s = [['2020-01', 10], ['2020-02', 12], ['2020-03', 9]];
+  assert.deepEqual(A.changeSeries(s, 1), [['2020-02', 2], ['2020-03', -3]]);
+});
+
+test('regressorSeries maps named transforms to the right lag per frequency', () => {
+  const m = Array.from({ length: 15 }, (_, i) => [`2020-${String(i + 1).padStart(2, '0')}`, i]);
+  assert.equal(A.regressorSeries(m, 'M', 'level'), m);
+  assert.equal(A.regressorSeries(m, 'M', 'diff1').length, m.length - 1);
+  assert.equal(A.regressorSeries(m, 'M', 'diffQ').length, m.length - 3);
+  assert.equal(A.regressorSeries(m, 'M', 'yoy').length, m.length - 12);
+  const q = Array.from({ length: 10 }, (_, i) => [`${2020 + Math.floor(i / 4)}-${String((i % 4) * 3 + 1).padStart(2, '0')}`, i]);
+  assert.equal(A.regressorSeries(q, 'Q', 'yoy').length, q.length - 4);
+});
+
+test("real data: unemployment rate's month-over-month change explains far more of GDP growth than its level (Okun's law)", () => {
+  const unrate = load('unrate').values;
+  const gdp = load('gdp').values;
+  const level = A.gdpRegressionScan(unrate, 'M', gdp);
+  const change = A.gdpRegressionScan(A.regressorSeries(unrate, 'M', 'diff1'), 'M', gdp);
+  assert.ok(level.r2 < 0.05, `expected the level fit to stay weak, got r2=${level.r2}`);
+  assert.ok(change.r2 > 0.25, `expected the Okun's-law change fit to be strong, got r2=${change.r2}`);
+  assert.ok(change.b < 0, 'rising unemployment should imply falling GDP growth (negative slope)');
+});
+
 test('Sahm rule: flat series gives 0, a jump shows up', () => {
   const s = Array.from({ length: 24 }, (_, i) => [`x${i}`, i < 20 ? 4 : 5]);
   const out = A.sahm(s);

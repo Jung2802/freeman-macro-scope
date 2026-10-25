@@ -272,6 +272,38 @@ export function gdpRegression(series, freq, gdpSeries, { lead = 0, from = '1985'
 
 export const implied = (reg, x) => reg.a + reg.b * x;
 
+// Period-over-period change (first difference) with a given lag, at the series' own frequency.
+export function changeSeries(series, lag = 1) {
+  const out = [];
+  for (let i = lag; i < series.length; i++) out.push([series[i][0], series[i][1] - series[i - lag][1]]);
+  return out;
+}
+
+// Period-over-period percentage change with a given lag (e.g. true year-over-year growth, in %,
+// for a stock-type series such as building permits — as opposed to changeSeries' absolute diff).
+export function pctChangeSeries(series, lag = 1) {
+  const out = [];
+  for (let i = lag; i < series.length; i++) {
+    const base = series[i - lag][1];
+    if (base !== 0) out.push([series[i][0], ((series[i][1] / base) - 1) * 100]);
+  }
+  return out;
+}
+
+// Resolves a named regressor transform against a raw series, for use as the x variable of a GDP
+// (or other target) regression: 'level' (unchanged), 'diff1' (period-over-period change, e.g.
+// Okun's Law's ΔUnemployment), 'diffQ' (change over one quarter), 'yoy' (change over one year),
+// 'yoyPct' (percentage change over one year, for stock-type series like permits/starts, where the
+// standard convention is a growth rate, not an absolute difference in thousands of units).
+// Only meant for the regression itself — the rest of an indicator page keeps showing the level.
+export function regressorSeries(series, freq, kind) {
+  if (!kind || kind === 'level') return series;
+  if (kind === 'yoyPct') return pctChangeSeries(series, PERIODS_PER_YEAR[freq]);
+  const perQuarter = Math.max(1, Math.round(PERIODS_PER_YEAR[freq] / 4));
+  const lag = kind === 'diff1' ? 1 : kind === 'diffQ' ? perQuarter : kind === 'yoy' ? PERIODS_PER_YEAR[freq] : 1;
+  return changeSeries(series, lag);
+}
+
 // Shift a quarterly "YYYY-MM" label by n quarters (n may be negative).
 export function shiftQuarter(label, n) {
   const y = +label.slice(0, 4), q = Math.floor((+label.slice(5, 7) - 1) / 3);

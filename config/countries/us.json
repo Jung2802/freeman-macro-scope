@@ -86,6 +86,7 @@
       "zones": { "above": { "de": "Expansion", "en": "Expansion" }, "below": { "de": "Kontraktion", "en": "Contraction" } },
       "direction": 1,
       "gdpRegression": true,
+      "regressorTransform": "diffQ",
       "license": "citation",
       "replaces": { "de": "Ersetzt den ISM Services PMI (früher NMI). ISM-Daten sind nur für private, nicht-kommerzielle Nutzung lizenziert.", "en": "Replaces the ISM Services PMI (formerly NMI). ISM data is licensed for personal, non-commercial use only." },
       "sources": [
@@ -97,8 +98,8 @@
         "en": "Average of the general business activity index from the Philadelphia and Dallas Fed service-sector surveys. Services account for roughly four fifths of US output."
       },
       "interpretation": {
-        "de": "Werte über 0: mehr Dienstleister melden steigende Aktivität als sinkende. Werte unter 0: umgekehrt.",
-        "en": "Above 0: more service firms report rising than falling activity. Below 0: the reverse."
+        "de": "Werte über 0: mehr Dienstleister melden steigende Aktivität als sinkende. Werte unter 0: umgekehrt. In der BIP-Scorecard wird nicht das Niveau des Index gegen das BIP geschätzt, sondern seine Veränderung gegenüber dem Vorquartal (R² 0,24 statt 0,08 beim Niveau, Stand 2026-10) — die Richtungsänderung der Stimmung erklärt die BIP-Schwankung deutlich besser als ihr absoluter Stand.",
+        "en": "Above 0: more service firms report rising than falling activity. Below 0: the reverse. The GDP scorecard regresses not the index's level against GDP but its change versus the prior quarter (R² 0.24 vs. 0.08 for the level, as of 2026-10) — the shift in sentiment explains GDP variation noticeably better than its absolute reading."
       }
     },
     {
@@ -146,6 +147,7 @@
       "zones": { "above": { "de": "Stark", "en": "Strong" }, "below": { "de": "Schwach", "en": "Weak" } },
       "direction": 1,
       "gdpRegression": true,
+      "regressorTransform": "yoyPct",
       "license": "public",
       "sources": [
         { "name": "U.S. Census Bureau – New Residential Construction", "url": "https://www.census.gov/construction/nrc/index.html" }
@@ -155,8 +157,8 @@
         "en": "Newly authorised private housing units. Permits precede construction and are therefore a leading indicator for building activity, related consumption and employment."
       },
       "interpretation": {
-        "de": "Als Schwelle dient der historische Median der Reihe. Darüber: überdurchschnittliche Genehmigungstätigkeit.",
-        "en": "The threshold is the series' historical median. Above it: above-average permit activity."
+        "de": "Als Schwelle dient der historische Median der Reihe. Darüber: überdurchschnittliche Genehmigungstätigkeit. In der BIP-Scorecard wird die prozentuale Wachstumsrate ggü. Vorjahr verwendet, nicht das Niveau (R² 0,18 statt 0,11, Stand 2026-10) — die übliche Darstellung des Baugenehmigungszyklus in der Konjunkturberichterstattung.",
+        "en": "The threshold is the series' historical median. Above it: above-average permit activity. The GDP scorecard uses the year-over-year percentage growth rate rather than the level (R² 0.18 vs. 0.11, as of 2026-10) — the standard way the permits cycle is reported in economic commentary."
       }
     },
     {
@@ -175,6 +177,7 @@
       "zones": { "above": { "de": "Stark", "en": "Strong" }, "below": { "de": "Schwach", "en": "Weak" } },
       "direction": 1,
       "gdpRegression": true,
+      "regressorTransform": "yoyPct",
       "license": "public",
       "sources": [
         { "name": "U.S. Census Bureau – New Residential Construction", "url": "https://www.census.gov/construction/nrc/index.html" }
@@ -184,8 +187,8 @@
         "en": "Number of private residential projects started. Complements permits: permits show intent, starts show actual execution."
       },
       "interpretation": {
-        "de": "Als Schwelle dient der historische Median. Ein großer Abstand zwischen Genehmigungen und Baubeginnen zeigt einen Rückstau oder ein Auslaufen der Pipeline.",
-        "en": "The threshold is the historical median. A wide gap between permits and starts indicates a backlog or a draining pipeline."
+        "de": "Als Schwelle dient der historische Median. Ein großer Abstand zwischen Genehmigungen und Baubeginnen zeigt einen Rückstau oder ein Auslaufen der Pipeline. In der BIP-Scorecard wird ebenfalls die prozentuale Wachstumsrate ggü. Vorjahr verwendet statt des Niveaus (R² 0,16 statt 0,12, Stand 2026-10), aus demselben Grund wie bei den Baugenehmigungen.",
+        "en": "The threshold is the historical median. A wide gap between permits and starts indicates a backlog or a draining pipeline. The GDP scorecard likewise uses the year-over-year percentage growth rate rather than the level (R² 0.16 vs. 0.12, as of 2026-10), for the same reason as building permits."
       }
     },
     {
@@ -568,6 +571,7 @@
       "zones": { "above": { "de": "Überdurchschnittlich", "en": "Above average" }, "below": { "de": "Unterdurchschnittlich", "en": "Below average" } },
       "direction": 1,
       "gdpRegression": true,
+      "regressorTransform": "diff1",
       "license": "public",
       "sources": [
         { "name": "U.S. Bureau of Labor Statistics – Current Employment Statistics (Employment Situation Report)", "url": "https://www.bls.gov/ces/" }
@@ -577,8 +581,8 @@
         "en": "Number of nonfarm employees from the monthly Employment Situation Report. Shown is the 12-month growth rate as in the original analysis. The monthly change in thousands is in the data table."
       },
       "interpretation": {
-        "de": "Das Beschäftigungswachstum spiegelt die Einkommensbasis des Konsums wider. Anhaltend negative Raten traten historisch nur in Rezessionen auf.",
-        "en": "Payroll growth reflects the income base for consumption. Persistently negative rates have historically occurred only in recessions."
+        "de": "Das Beschäftigungswachstum spiegelt die Einkommensbasis des Konsums wider. Anhaltend negative Raten traten historisch nur in Rezessionen auf. In der BIP-Scorecard wird nicht die Wachstumsrate selbst verwendet, sondern deren monatliche Veränderung — ob das Jobwachstum gerade an Tempo gewinnt oder verliert (R² 0,13 statt 0,08, Stand 2026-10).",
+        "en": "Payroll growth reflects the income base for consumption. Persistently negative rates have historically occurred only in recessions. The GDP scorecard uses not the growth rate itself but its month-over-month change — whether job growth is currently accelerating or decelerating (R² 0.13 vs. 0.08, as of 2026-10)."
       }
     },
     {
@@ -597,6 +601,7 @@
       "zones": { "above": { "de": "Über Median", "en": "Above median" }, "below": { "de": "Unter Median", "en": "Below median" } },
       "direction": -1,
       "gdpRegression": true,
+      "regressorTransform": "diff1",
       "sahm": true,
       "license": "public",
       "sources": [
@@ -607,8 +612,8 @@
         "en": "Unemployed persons as a share of the labour force (household survey). The Sahm rule is also computed: the rise of the 3-month average versus its low of the prior 12 months."
       },
       "interpretation": {
-        "de": "Ein Sahm-Wert von 0,5 Prozentpunkten oder mehr fiel historisch mit dem Beginn von US-Rezessionen zusammen. Das ist eine statistische Beobachtung, keine Prognose.",
-        "en": "A Sahm reading of 0.5 percentage points or more has historically coincided with the start of US recessions. This is a statistical observation, not a forecast."
+        "de": "Ein Sahm-Wert von 0,5 Prozentpunkten oder mehr fiel historisch mit dem Beginn von US-Rezessionen zusammen. Das ist eine statistische Beobachtung, keine Prognose. In der BIP-Scorecard wird nach dem Okun'schen Gesetz die monatliche Veränderung der Quote verwendet, nicht ihr Niveau — ihr Niveau allein erklärt praktisch nichts vom BIP-Wachstum (R² 0,01), die monatliche Veränderung dagegen deutlich mehr (R² 0,34, Stand 2026-10): steigt die Quote, schrumpft die Wirtschaft typischerweise, und umgekehrt.",
+        "en": "A Sahm reading of 0.5 percentage points or more has historically coincided with the start of US recessions. This is a statistical observation, not a forecast. Following Okun's law, the GDP scorecard uses the rate's month-over-month change rather than its level — the level alone explains almost nothing of GDP growth (R² 0.01), while the monthly change explains considerably more (R² 0.34, as of 2026-10): when the rate rises, the economy typically contracts, and vice versa."
       }
     },
     {
@@ -627,6 +632,7 @@
       "zones": { "above": { "de": "Über Median", "en": "Above median" }, "below": { "de": "Unter Median", "en": "Below median" } },
       "direction": -1,
       "gdpRegression": true,
+      "regressorTransform": "diffQ",
       "license": "public",
       "sources": [
         { "name": "U.S. Department of Labor – Unemployment Insurance Weekly Claims", "url": "https://oui.doleta.gov/unemploy/claims.asp" }
@@ -636,8 +642,8 @@
         "en": "Weekly initial claims for unemployment insurance, shown here as a monthly average. The most timely labour-market indicator because it is published weekly."
       },
       "interpretation": {
-        "de": "Steigende Erstanträge zeigen zunehmende Entlassungen. Für die Einordnung ist der Trend über mehrere Monate aussagekräftiger als ein einzelner Wert.",
-        "en": "Rising claims indicate increasing layoffs. For context the multi-month trend is more informative than a single reading."
+        "de": "Steigende Erstanträge zeigen zunehmende Entlassungen. Für die Einordnung ist der Trend über mehrere Monate aussagekräftiger als ein einzelner Wert — genau deshalb verwendet auch die BIP-Scorecard die Veränderung über ein Quartal statt des Niveaus (R² 0,21 statt 0,06, Stand 2026-10).",
+        "en": "Rising claims indicate increasing layoffs. For context the multi-month trend is more informative than a single reading — which is exactly why the GDP scorecard also uses the change over one quarter rather than the level (R² 0.21 vs. 0.06, as of 2026-10)."
       }
     },
     {
@@ -656,6 +662,7 @@
       "zones": { "above": { "de": "Über Median", "en": "Above median" }, "below": { "de": "Unter Median", "en": "Below median" } },
       "direction": 1,
       "gdpRegression": true,
+      "regressorTransform": "diffQ",
       "license": "public",
       "sources": [
         { "name": "U.S. Bureau of Labor Statistics – Job Openings and Labor Turnover Survey", "url": "https://www.bls.gov/jlt/" }
@@ -665,8 +672,8 @@
         "en": "Number of job openings on the last business day of the month. Shows companies' demand for labour."
       },
       "interpretation": {
-        "de": "Viele offene Stellen bei niedriger Arbeitslosigkeit deuten auf einen angespannten Arbeitsmarkt mit Lohndruck hin.",
-        "en": "Many openings combined with low unemployment indicate a tight labour market with wage pressure."
+        "de": "Viele offene Stellen bei niedriger Arbeitslosigkeit deuten auf einen angespannten Arbeitsmarkt mit Lohndruck hin. In der BIP-Scorecard wird die Veränderung über ein Quartal verwendet statt des Niveaus (R² 0,14 statt 0,03, Stand 2026-10) — wichtig ist, ob die Arbeitsnachfrage gerade zu- oder abnimmt, nicht ihr absoluter Stand.",
+        "en": "Many openings combined with low unemployment indicate a tight labour market with wage pressure. The GDP scorecard uses the change over one quarter rather than the level (R² 0.14 vs. 0.03, as of 2026-10) — what matters is whether labour demand is currently rising or falling, not its absolute level."
       }
     },
     {
