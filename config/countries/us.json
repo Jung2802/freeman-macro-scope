@@ -205,6 +205,7 @@
       "zones": { "above": { "de": "Überdurchschnittlich", "en": "Above average" }, "below": { "de": "Unterdurchschnittlich", "en": "Below average" } },
       "direction": 1,
       "gdpRegression": true,
+      "regressionTarget": "cpi",
       "license": "public",
       "sources": [
         { "name": "Board of Governors of the Federal Reserve System – H.6 Money Stock Measures", "url": "https://www.federalreserve.gov/releases/h6/" }
@@ -214,8 +215,8 @@
         "en": "M2 comprises currency, demand deposits, savings deposits, small time deposits and retail money market funds. Its growth rate shows how fast liquidity in the economy expands or contracts."
       },
       "interpretation": {
-        "de": "Wie in der Originalanalyse wird die Verteilung der Veränderungen mit Standardabweichungs-Bändern ausgewertet. Ausschläge jenseits von 2σ sind historisch selten und fielen oft mit Krisen- oder Notenbankmaßnahmen zusammen.",
-        "en": "As in the original analysis, the distribution of changes is evaluated with standard-deviation bands. Moves beyond 2σ are historically rare and often coincided with crises or central-bank action."
+        "de": "Wie in der Originalanalyse wird die Verteilung der Veränderungen mit Standardabweichungs-Bändern ausgewertet. Ausschläge jenseits von 2σ sind historisch selten und fielen oft mit Krisen- oder Notenbankmaßnahmen zusammen. M2 wirkt auf die Wirtschaft primär über die Inflation (M2 ↑↑ → Inflation ↑↑ → Notenbank strafft → Aktien/Wachstum unter Druck), nicht direkt auf das BIP — die Scorecard vergleicht M2 deshalb mit der Inflation (CPI), nicht mit dem BIP-Wachstum (nach Anton Kreil, PFTM-Kurs Video 8; Beleg 2020-23: M2-Boom ging der höchsten Inflation seit 40 Jahren voraus, die anschließende M2-Schrumpfung dem Rückgang der Inflation 2023).",
+        "en": "As in the original analysis, the distribution of changes is evaluated with standard-deviation bands. Moves beyond 2σ are historically rare and often coincided with crises or central-bank action. M2 affects the economy mainly through inflation (M2 ↑↑ → inflation ↑↑ → central bank tightens → stocks/growth under pressure), not directly through GDP — its scorecard therefore compares M2 with inflation (CPI) rather than GDP growth (per Anton Kreil's PFTM course, Video 8; evidence 2020-23: the M2 boom preceded the highest inflation in 40 years, and the subsequent M2 contraction preceded the 2023 disinflation)."
       }
     },
     {

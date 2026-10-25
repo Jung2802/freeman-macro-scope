@@ -71,6 +71,35 @@ test('monthly → quarterly keeps only complete quarters', () => {
   assert.deepEqual(q, [['2020-01', 2]]);
 });
 
+test('shiftQuarter moves across quarter and year boundaries, including negative shifts', () => {
+  assert.equal(A.shiftQuarter('2020-01', 1), '2020-04');
+  assert.equal(A.shiftQuarter('2020-10', 1), '2021-01');
+  assert.equal(A.shiftQuarter('2021-01', -1), '2020-10');
+  assert.equal(A.shiftQuarter('2020-01', 0), '2020-01');
+});
+
+test('gdpRegressionScan picks the lead with the best fit, not just lead 0', () => {
+  // x leads y by 2 quarters: y(t) = 3 + 2 * x(t-2). A same-quarter (lead 0) fit should be much
+  // weaker than the lead-2 fit, so the scan must find lead 2, not default to 0.
+  const n = 40;
+  const x = Array.from({ length: n }, (_, i) => [`${1985 + Math.floor(i / 4)}-${String((i % 4) * 3 + 1).padStart(2, '0')}`, Math.sin(i / 3) * 5 + 10]);
+  const y = x.map((p, i) => [p[0], i >= 2 ? 3 + 2 * x[i - 2][1] : 0]);
+  const scan = A.gdpRegressionScan(x, 'Q', y, { leads: [0, 1, 2, 3, 4], from: '1985' });
+  assert.equal(scan.lead, 2);
+  assert.ok(scan.r2 > 0.95, `expected a near-perfect fit at the true lead, got r2=${scan.r2}`);
+  assert.equal(scan.profile.length, 5);
+});
+
+test('real data: M2 explains far more of CPI inflation (its real transmission channel, per PFTM) than of GDP directly', () => {
+  const m2 = load('m2').values;
+  const cpiQ = A.toQuarterly(load('cpi').values, 'M');
+  const gdp = load('gdp').values;
+  const vsCpi = A.gdpRegressionScan(m2, 'M', cpiQ);
+  const vsGdp = A.gdpRegressionScan(m2, 'M', gdp);
+  assert.ok(vsCpi.r2 > 0.05, `expected a non-trivial M2→CPI fit, got r2=${vsCpi.r2}`);
+  assert.ok(vsCpi.r2 > vsGdp.r2 * 3, `expected M2→CPI (r2=${vsCpi.r2}) to clearly beat M2→GDP (r2=${vsGdp.r2})`);
+});
+
 test('Sahm rule: flat series gives 0, a jump shows up', () => {
   const s = Array.from({ length: 24 }, (_, i) => [`x${i}`, i < 20 ? 4 : 5]);
   const out = A.sahm(s);

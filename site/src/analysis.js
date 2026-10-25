@@ -272,6 +272,31 @@ export function gdpRegression(series, freq, gdpSeries, { lead = 0, from = '1985'
 
 export const implied = (reg, x) => reg.a + reg.b * x;
 
+// Shift a quarterly "YYYY-MM" label by n quarters (n may be negative).
+export function shiftQuarter(label, n) {
+  const y = +label.slice(0, 4), q = Math.floor((+label.slice(5, 7) - 1) / 3);
+  const idx = y * 4 + q + n;
+  const ny = Math.floor(idx / 4), nq = idx - ny * 4;
+  return `${ny}-${String(nq * 3 + 1).padStart(2, '0')}`;
+}
+
+// Default leads tested when auto-selecting the regression horizon, in quarters (0–8 ≈ up to 2 years).
+export const LEAD_SCAN_QUARTERS = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
+// Scans several lead horizons and keeps the one with the highest R² (same 12-quarter minimum as
+// gdpRegression). Exposes the full profile so the chosen lead is auditable rather than a fixed
+// assumption — PTM/PFTM (Kreil, Video 7: "Frühindikatoren ... 12-18 Monate Vorlauf") call this a
+// Lead/Lag-Test: a claimed lead must be checked against the data, never taken at face value (the
+// cross-analysis of the PTM/PFTM material found Kreil's own lead claims often don't hold exactly).
+export function gdpRegressionScan(series, freq, targetSeries, { leads = LEAD_SCAN_QUARTERS, from = '1985' } = {}) {
+  const profile = leads
+    .map((lead) => ({ lead, reg: gdpRegression(series, freq, targetSeries, { lead, from }) }))
+    .filter((p) => p.reg);
+  if (!profile.length) return null;
+  const best = profile.reduce((m, p) => (p.reg.r2 > m.reg.r2 ? p : m));
+  return { ...best.reg, lead: best.lead, profile: profile.map((p) => ({ lead: p.lead, r2: p.reg.r2, n: p.reg.n })) };
+}
+
 // ── labour market: Sahm rule ────────────────────────────────────────────────
 
 export function sahm(series) {

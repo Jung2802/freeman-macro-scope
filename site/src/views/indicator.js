@@ -16,11 +16,13 @@ export async function renderIndicator(el, { country, id, tab }) {
   const ind = indicatorById(cfg, id);
   if (!ind) { el.innerHTML = `<div class="empty">${t('err.notFound')}</div>`; return () => {}; }
   const cat = categoryOf(cfg, ind);
+  const targetId = ind.regressionTarget || cfg.gdpIndicator;
+  const targetInd = ind.gdpRegression ? indicatorById(cfg, targetId) : null;
   const [data, index, recessions, gdpData] = await Promise.all([
     loadSeries(country, id),
     loadIndex(country),
     loadRecessions(country),
-    ind.gdpRegression ? loadSeries(country, cfg.gdpIndicator).catch(() => null) : null,
+    ind.gdpRegression ? loadSeries(country, targetId).catch(() => null) : null,
   ]);
 
   const f = ind.frequency;
@@ -39,8 +41,13 @@ export async function renderIndicator(el, { country, id, tab }) {
   const isAbove = (v) => v >= thr;
   const zoneOf = (v) => L(isAbove(v) ? ind.zones.above : ind.zones.below);
   const thrLabel = `${t('ind.threshold')} ${fmtV(thr)}${typeof ind.threshold === 'string' ? ` (${t('thr.' + ind.threshold)})` : ''}`;
-  const reg = gdpData ? A.gdpRegression(series, f, gdpData.values) : null;
-  const regLead = gdpData ? A.gdpRegression(series, f, gdpData.values, { lead: 1 }) : null;
+  // Lead/Lag-Test (PTM/PFTM, Video 7): scan 0–8 quarters instead of assuming same-quarter or a
+  // fixed 1-quarter lead, and keep the whole profile so the chosen horizon is auditable. The
+  // target series is quarterly-averaged first (toQuarterly is a no-op if it's already quarterly,
+  // e.g. GDP) so a monthly target like CPI isn't reduced to its quarter-start-month reading.
+  const gdpSeriesQ = gdpData ? A.toQuarterly(gdpData.values, targetInd.frequency) : null;
+  const reg = gdpSeriesQ ? A.gdpRegressionScan(series, f, gdpSeriesQ) : null;
+  const targetName = targetInd ? L(targetInd.short) : '';
   const latest = vals[vals.length - 1];
   const prev = vals[vals.length - 2];
   const yAgo = vals.length > ppy ? vals[vals.length - 1 - ppy] : null;
@@ -57,7 +64,7 @@ export async function renderIndicator(el, { country, id, tab }) {
     ['trend', t('tab.trend')],
     ...(f !== 'A' ? [['heatmap', t('tab.heatmap')]] : []),
     ['stats', t('tab.stats')],
-    ...(reg ? [['gdp', t('tab.gdp')]] : []),
+    ...(reg ? [['gdp', targetName ? t('tab.scorecard', { target: targetName }) : t('tab.gdp')]] : []),
     ...(ind.cycles ? [['cycles', t('tab.cycles')]] : []),
     ['table', t('tab.table')],
     ['info', t('tab.info')],
@@ -389,42 +396,54 @@ export async function renderIndicator(el, { country, id, tab }) {
 
     gdp() {
       const p = panel('gdp');
-      const gd = gdpData.values;
+      const gd = gdpSeriesQ;
       const q = A.toQuarterly(series, f);
       const gdpMap = new Map(gd);
       const impliedNow = A.implied(reg, latest);
       const q20 = q.slice(-80);
       const steps = scorecardSteps(vals, d);
+      const lead = reg.lead ?? 0;
+      const leadLabel = lead ? t('gdp.leadQ', { n: lead, m: Math.round(lead * 3) }) : t('gdp.leadZero');
+      const isOutlier = (l) => A.GDP_OUTLIERS.has(l) || A.GDP_OUTLIERS.has(A.shiftQuarter(l, lead));
+      const bestR2 = Math.max(...reg.profile.map((x) => x.r2));
       p.innerHTML = `
         <div class="info-box">
-          <strong>${t('gdp.title', { name: L(ind.short) })}</strong> — ${t('gdp.method', { from: reg.from, n: reg.n })}<br>
-          ${t('gdp.formula')} <span class="mono">GDP ≈ ${num(reg.a, 2)} ${reg.b >= 0 ? '+' : '−'} ${num(Math.abs(reg.b), 3)} × x</span> · R² ${num(reg.r2, 2)}
-          ${reg.r2 < 0.2 ? `<br><span class="warn-text">${t('gdp.weak')}</span>` : ''}
+          <strong>${t('gdp.title', { name: L(ind.short), target: targetName })}</strong> — ${t(lead ? 'gdp.method' : 'gdp.methodNoLead', { target: targetName, lead, from: reg.from, n: reg.n })}<br>
+          ${t('gdp.formula')} <span class="mono">${esc(targetInd.code)} ≈ ${num(reg.a, 2)} ${reg.b >= 0 ? '+' : '−'} ${num(Math.abs(reg.b), 3)} × x</span> · R² ${num(reg.r2, 2)}
+          ${reg.r2 < 0.05 ? `<br><span class="warn-text-strong">${t('gdp.veryWeak')}</span>` : reg.r2 < 0.2 ? `<br><span class="warn-text">${t('gdp.weak')}</span>` : ''}
         </div>
         <div class="metrics">
-          ${metric(t('gdp.implied'), `${signed(impliedNow, 1)} %`, t('gdp.impliedSub', { v: fmtV(latest) }), impliedNow >= 0 ? 'pos' : 'neg')}
-          ${metric(t('gdp.actual'), `${signed(gd[gd.length - 1][1], 1)} %`, period(gd[gd.length - 1][0], 'Q'), 'blue')}
-          ${metric('R²', num(reg.r2, 2), t('gdp.r2Sub'), 'purple')}
-          ${metric(t('gdp.slope'), signed(reg.b, 3), t('gdp.slopeSub', { u: unit }))}
+          ${metric(t('gdp.implied', { target: targetName }), `${signed(impliedNow, 1)} %`, t(lead ? 'gdp.impliedSubLead' : 'gdp.impliedSub', { v: fmtV(latest), lead }), impliedNow >= 0 ? 'pos' : 'neg')}
+          ${metric(t('gdp.actual', { target: targetName }), `${signed(gd[gd.length - 1][1], 1)} %`, period(gd[gd.length - 1][0], 'Q'), 'blue')}
+          ${metric('R²', num(reg.r2, 2), t('gdp.r2Sub', { target: targetName }), 'purple')}
+          ${metric(t('gdp.slope'), signed(reg.b, 3), t('gdp.slopeSub', { target: targetName, u: unit }))}
           ${metric(t('gdp.se'), `± ${num(reg.se, 1)} pp`, t('gdp.seSub'))}
-          ${regLead ? metric(t('gdp.lead'), num(regLead.r2, 2), t('gdp.leadSub')) : ''}
+          ${metric(t('gdp.lead'), leadLabel, t('gdp.leadSub'))}
         </div>
         <div class="chart-card">
-          <div class="chart-title"><span class="dot" style="background:${C.green}"></span>${t('gdp.chart')}</div>
+          <div class="chart-title"><span class="dot" style="background:${C.gold}"></span>${t('gdp.leadProfile')}</div>
+          <p class="fine">${t('gdp.leadProfileIntro')}</p>
+          <div class="scorecard-wrap"><table class="scorecard-table">
+            <thead><tr><th></th>${reg.profile.map((x) => `<th class="${x.lead === lead ? 'current' : ''}">${x.lead}</th>`).join('')}</tr></thead>
+            <tbody><tr><th>R²</th>${reg.profile.map((x) => `<td class="${x.r2 === bestR2 ? 'sc-good' : ''}">${num(x.r2, 2)}</td>`).join('')}</tr></tbody>
+          </table></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title"><span class="dot" style="background:${C.green}"></span>${t('gdp.chart', { target: targetName })}</div>
           <div class="legend">
             <span class="legend-item"><span class="legend-box" style="background:${C.green}"></span>${t('gdp.impliedLine')}</span>
-            <span class="legend-item"><span class="legend-box" style="background:${C.text2}"></span>${t('gdp.actualBars')}</span>
+            <span class="legend-item"><span class="legend-box" style="background:${C.text2}"></span>${t('gdp.actualBars', { target: targetName })}</span>
           </div>
           <div class="chart-box h-lg"><canvas id="c-gdp"></canvas></div>
         </div>
         <div class="charts-grid">
-          <div class="chart-card"><div class="chart-title"><span class="dot" style="background:${accent}"></span>${t('gdp.scatter')}</div><div class="chart-box h-md"><canvas id="c-scatter"></canvas></div></div>
+          <div class="chart-card"><div class="chart-title"><span class="dot" style="background:${accent}"></span>${t('gdp.scatter', { target: targetName })}</div><div class="chart-box h-md"><canvas id="c-scatter"></canvas></div></div>
           <div class="chart-card">
-            <div class="chart-title"><span class="dot" style="background:${C.gold}"></span>${t('gdp.scorecard')}</div>
+            <div class="chart-title"><span class="dot" style="background:${C.gold}"></span>${t('gdp.scorecard', { target: targetName })}</div>
             <p class="fine">${t('gdp.scorecardIntro')}</p>
-            <div class="scorecard-wrap"><table class="scorecard-table">
+            <div class="scorecard-wrap"><table class="scorecard-table${reg.r2 < 0.05 ? ' weak' : ''}">
               <thead><tr><th>${esc(ind.code)}</th>${steps.map((s) => `<th class="${Math.abs(s - latest) === Math.min(...steps.map((x) => Math.abs(x - latest))) ? 'current' : ''}">${num(s, Math.min(d, 1))}</th>`).join('')}</tr></thead>
-              <tbody><tr><th>^GDP %</th>${steps.map((s) => { const g = A.implied(reg, s); return `<td class="${g > 0 ? 'sc-good' : g < 0 ? 'sc-bad' : ''}">${signed(g, 1)}</td>`; }).join('')}</tr></tbody>
+              <tbody><tr><th>^${esc(targetInd.code)} %</th>${steps.map((s) => { const g = A.implied(reg, s); return `<td class="${g > 0 ? 'sc-good' : g < 0 ? 'sc-bad' : ''}">${signed(g, 1)}</td>`; }).join('')}</tr></tbody>
             </table></div>
           </div>
         </div>
@@ -433,7 +452,7 @@ export async function renderIndicator(el, { country, id, tab }) {
       charts.add(barChart(canvas('#c-gdp'), {
         labels: lb, xFmt: (l) => period(l, 'Q'),
         datasets: [
-          { type: 'bar', label: t('gdp.actualBars'), data: lb.map((l) => (A.GDP_OUTLIERS.has(l) ? null : gdpMap.get(l) ?? null)), backgroundColor: rgba(C.text2, 0.35), borderWidth: 0, borderRadius: 2, order: 2 },
+          { type: 'bar', label: t('gdp.actualBars', { target: targetName }), data: lb.map((l) => (isOutlier(l) ? null : gdpMap.get(A.shiftQuarter(l, lead)) ?? null)), backgroundColor: rgba(C.text2, 0.35), borderWidth: 0, borderRadius: 2, order: 2 },
           { type: 'line', label: t('gdp.impliedLine'), data: q20.map((x) => A.implied(reg, x[1])), borderColor: C.green, borderWidth: 1.8, pointRadius: 0, tension: 0.3, order: 1 },
         ],
         yFmt: (v) => `${signed(v, 0)}%`,
@@ -476,7 +495,7 @@ export async function renderIndicator(el, { country, id, tab }) {
           <thead><tr>
             <th>${t('tbl.period')}</th><th>${esc(L(ind.short))}</th><th>Δ</th>
             ${baseMap ? `<th>${esc(L(ind.base.unit))}</th>${ind.base.showChange ? `<th>Δ ${esc(L(ind.base.unit))}</th>` : ''}` : ''}
-            <th>${t('tbl.zone')}</th><th>${t('c.avg')}</th>${reg ? '<th>Impl. ^GDP %</th>' : ''}
+            <th>${t('tbl.zone')}</th><th>${t('c.avg')}</th>${reg ? `<th>Impl. ^${esc(targetInd.code)} %</th>` : ''}
           </tr></thead>
           <tbody>${rows.map(({ pt: [l, v], i }) => {
             const c = chg[i];
@@ -488,7 +507,7 @@ export async function renderIndicator(el, { country, id, tab }) {
           }).join('')}</tbody>
         </table></div>`;
       p.querySelector('#csv').addEventListener('click', () => {
-        const head = ['period', ind.id, 'change', ...(baseMap ? ['base'] : []), 'zone', 'rolling_avg', ...(reg ? ['implied_gdp'] : [])];
+        const head = ['period', ind.id, 'change', ...(baseMap ? ['base'] : []), 'zone', 'rolling_avg', ...(reg ? [`implied_${targetInd.id}`] : [])];
         const lines = series.map(([l, v], i) => [l, v, chg[i] ?? '', ...(baseMap ? [baseMap.get(l) ?? ''] : []), isAbove(v) ? 'above' : 'below', roll[i] ?? '', ...(reg ? [A.implied(reg, v).toFixed(2)] : [])].join(','));
         const src = `# ${L(ind.name)} – ${ind.sources.map((s) => s.name).join('; ')} – via FreemanMacroScope\n`;
         const blob = new Blob([src + head.join(',') + '\n' + lines.join('\n')], { type: 'text/csv' });

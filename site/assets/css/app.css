@@ -47,6 +47,7 @@ main { flex: 1; width: 100%; max-width: calc(var(--max) + 2 * var(--pad)); margi
 .mono { font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
 .fine { font-size: 12px; color: var(--text3); margin: 10px 0 12px; }
 .warn-text { color: var(--gold); }
+.warn-text-strong { color: var(--red); font-weight: 500; }
 .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; flex: none; }
 .eyebrow { font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--text2); font-weight: 400; }
 
@@ -268,6 +269,7 @@ td.src a { color: var(--text2); }
 .scorecard-table th.current { color: var(--green); background: rgba(163,196,232,0.08); }
 .scorecard-table .sc-good { color: var(--green); }
 .scorecard-table .sc-bad { color: var(--red); }
+.scorecard-table.weak { opacity: 0.55; }
 
 /* heat map */
 .heatmap { display: grid; gap: 2px; min-width: 640px; }

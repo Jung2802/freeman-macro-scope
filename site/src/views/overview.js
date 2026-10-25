@@ -1,5 +1,5 @@
 import { loadAll } from '../data.js';
-import { cycles, lastYears, values, SCORE_MAX, sum } from '../analysis.js';
+import { cycles, lastYears, values, SCORE_MAX, sum, gdpRegressionScan, implied } from '../analysis.js';
 import { sparkline, zoneColors, C } from '../charts.js';
 import { t, tc, L } from '../i18n.js';
 import { num, signed, period, dateTime, esc } from '../format.js';
@@ -79,6 +79,25 @@ export async function renderOverview(el, { country }) {
   const group = cfg.groups[0];
 
   const latestMonth = ok.filter((x) => x.ind.frequency === 'M').map((x) => x.data.last).sort().pop()?.slice(0, 7);
+
+  // Combined GDP nowcast: a weighted blend of every indicator whose own regression (lead/lag-
+  // tested, see the indicator page) still explains a meaningful share of GDP growth (R² ≥ 0.15).
+  // This is what directly answers "does X feed into the GDP score": weak/flat regressions (e.g.
+  // M2, whose real transmission channel is inflation, not GDP, see Methodik) are excluded here on
+  // their merits rather than silently diluting the blend with noise — M2 still counts in the main
+  // total score above via its own direction/momentum score, just not in this GDP-specific nowcast.
+  // Deliberately looser than the per-indicator "weak" warning at R² 0.2 (indicator.js): a part
+  // here is still weighted by its own R², so a 0.15-0.2 entry is already discounted rather than
+  // silently averaged in at full weight, whereas a single indicator's own page has no such weighting.
+  const GDP_NOWCAST_MIN_R2 = 0.15;
+  const gdpItem = ok.find((x) => x.ind.id === cfg.gdpIndicator);
+  const nowcastParts = gdpItem ? ok
+    .filter((x) => x.ind.gdpRegression && (!x.ind.regressionTarget || x.ind.regressionTarget === cfg.gdpIndicator) && x.ind.id !== cfg.gdpIndicator)
+    .map((x) => ({ ind: x.ind, scan: gdpRegressionScan(x.data.values, x.ind.frequency, gdpItem.data.values), latest: values(x.data.values).at(-1) }))
+    .filter((x) => x.scan && x.scan.r2 >= GDP_NOWCAST_MIN_R2)
+    .map((x) => ({ ...x, value: implied(x.scan, x.latest) })) : [];
+  const nowcastWeight = sum(nowcastParts.map((x) => x.scan.r2));
+  const nowcastValue = nowcastParts.length ? sum(nowcastParts.map((x) => x.value * x.scan.r2)) / nowcastWeight : null;
 
   const catBlocks = cfg.categories.map((cat) => {
     const its = ok.filter((x) => x.ind.category === cat.id);
@@ -191,6 +210,19 @@ export async function renderOverview(el, { country }) {
     <div class="score-cats">${catBars}</div>
     <p class="fine">${tc(cfg, 'ov.scoreLegend')}</p>
   </section>
+
+  ${nowcastParts.length ? `<section class="chart-card">
+    <div class="chart-title"><span class="dot" style="background:${C.purple}"></span>${t('ov.nowcastTitle')}</div>
+    <p class="fine">${t('ov.nowcastIntro', { n: nowcastParts.length, min: num(GDP_NOWCAST_MIN_R2, 2) })}</p>
+    <div class="metrics">
+      <div class="metric-card"><div class="metric-label">${t('ov.nowcastValue')}</div><div class="metric-value ${nowcastValue >= 0 ? 'pos' : 'neg'}">${signed(nowcastValue, 1)} %</div><div class="metric-sub">${t('gdp.actual', { target: L(gdpItem.ind.short) })}: ${signed(values(gdpItem.data.values).at(-1), 1)} %</div></div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>${t('tbl.indicator')}</th><th>R²</th><th>${t('gdp.lead')}</th><th>${t('ov.nowcastValue')}</th></tr></thead>
+      <tbody>${[...nowcastParts].sort((a, b) => b.scan.r2 - a.scan.r2).map((x) => `<tr><td><a href="#/${country}/${x.ind.id}/gdp">${esc(L(x.ind.short))}</a></td><td class="num">${num(x.scan.r2, 2)}</td><td class="num muted">${x.scan.lead}</td><td class="num ${x.value >= 0 ? 'pos' : 'neg'}">${signed(x.value, 1)} %</td></tr>`).join('')}</tbody>
+    </table></div>
+    <p class="source-note">${t('ov.nowcastNote')}</p>
+  </section>` : ''}
 
   <div class="toolbar" id="indicators">
     <input type="search" id="ind-filter" placeholder="${esc(t('ov.filter'))}" aria-label="${esc(t('ov.filter'))}">
