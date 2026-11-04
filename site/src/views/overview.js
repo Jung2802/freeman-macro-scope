@@ -197,7 +197,7 @@ export async function renderOverview(el, { country }) {
   <section class="hero">
     <div class="hero-copy">
       <p class="eyebrow">${esc(L(group.name))}</p>
-      <h1>${esc(L(cfg.name))}<br><span class="h1-line">${t('ov.heroLine', { n: ok.length })}</span></h1>
+      <h1>${esc(L(cfg.name))}<br><span class="h1-line">${t('ov.heroLine')}</span></h1>
       <p class="hero-sub">${tc(cfg, 'ov.subtitle')}</p>
       <div class="hero-actions">
         <a class="btn-primary" href="#indicators" data-scroll>${t('ov.toIndicators')} ${ARROW}</a>

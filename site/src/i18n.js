@@ -29,7 +29,7 @@ const STRINGS = {
     'world.note.us': 'USA: Inflation = CPI, Zinskurve = 10J–2J, Einzelhandel nominal.',
 
     'ov.title': '{country} – Makro-Überblick',
-    'ov.heroLine': 'in {n} Indikatoren', 'ov.toWorld': 'Länder vergleichen', 'ov.totalShort': 'Gesamt-Score', 'ov.toIndicators': 'Zu den Indikatoren', 'ov.terms': 'Begriffe einfach erklärt',
+    'ov.heroLine': 'Was die Märkte bewegt.', 'ov.toWorld': 'Länder vergleichen', 'ov.totalShort': 'Gesamt-Score', 'ov.toIndicators': 'Zu den Indikatoren', 'ov.terms': 'Begriffe einfach erklärt',
     'ov.subtitle': 'Wie steht die Wirtschaft da? Die wichtigsten Daten zu Konjunktur, Geld, Zinsen, Preisen und Jobs an einem Ort, einfach bewertet und mit Quellen.',
     'ov.dataAsOf': 'Datenstand:', 'ov.autoUpdate': 'Wird jeden Werktag automatisch aktualisiert.',
     'ov.totalScore': 'Gesamt-Score (Saldo aller bewerteten Indikatoren)',
@@ -183,7 +183,7 @@ const STRINGS = {
     'world.note.us': 'US: inflation = CPI, yield curve = 10Y–2Y, retail sales nominal.',
 
     'ov.title': '{country} – Macro Overview',
-    'ov.heroLine': 'in {n} indicators', 'ov.toWorld': 'Compare countries', 'ov.totalShort': 'Total score', 'ov.toIndicators': 'View indicators', 'ov.terms': 'Key terms explained',
+    'ov.heroLine': 'See what moves markets.', 'ov.toWorld': 'Compare countries', 'ov.totalShort': 'Total score', 'ov.toIndicators': 'View indicators', 'ov.terms': 'Key terms explained',
     'ov.subtitle': 'How is the economy doing? The key data on growth, money, rates, prices and jobs in one place, simply scored and with sources.',
     'ov.dataAsOf': 'Data as of:', 'ov.autoUpdate': 'Updated automatically every business day.',
     'ov.totalScore': 'Total score (sum of all scored indicators)',
