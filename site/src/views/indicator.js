@@ -145,7 +145,7 @@ export async function renderIndicator(el, { country, id, tab }) {
             <span class="legend-item"><span class="legend-box" style="background:${accent}"></span>${esc(L(ind.short))}</span>
             <span class="legend-item"><span class="legend-box" style="background:${rgba(zc.above, 0.35)}"></span>${esc(L(ind.zones.above))} (≥ ${fmtV(thr)})</span>
             <span class="legend-item"><span class="legend-box" style="background:${rgba(zc.below, 0.35)}"></span>${esc(L(ind.zones.below))} (&lt; ${fmtV(thr)})</span>
-            <span class="legend-item"><span class="legend-box" style="background:rgba(148,163,184,0.3)"></span>${t('ind.recession')}</span>
+            ${recessions.length ? `<span class="legend-item"><span class="legend-box" style="background:rgba(148,163,184,0.3)"></span>${t('ind.recession')}</span>` : ''}
           </div>
           <div class="chart-box h-lg"><canvas id="c-main"></canvas></div>
         </div>

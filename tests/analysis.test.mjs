@@ -152,15 +152,22 @@ test('cross-correlation: series leading itself by 2 peaks at lag 2', () => {
   assert.equal(best.lag, 2);
 });
 
-test('real data: every indicator file is well-formed and recent', () => {
-  const cfg = JSON.parse(readFileSync(new URL('../site/data/us/config.json', import.meta.url)));
-  for (const ind of cfg.indicators) {
-    const d = load(ind.id);
-    assert.ok(d.values.length > 20, `${ind.id} too short`);
-    for (const [, v] of d.values) assert.ok(Number.isFinite(v), `${ind.id} has non-finite value`);
-    assert.equal(d.frequency, ind.frequency);
-    const labels = d.values.map((p) => p[0]);
-    assert.deepEqual(labels, [...labels].sort(), `${ind.id} not sorted`);
+test('real data: every indicator file of every country is well-formed', () => {
+  const json = (p) => JSON.parse(readFileSync(new URL(`../site/data/${p}`, import.meta.url)));
+  const countries = json('countries.json');
+  assert.ok(countries.length >= 9, `expected all dashboards in countries.json, got ${countries.length}`);
+  for (const { id } of countries) {
+    const cfg = json(`${id}/config.json`);
+    assert.ok(cfg.indicators.some((i) => i.id === cfg.gdpIndicator) || !cfg.gdpIndicator, `${id}: gdpIndicator missing`);
+    for (const ind of cfg.indicators) {
+      const d = json(`${id}/${ind.id}.json`);
+      assert.ok(d.values.length > 20, `${id}/${ind.id} too short`);
+      for (const [, v] of d.values) assert.ok(Number.isFinite(v), `${id}/${ind.id} has non-finite value`);
+      assert.equal(d.frequency, ind.frequency);
+      const labels = d.values.map((p) => p[0]);
+      assert.deepEqual(labels, [...labels].sort(), `${id}/${ind.id} not sorted`);
+      assert.ok(cfg.categories.some((c) => c.id === ind.category), `${id}/${ind.id}: unknown category`);
+    }
   }
 });
 

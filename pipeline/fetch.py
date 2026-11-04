@@ -33,7 +33,9 @@ FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={id}"
 USER_AGENT = "FreemanMacroScope-DataBot/1.0 (+https://github.com/)"
 
 # How old the latest observation may be before it is flagged as stale (days).
-STALE_AFTER = {"M": 100, "Q": 200, "A": 500}
+# International sources publish later than US agencies: OECD monthly mirrors run ~4 months behind,
+# BIS quarterly credit/property data ~9 months, IMF/World Bank annual fiscal data 1–2 years.
+STALE_AFTER = {"M": 130, "Q": 330, "A": 800}
 YOY_LAG = {"M": 12, "Q": 4, "A": 1}
 
 _raw_cache: dict[str, list[tuple[date, float]]] = {}
@@ -252,10 +254,14 @@ def run_country(cfg_path: Path) -> tuple[dict, list[str]]:
             status[ind["id"]] = {"ok": False, "error": str(err), "kept": target.exists()}
             print(f"  ✗ {cid}/{ind['id']}: {err}", file=sys.stderr)
 
-    try:
-        write_json(out_dir / "recessions.json", build_recessions(cfg["recession"]["fred"]))
-    except Exception as err:
-        errors.append(f"{cid}/recessions: {err}")
+    # Only the US has an official, still-updated recession dating on FRED (OECD's ended 2022).
+    if cfg.get("recession"):
+        try:
+            write_json(out_dir / "recessions.json", build_recessions(cfg["recession"]["fred"]))
+        except Exception as err:
+            errors.append(f"{cid}/recessions: {err}")
+    else:
+        write_json(out_dir / "recessions.json", [])
 
     # The site reads the config from the data folder so there is one source of truth.
     write_json(out_dir / "config.json", cfg)
@@ -273,7 +279,9 @@ def main() -> int:
     args = parser.parse_args()
 
     countries, errors = [], []
-    for cfg_path in sorted(CONFIG_DIR.glob("*.json"), key=lambda p: (p.stem != "us", p.stem)):
+    order = ["us", "de", "fr", "it", "es", "gb", "jp", "ca"]  # selector order; pairs and new files follow
+    rank = lambda p: (order.index(p.stem) if p.stem in order else len(order), p.stem)
+    for cfg_path in sorted(CONFIG_DIR.glob("*.json"), key=rank):
         if args.only and cfg_path.stem != args.only:
             continue
         print(f"[{cfg_path.stem}]")

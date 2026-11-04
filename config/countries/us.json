@@ -132,6 +132,35 @@
       }
     },
     {
+      "id": "epu",
+      "category": "surveys",
+      "code": "EPU",
+      "name": { "de": "Wirtschaftspolitische Unsicherheit (EPU-Index)", "en": "Economic Policy Uncertainty (EPU index)" },
+      "short": { "de": "Politische Unsicherheit", "en": "Policy Uncertainty" },
+      "unit": { "de": "Index (Ø = 100)", "en": "Index (mean = 100)" },
+      "decimals": 0,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "USEPUINDXM" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": { "above": { "de": "Erhöht", "en": "Elevated" }, "below": { "de": "Niedrig", "en": "Low" } },
+      "direction": -1,
+      "gdpRegression": true,
+      "license": "citation",
+      "sources": [
+        { "name": "Baker, Bloom & Davis – Economic Policy Uncertainty Index", "url": "https://www.policyuncertainty.com/" }
+      ],
+      "description": {
+        "de": "Zählt, wie oft große US-Zeitungen über Unsicherheit in der Wirtschaftspolitik berichten (Steuern, Regulierung, Geldpolitik, Handel), ergänzt um auslaufende Steuerregeln und Prognoseunterschiede. 100 entspricht dem langjährigen Durchschnitt.",
+        "en": "Counts how often major US newspapers report on uncertainty about economic policy (taxes, regulation, monetary policy, trade), plus expiring tax provisions and forecaster disagreement. 100 equals the long-run average."
+      },
+      "interpretation": {
+        "de": "Hohe Unsicherheit lässt Firmen Investitionen und Einstellungen aufschieben. Im Score zählt ein hoher Wert deshalb negativ.",
+        "en": "High uncertainty makes firms postpone investment and hiring. In the score a high value therefore counts negative."
+      }
+    },
+    {
       "id": "permits",
       "category": "housing",
       "code": "BP",
@@ -189,6 +218,65 @@
       "interpretation": {
         "de": "Als Schwelle dient der historische Median. Ein großer Abstand zwischen Genehmigungen und Baubeginnen zeigt einen Rückstau oder ein Auslaufen der Pipeline. In der BIP-Scorecard wird ebenfalls die prozentuale Wachstumsrate ggü. Vorjahr verwendet statt des Niveaus (R² 0,16 statt 0,12, Stand 2026-10), aus demselben Grund wie bei den Baugenehmigungen.",
         "en": "The threshold is the historical median. A wide gap between permits and starts indicates a backlog or a draining pipeline. The GDP scorecard likewise uses the year-over-year percentage growth rate rather than the level (R² 0.16 vs. 0.12, as of 2026-10), for the same reason as building permits."
+      }
+    },
+    {
+      "id": "mortgage",
+      "category": "housing",
+      "code": "MORTG30",
+      "name": { "de": "Hypothekenzins (30 Jahre fest)", "en": "Mortgage Rate (30-Year Fixed)" },
+      "short": { "de": "Hypothekenzins 30J", "en": "30Y Mortgage Rate" },
+      "unit": { "de": "%", "en": "%" },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "MORTGAGE30US" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": { "above": { "de": "Über Median", "en": "Above median" }, "below": { "de": "Unter Median", "en": "Below median" } },
+      "direction": -1,
+      "gdpRegression": false,
+      "license": "citation",
+      "sources": [
+        { "name": "Freddie Mac – Primary Mortgage Market Survey", "url": "https://www.freddiemac.com/pmms" }
+      ],
+      "description": {
+        "de": "Durchschnittlicher Zins für 30-jährige Festzinshypotheken (wöchentliche Umfrage, hier Monatsdurchschnitt). Der wichtigste Preis am US-Immobilienmarkt.",
+        "en": "Average rate on 30-year fixed-rate mortgages (weekly survey, shown as a monthly average). The key price in the US housing market."
+      },
+      "interpretation": {
+        "de": "Hohe Hypothekenzinsen verteuern Hauskäufe und bremsen Baugenehmigungen, Baubeginne und den Umzug von Haushalten (\"Lock-in\").",
+        "en": "High mortgage rates make home purchases expensive and slow permits, starts and household moves (\"lock-in\")."
+      }
+    },
+    {
+      "id": "hpi",
+      "category": "housing",
+      "code": "FHFA-HPI",
+      "name": { "de": "Hauspreise (FHFA-Index)", "en": "House Prices (FHFA index)" },
+      "short": { "de": "Hauspreise", "en": "House Prices" },
+      "unit": { "de": "% ggü. Vorjahr", "en": "% year over year" },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": { "v": { "fred": "USSTHPI" } },
+      "formula": "v",
+      "transform": "yoy",
+      "base": { "unit": { "de": "Index (1980 Q1 = 100)", "en": "Index (1980 Q1 = 100)" }, "decimals": 1 },
+      "threshold": 0,
+      "zones": { "above": { "de": "Steigend", "en": "Rising" }, "below": { "de": "Fallend", "en": "Falling" } },
+      "direction": 1,
+      "gdpRegression": true,
+      "license": "public",
+      "sources": [
+        { "name": "U.S. Federal Housing Finance Agency – House Price Index", "url": "https://www.fhfa.gov/data/hpi" }
+      ],
+      "description": {
+        "de": "Preisentwicklung von Einfamilienhäusern in den USA anhand wiederholter Verkäufe derselben Immobilien (alle Transaktionen), Veränderung ggü. Vorjahr.",
+        "en": "Price change of US single-family homes based on repeat sales of the same properties (all transactions), year over year."
+      },
+      "interpretation": {
+        "de": "Steigende Hauspreise stärken das Vermögen der Haushalte und damit den Konsum. Fallende Preise gingen 2007/08 der Finanzkrise voraus.",
+        "en": "Rising house prices lift household wealth and consumption. Falling prices preceded the 2007/08 financial crisis."
       }
     },
     {
@@ -253,6 +341,65 @@
       "interpretation": {
         "de": "Ein steigender Anteil bedeutet, dass die Notenbank mehr Liquidität im System hält. Ein sinkender Anteil bedeutet, dass sie Liquidität abzieht.",
         "en": "A rising share means the central bank holds more liquidity in the system. A falling share means it is withdrawing liquidity."
+      }
+    },
+    {
+      "id": "credit_gdp",
+      "category": "money",
+      "code": "CREDIT",
+      "name": { "de": "Kredit an den privaten Sektor in % des BIP", "en": "Credit to the Private Sector as % of GDP" },
+      "short": { "de": "Privatkredit / BIP", "en": "Private Credit / GDP" },
+      "unit": { "de": "% des BIP", "en": "% of GDP" },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": { "v": { "fred": "QUSPAM770A" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": { "above": { "de": "Über Durchschnitt", "en": "Above average" }, "below": { "de": "Unter Durchschnitt", "en": "Below average" } },
+      "direction": 1,
+      "gdpRegression": true,
+      "regressorTransform": "yoy",
+      "license": "citation",
+      "sources": [
+        { "name": "Bank for International Settlements – Credit to the Non-Financial Sector", "url": "https://data.bis.org/topics/TOTAL_CREDIT" }
+      ],
+      "description": {
+        "de": "Alle Kredite an Unternehmen und Haushalte (Bankkredite, Anleihen, Kredite aus dem Ausland) im Verhältnis zum BIP. International vergleichbar mit den anderen Ländern.",
+        "en": "All credit to companies and households (bank loans, bonds, cross-border lending) relative to GDP. Internationally comparable with the other countries."
+      },
+      "interpretation": {
+        "de": "Ein schneller Anstieg treibt die Nachfrage an, kann aber Übertreibungen anzeigen. Die BIP-Scorecard nutzt den Kreditimpuls (Veränderung über ein Jahr).",
+        "en": "A rapid rise boosts demand but can signal excess. The GDP scorecard uses the credit impulse (change over one year)."
+      }
+    },
+    {
+      "id": "reer",
+      "category": "money",
+      "code": "REER",
+      "name": { "de": "Realer effektiver Wechselkurs des US-Dollar", "en": "Real Effective Exchange Rate of the US Dollar" },
+      "short": { "de": "Realer Wechselkurs", "en": "Real Exchange Rate" },
+      "unit": { "de": "Index (2020 = 100)", "en": "Index (2020 = 100)" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "RBUSBIS" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": { "above": { "de": "Stark (teuer)", "en": "Strong (expensive)" }, "below": { "de": "Schwach (günstig)", "en": "Weak (cheap)" } },
+      "direction": -1,
+      "gdpRegression": false,
+      "license": "citation",
+      "sources": [
+        { "name": "Bank for International Settlements – Effective Exchange Rates", "url": "https://data.bis.org/topics/EER" }
+      ],
+      "description": {
+        "de": "Außenwert des US-Dollar gegenüber einem breiten Korb von Handelspartnern, bereinigt um Preisunterschiede.",
+        "en": "External value of the US dollar against a broad basket of trading partners, adjusted for price differences."
+      },
+      "interpretation": {
+        "de": "Ein starker Dollar dämpft Exporte, Inflation und Gewinne international tätiger Firmen. Im Score zählt ein hoher Wert deshalb negativ (straffend).",
+        "en": "A strong dollar dampens exports, inflation and the earnings of multinationals. In the score a high value therefore counts negative (tightening)."
       }
     },
     {
@@ -402,6 +549,36 @@
       "interpretation": {
         "de": "Steigende Aufschläge zeigen zunehmenden Stress an den Kreditmärkten, sinkende eine entspannte Lage.",
         "en": "Widening spreads indicate rising credit-market stress, narrowing spreads a calm environment."
+      }
+    },
+    {
+      "id": "nfci",
+      "category": "rates",
+      "code": "NFCI",
+      "name": { "de": "Finanzierungsbedingungen (Chicago Fed NFCI)", "en": "Financial Conditions (Chicago Fed NFCI)" },
+      "short": { "de": "Finanzierungsbedingungen", "en": "Financial Conditions" },
+      "unit": { "de": "Index (0 = Durchschnitt)", "en": "Index (0 = average)" },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "NFCI" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": { "above": { "de": "Straffer als üblich", "en": "Tighter than average" }, "below": { "de": "Lockerer als üblich", "en": "Looser than average" } },
+      "direction": -1,
+      "gdpRegression": true,
+      "regressorTransform": "diffQ",
+      "license": "citation",
+      "sources": [
+        { "name": "Federal Reserve Bank of Chicago – National Financial Conditions Index", "url": "https://www.chicagofed.org/research/data/nfci/current-data" }
+      ],
+      "description": {
+        "de": "Fasst 105 Kennzahlen zu Geld-, Anleihe- und Aktienmärkten sowie zum Banken- und Schattenbankensystem zu einem wöchentlichen Index zusammen (hier Monatsdurchschnitt). 0 entspricht dem Durchschnitt seit 1971.",
+        "en": "Combines 105 measures of money, bond and equity markets and the banking and shadow-banking system into one weekly index (shown as a monthly average). 0 equals the average since 1971."
+      },
+      "interpretation": {
+        "de": "Positive Werte: straffere Finanzierungsbedingungen als üblich, negative: lockerere. Straffe Bedingungen gingen vielen Abschwüngen voraus. Die BIP-Scorecard nutzt die Veränderung über ein Quartal.",
+        "en": "Positive values: tighter financial conditions than average, negative: looser. Tight conditions preceded many downturns. The GDP scorecard uses the change over one quarter."
       }
     },
     {
@@ -555,6 +732,35 @@
       }
     },
     {
+      "id": "breakeven",
+      "category": "inflation",
+      "code": "5Y5Y",
+      "name": { "de": "Inflationserwartung der Märkte (5 Jahre in 5 Jahren)", "en": "Market Inflation Expectations (5-Year, 5-Year Forward)" },
+      "short": { "de": "Inflationserwartung 5J5J", "en": "5Y5Y Inflation Expectation" },
+      "unit": { "de": "%", "en": "%" },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "T5YIFR" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 2.5,
+      "zones": { "above": { "de": "Über 2,5 %", "en": "Above 2.5%" }, "below": { "de": "Unter 2,5 %", "en": "Below 2.5%" } },
+      "direction": 1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "Federal Reserve Bank of St. Louis – FRED (T5YIFR)", "url": "https://fred.stlouisfed.org/series/T5YIFR" }
+      ],
+      "description": {
+        "de": "Aus Staatsanleihen und inflationsgeschützten Anleihen (TIPS) abgeleitete Inflationsrate, die der Markt für den Fünfjahreszeitraum ab in fünf Jahren erwartet (Monatsdurchschnitt der Tageswerte).",
+        "en": "Inflation rate the market expects for the five-year period starting five years from now, derived from Treasuries and inflation-protected bonds (TIPS) (monthly average of daily values)."
+      },
+      "interpretation": {
+        "de": "Die Fed achtet darauf, dass diese Erwartung verankert bleibt. Werte um 2,0–2,5 % gelten als vereinbar mit dem 2-%-Ziel (TIPS beziehen sich auf den CPI, der etwas über dem PCE liegt).",
+        "en": "The Fed watches that this expectation stays anchored. Readings around 2.0–2.5% are seen as consistent with the 2% target (TIPS reference CPI, which runs slightly above PCE)."
+      }
+    },
+    {
       "id": "nfp",
       "category": "labour",
       "code": "NFP",
@@ -677,6 +883,35 @@
       }
     },
     {
+      "id": "indeed",
+      "category": "labour",
+      "code": "INDEED",
+      "name": { "de": "Online-Stellenanzeigen (Indeed)", "en": "Online Job Postings (Indeed)" },
+      "short": { "de": "Stellenanzeigen", "en": "Job Postings" },
+      "unit": { "de": "Index (1. Feb. 2020 = 100)", "en": "Index (1 Feb 2020 = 100)" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "IHLIDXUS" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 100,
+      "zones": { "above": { "de": "Über Vor-Corona-Niveau", "en": "Above pre-pandemic" }, "below": { "de": "Unter Vor-Corona-Niveau", "en": "Below pre-pandemic" } },
+      "direction": 1,
+      "gdpRegression": false,
+      "license": "citation",
+      "sources": [
+        { "name": "Indeed Hiring Lab – Job Postings Index", "url": "https://data.indeed.com/" }
+      ],
+      "description": {
+        "de": "Täglich aktualisierter Index der Stellenanzeigen auf Indeed in den USA, hier als Monatsdurchschnitt. Erscheint Wochen vor dem JOLTS-Bericht.",
+        "en": "Daily index of US job postings on Indeed, shown as a monthly average. Available weeks before the JOLTS report."
+      },
+      "interpretation": {
+        "de": "Über 100: mehr Stellenanzeigen als vor der Pandemie. Läuft den offenen Stellen (JOLTS) eng voraus. Die Reihe beginnt erst 2020.",
+        "en": "Above 100: more postings than before the pandemic. Tracks job openings (JOLTS) closely and earlier. The series only starts in 2020."
+      }
+    },
+    {
       "id": "wages",
       "category": "labour",
       "code": "AHE",
@@ -764,6 +999,36 @@
       "interpretation": {
         "de": "Negative Jahresraten zeigen eine schrumpfende Industrie, das kann auch außerhalb von Gesamtrezessionen vorkommen.",
         "en": "Negative annual rates show a contracting industrial sector, which can also happen outside economy-wide recessions."
+      }
+    },
+    {
+      "id": "tcu",
+      "category": "activity",
+      "code": "TCU",
+      "name": { "de": "Kapazitätsauslastung (Industrie gesamt)", "en": "Capacity Utilisation (Total Industry)" },
+      "short": { "de": "Kapazitätsauslastung", "en": "Capacity Utilisation" },
+      "unit": { "de": "% der Kapazität", "en": "% of capacity" },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": { "v": { "fred": "TCU" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": { "above": { "de": "Über Durchschnitt", "en": "Above average" }, "below": { "de": "Unter Durchschnitt", "en": "Below average" } },
+      "direction": 1,
+      "gdpRegression": true,
+      "regressorTransform": "diffQ",
+      "license": "public",
+      "sources": [
+        { "name": "Board of Governors of the Federal Reserve System – G.17 Industrial Production and Capacity Utilization", "url": "https://www.federalreserve.gov/releases/g17/" }
+      ],
+      "description": {
+        "de": "Anteil der Produktionskapazität von Industrie, Bergbau und Versorgern, der tatsächlich genutzt wird.",
+        "en": "Share of manufacturing, mining and utilities capacity that is actually in use."
+      },
+      "interpretation": {
+        "de": "Hohe Auslastung bedeutet Investitionsbedarf und Preisdruck, niedrige Auslastung freie Kapazitäten. Die BIP-Scorecard nutzt die Veränderung über ein Quartal.",
+        "en": "High utilisation means pressure to invest and pricing power, low utilisation spare capacity. The GDP scorecard uses the change over one quarter."
       }
     },
     {
@@ -918,6 +1183,35 @@
       "interpretation": {
         "de": "Eine Kennzahl der fiskalischen Tragfähigkeit. Sie fließt nicht in den Score ein.",
         "en": "A measure of fiscal sustainability. It is not scored."
+      }
+    },
+    {
+      "id": "cc_delinq",
+      "category": "fiscal",
+      "code": "CC-DLQ",
+      "name": { "de": "Zahlungsausfälle bei Kreditkarten (Banken)", "en": "Credit Card Delinquency Rate (Banks)" },
+      "short": { "de": "Kreditkarten-Ausfälle", "en": "Card Delinquencies" },
+      "unit": { "de": "% der Kredite", "en": "% of loans" },
+      "decimals": 2,
+      "frequency": "Q",
+      "inputs": { "v": { "fred": "DRCCLACBS" } },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": { "above": { "de": "Erhöht", "en": "Elevated" }, "below": { "de": "Niedrig", "en": "Low" } },
+      "direction": -1,
+      "gdpRegression": false,
+      "license": "public",
+      "sources": [
+        { "name": "Board of Governors of the Federal Reserve System – Charge-Off and Delinquency Rates", "url": "https://www.federalreserve.gov/releases/chargeoff/" }
+      ],
+      "description": {
+        "de": "Anteil der Kreditkartenkredite von US-Geschäftsbanken, die 30 Tage oder mehr überfällig sind (saisonbereinigt). Zeigt die finanzielle Belastung der Haushalte.",
+        "en": "Share of credit-card loans at US commercial banks that are 30 days or more past due (seasonally adjusted). Shows financial strain on households."
+      },
+      "interpretation": {
+        "de": "Steigende Ausfälle zeigen, dass Haushalte ihre Schulden schwerer bedienen können, oft ein Vorbote schwächeren Konsums.",
+        "en": "Rising delinquencies show households struggling to service debt, often a precursor to weaker consumption."
       }
     }
   ],

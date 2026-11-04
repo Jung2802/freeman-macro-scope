@@ -23,7 +23,10 @@ const TEXT = {
         <li><strong>Standardabweichung (σ):</strong> das übliche Schwankungsmaß einer Reihe. Ein Wert 2σ vom Normalwert entfernt ist historisch selten.</li>
       </ul>
       <h2>Datenbasis</h2>
-      <p>Alle Reihen stammen aus offiziellen Quellen (Statistikämter, Federal Reserve, Universitäten) und werden über die öffentliche Datenschnittstelle von FRED® (Federal Reserve Bank of St. Louis) abgerufen. Ein automatischer Job lädt die Daten jeden Werktag neu, rechnet sie um und veröffentlicht sie. Niemand tippt etwas von Hand ein.</p>
+      <p>Alle Reihen stammen aus offiziellen Quellen (Statistikämter, Notenbanken, OECD, Eurostat, BIS, IWF, Weltbank, Universitäten) und werden über die öffentliche Datenschnittstelle von FRED® (Federal Reserve Bank of St. Louis) abgerufen. Ein automatischer Job lädt die Daten jeden Werktag neu, rechnet sie um und veröffentlicht sie. Niemand tippt etwas von Hand ein.</p>
+      <p>Für Deutschland, Frankreich, Italien, Spanien, das Vereinigte Königreich, Japan und Kanada werden international vergleichbare Reihen verwendet: EU-/OECD-Unternehmens- und Verbraucherumfragen statt lizenzpflichtiger PMIs, harmonisierte Verbraucherpreise (HVPI) und Arbeitslosenquoten nach ILO-Definition, BIS-Daten zu Immobilienpreisen, Kredit und Wechselkursen sowie IWF-Daten zu den Staatsfinanzen. Wo eine Reihe nicht mehr aktualisiert wird (z. B. die monatlichen OECD-Verbraucherpreise für UK, Japan und Kanada seit 2025), steht der beste verfügbare Ersatz mit Hinweis auf der Indikatorseite.</p>
+      <h2>Ländervergleich</h2>
+      <p>Weil die Länder unterschiedlich viele Indikatoren haben, wird der Gesamt-Score im Ländervergleich in Prozent des möglichen Maximums angegeben (Summe der Scores geteilt durch Anzahl × 10). So sind die Länder vergleichbar. Dasselbe gilt für die Bereiche in der Score-Matrix.</p>
       <p>Höherfrequente Reihen (täglich, wöchentlich) werden als Durchschnitt pro Monat oder Quartal dargestellt. Ist der laufende Zeitraum noch nicht abgeschlossen, ist der letzte Wert mit <em>Teildaten</em> markiert. Makrodaten werden von den Quellen nachträglich revidiert, deshalb können sich historische Werte leicht ändern.</p>
       <h2>Darstellung</h2>
       <p>Viele Reihen werden als Veränderung gegenüber dem Vorjahr gezeigt (z. B. Inflation, Geldmenge). So werden Niveaus über Jahrzehnte vergleichbar. Das ursprüngliche Niveau steht jeweils in der Datentabelle. Zusammengesetzte Indikatoren (z. B. Fed-Bilanz in % des BIP, Zinsdeckung) werden aus den Rohreihen berechnet. Die Formel steht im Tab „Info &amp; Quellen".</p>
@@ -44,7 +47,7 @@ const TEXT = {
       <h2>Statistik der Veränderungen</h2>
       <p>Wie in der Excel-Analyse werden die Veränderungen von Periode zu Periode beschrieben: Mittelwert, Median, Standardabweichung, Schiefe und Wölbung (Exzess-Kurtosis, Excel-Definition KURT), Anteil positiver/negativer Veränderungen und der Vergleich der tatsächlichen Verteilung mit einer Normalverteilung in ±1σ/2σ/3σ-Bändern.</p>
       <h2>Konjunkturzyklen &amp; Sahm-Regel</h2>
-      <p>Rezessionen folgen der offiziellen Datierung des NBER (grau hinterlegt in allen Zeitreihen). Die Sahm-Regel ist der Anstieg des 3-Monats-Durchschnitts der Arbeitslosenquote über sein Tief der vorangegangenen 12 Monate.</p>
+      <p>US-Rezessionen folgen der offiziellen Datierung des NBER (grau hinterlegt in den US-Zeitreihen). Für die anderen Länder gibt es keine laufend aktualisierte offizielle Datierung über FRED, deshalb entfallen dort die grauen Flächen. Die Sahm-Regel ist der Anstieg des 3-Monats-Durchschnitts der Arbeitslosenquote über sein Tief der vorangegangenen 12 Monate.</p>
       <h2>ISM-Daten</h2>
       <p>Die ISM-Einkaufsmanagerindizes (Manufacturing PMI und Services PMI, früher NMI) erscheinen weiterhin. Laut ISM-Nutzungsbedingungen dürfen sie aber nur privat und nicht-kommerziell genutzt werden. Stattdessen nutzt FreemanMacroScope die frei verfügbaren regionalen Industrie- und Dienstleistungsumfragen der Federal Reserve Banks (Philadelphia, New York, Dallas). Sie erscheinen früher im Monat und laufen historisch eng mit dem ISM.</p>`,
     en: `
@@ -62,7 +65,10 @@ const TEXT = {
         <li><strong>Standard deviation (σ):</strong> the usual range of fluctuation of a series. A value 2σ away from normal is historically rare.</li>
       </ul>
       <h2>Data</h2>
-      <p>All series come from official sources (statistical agencies, the Federal Reserve, universities) and are retrieved via the public FRED® interface (Federal Reserve Bank of St. Louis). An automated job reloads, transforms and publishes the data every business day. Nothing is typed in by hand.</p>
+      <p>All series come from official sources (statistical agencies, central banks, OECD, Eurostat, BIS, IMF, World Bank, universities) and are retrieved via the public FRED® interface (Federal Reserve Bank of St. Louis). An automated job reloads, transforms and publishes the data every business day. Nothing is typed in by hand.</p>
+      <p>For Germany, France, Italy, Spain, the United Kingdom, Japan and Canada, internationally comparable series are used: EU/OECD business and consumer surveys instead of licensed PMIs, harmonised consumer prices (HICP) and ILO unemployment rates, BIS data on house prices, credit and exchange rates, and IMF data on public finances. Where a series is no longer updated (e.g. the OECD's monthly consumer prices for the UK, Japan and Canada since 2025), the best available substitute is shown with a note on the indicator page.</p>
+      <h2>Country comparison</h2>
+      <p>Because countries have different numbers of indicators, the country comparison shows the total score as a percentage of the possible maximum (sum of scores divided by count × 10). That makes countries comparable. The same applies to the areas in the score matrix.</p>
       <p>Higher-frequency series (daily, weekly) are shown as monthly or quarterly averages. If the current period is not complete yet, the last value is marked <em>partial</em>. Sources revise macro data, so historical values may change slightly.</p>
       <h2>Presentation</h2>
       <p>Many series are shown as year-over-year change (e.g. inflation, money supply), which makes levels comparable across decades. The original level is always in the data table. Composite indicators (e.g. Fed balance sheet as % of GDP, interest cover) are computed from the raw series. The formula is listed under "Info &amp; Sources".</p>
@@ -83,7 +89,7 @@ const TEXT = {
       <h2>Statistics of changes</h2>
       <p>As in the Excel analysis, period-to-period changes are described: mean, median, standard deviation, skewness and excess kurtosis (Excel KURT definition), share of positive/negative changes, and actual vs. normal distribution in ±1σ/2σ/3σ bands.</p>
       <h2>Business cycles &amp; Sahm rule</h2>
-      <p>Recessions follow the official NBER dating (shaded grey in all time series). The Sahm rule is the rise of the 3-month average unemployment rate above its low of the prior 12 months.</p>
+      <p>US recessions follow the official NBER dating (shaded grey in the US time series). For the other countries no continuously updated official dating is available via FRED, so the grey areas are omitted there. The Sahm rule is the rise of the 3-month average unemployment rate above its low of the prior 12 months.</p>
       <h2>ISM data</h2>
       <p>The ISM purchasing managers' indices (Manufacturing PMI and Services PMI, formerly NMI) are still published, but ISM's terms of use allow personal, non-commercial use only. FreemanMacroScope therefore uses the freely available regional manufacturing and services surveys of the Federal Reserve Banks (Philadelphia, New York, Dallas). They are released earlier in the month and have historically tracked the ISM closely.</p>`,
   },
@@ -155,8 +161,8 @@ export async function renderPage(el, { name, country }) {
         </table></div>`).join('')}
       <h2>${t('src.notUsed')}</h2>
       <ul>${(cfg.disabled || []).map((x) => `<li><strong>${esc(x.name)}</strong> – ${esc(x.reason)}</li>`).join('')}</ul>
-      <h2>${t('src.recessions')}</h2>
-      <p><a href="${esc(cfg.recession.source.url)}" target="_blank" rel="noopener">${esc(cfg.recession.source.name)}</a></p>
+      ${cfg.recession ? `<h2>${t('src.recessions')}</h2>
+      <p><a href="${esc(cfg.recession.source.url)}" target="_blank" rel="noopener">${esc(cfg.recession.source.name)}</a></p>` : ''}
       <p class="fine">${t('src.fred')}</p>`);
   } else {
     el.innerHTML = `<div class="empty">${t('err.notFound')}</div>`;

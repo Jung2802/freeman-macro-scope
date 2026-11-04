@@ -7,6 +7,8 @@ import { renderOverview } from './views/overview.js';
 import { renderIndicator } from './views/indicator.js';
 import { renderCompare } from './views/compare.js';
 import { renderPage } from './views/pages.js';
+import { renderWorld } from './views/world.js';
+import { initCosmos, reveal } from './cosmos.js';
 
 const app = document.getElementById('app');
 const PAGES = new Set(['methodik', 'quellen', 'impressum', 'datenschutz', 'disclaimer', 'pro']);
@@ -16,7 +18,7 @@ let country = SITE.defaultCountry;
 let land = (() => { try { return localStorage.getItem('fms.land'); } catch { return null; } })();
 const saveLand = () => { try { localStorage.setItem('fms.land', land); } catch { /* private mode */ } };
 
-// Routes: #/  #/us  #/us/<indicator>[/<tab>]  #/us/compare?a=..&b=..  #/<page>
+// Routes: #/  #/us  #/us/<indicator>[/<tab>]  #/us/compare?a=..&b=..  #/world  #/<page>
 function parseRoute() {
   const raw = location.hash.replace(/^#\/?/, '');
   const [path, query = ''] = raw.split('?');
@@ -24,6 +26,7 @@ function parseRoute() {
   const params = new URLSearchParams(query);
   if (!parts.length) return { view: 'overview', country };
   if (PAGES.has(parts[0])) return { view: 'page', name: parts[0], country };
+  if (parts[0] === 'world') return { view: 'world', country };
   const c = countries.some((x) => x.id === parts[0]) ? parts[0] : null;
   if (!c) return { view: 'page', name: '404', country };
   if (!parts[1]) return { view: 'overview', country: c };
@@ -67,6 +70,7 @@ function header() {
   const nav = [
     [`#/${country}`, t('nav.overview'), r.view === 'overview' || r.view === 'indicator'],
     [`#/${country}/compare`, t('nav.compare'), r.view === 'compare'],
+    ['#/world', t('nav.world'), r.view === 'world'],
     ['#/methodik', t('nav.method'), r.name === 'methodik'],
     ['#/quellen', t('nav.sources'), r.name === 'quellen'],
   ];
@@ -116,11 +120,12 @@ async function render() {
   app.replaceChildren(view);
   window.scrollTo({ top: 0 });
   try {
-    const fn = { overview: renderOverview, indicator: renderIndicator, compare: renderCompare }[r.view] || renderPage;
+    const fn = { overview: renderOverview, indicator: renderIndicator, compare: renderCompare, world: renderWorld }[r.view] || renderPage;
     const c = await fn(view, r);
     if (seq !== renderSeq) { c?.(); return; }
-    cleanup = c || (() => {});
-    if (r.view !== 'indicator' && r.view !== 'compare') document.title = `${SITE.name} · ${t('app.tagline')}`;
+    const unreveal = reveal(view);
+    cleanup = () => { c?.(); unreveal(); };
+    if (!['indicator', 'compare', 'world'].includes(r.view)) document.title = `${SITE.name} · ${t('app.tagline')}`;
   } catch (err) {
     console.error(err);
     if (seq === renderSeq) view.innerHTML = `<div class="empty">${t('err.load')}<br><small class="muted">${esc(err.message)}</small></div>`;
@@ -151,6 +156,7 @@ window.addEventListener('hashchange', render);
 
 (async function init() {
   document.documentElement.lang = getLang();
+  initCosmos();
   try { countries = await loadCountries(); } catch { /* keep default */ }
   footer();
   await render();

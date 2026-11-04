@@ -4,6 +4,7 @@ import { sparkline, zoneColors, C } from '../charts.js';
 import { t, tc, L } from '../i18n.js';
 import { num, signed, period, dateTime, esc } from '../format.js';
 import { adSlot, fillAds } from '../ads.js';
+import { countUp } from '../cosmos.js';
 
 export const scoreClass = (s) => (s === null || s === undefined ? 'na' : s > 0 ? 'pos' : s < 0 ? 'neg' : 'zero');
 export const scoreChip = (s, title = '') =>
@@ -186,26 +187,38 @@ export async function renderOverview(el, { country }) {
     </tr>`;
   })).join('');
 
+  // Live ticker: every indicator's latest reading; the list is doubled so the loop is seamless.
+  const tickItems = ok.map(({ ind, data, sc: s }) => {
+    const vals = values(data.values);
+    const d = s.latest - vals[vals.length - 2];
+    return `<a class="tick" href="#/${country}/${ind.id}" tabindex="-1"><span class="tick-name">${esc(L(ind.short))}</span><span class="tick-val">${num(s.latest, ind.decimals)}</span><span class="tick-chg ${scoreClass(d)}">${d > 0 ? '▲' : d < 0 ? '▼' : '▶'} ${signed(d, ind.decimals)}</span></a>`;
+  }).join('');
+  const ticker = ok.length ? `<div class="ticker" aria-label="${esc(t('live.ticker'))}">
+    <span class="ticker-live"><span class="live-dot"></span>${t('live.badge')}</span>
+    <div class="ticker-track" style="--n:${ok.length}"><div class="ticker-run">${tickItems}</div><div class="ticker-run" aria-hidden="true">${tickItems}</div></div>
+  </div>` : '';
+
   el.innerHTML = `
   <section class="hero">
-    <div class="hero-visual" aria-hidden="true"><img src="assets/img/earth.webp" alt="" width="744" height="511" fetchpriority="high"></div>
     <div class="hero-copy">
       <p class="eyebrow">${esc(L(group.name))}</p>
       <h1>${esc(L(cfg.name))}<br><span class="h1-line">${t('ov.heroLine')}</span></h1>
       <p class="hero-sub">${tc(cfg, 'ov.subtitle')}</p>
       <div class="hero-actions">
         <a class="btn-outline" href="#indicators" data-scroll>${t('ov.toIndicators')} ${ARROW}</a>
+        <a class="text-link" href="#/world">${t('nav.world')} ${ARROW}</a>
         <a class="text-link" href="#/methodik">${t('ov.terms')} ${ARROW}</a>
       </div>
-      <p class="hero-meta">${t('ov.dataAsOf')} <strong>${dateTime(index.fetchedAt)}</strong> · ${t('ov.autoUpdate')}</p>
+      <p class="hero-meta"><span class="live-dot"></span>${t('ov.dataAsOf')} <strong>${dateTime(index.fetchedAt)}</strong> · ${t('ov.autoUpdate')}</p>
     </div>
   </section>
+  ${ticker}
 
   <section class="feature-row">
     <div class="feature">
       ${ICON.gauge}
       <h2 title="${esc(t('ov.totalScore'))}">${t('ov.totalShort')}</h2>
-      <div class="feature-value">${signed(total, 0)}<small> / ±${max}</small></div>
+      <div class="feature-value" data-count="${total}" data-signed="1">${signed(total, 0)}<small> / ±${max}</small></div>
       ${gauge(total, max)}
       <p>${tc(cfg, 'ov.scoreSentence', { pos: nPos, neg: nNeg, n: scored.length })}</p>
       <a class="feature-link" href="#/methodik">${t('nav.method')} ${ARROW}</a>
@@ -213,14 +226,14 @@ export async function renderOverview(el, { country }) {
     <div class="feature">
       ${ICON.clock}
       <h2>${t('score.shortLong')}</h2>
-      <div class="feature-value">${signed(totShort, 0)}</div>
+      <div class="feature-value" data-count="${totShort}" data-signed="1">${signed(totShort, 0)}</div>
       <p>${t('ov.shortHint')}</p>
       <a class="feature-link" href="#/${country}/compare">${t('nav.compare')} ${ARROW}</a>
     </div>
     <div class="feature">
       ${ICON.horizon}
       <h2>${t('score.longLong')}</h2>
-      <div class="feature-value">${signed(totLong, 0)}</div>
+      <div class="feature-value" data-count="${totLong}" data-signed="1">${signed(totLong, 0)}</div>
       <p>${t('ov.longHint')} · ${ok.length} ${t('ov.indicators')}, ${t('ov.scoredOf', { n: scored.length })}</p>
       <a class="feature-link" href="#/quellen">${t('nav.sources')} ${ARROW}</a>
     </div>
@@ -297,24 +310,6 @@ export async function renderOverview(el, { country }) {
     location.hash = tr.dataset.href;
   }));
   fillAds(el);
-  return heroScroll(el);
-}
-
-// Earth drifts slower than the page and fades out instead of being cut off at the hero edge.
-function heroScroll(el) {
-  const hero = el.querySelector('.hero');
-  const vis = el.querySelector('.hero-visual');
-  if (!hero || !vis || matchMedia('(prefers-reduced-motion: reduce)').matches) return () => {};
-  let raf = 0;
-  const update = () => {
-    raf = 0;
-    const h = hero.offsetHeight || 1;
-    const y = Math.min(Math.max(window.scrollY, 0), h * 1.2);
-    vis.style.setProperty('--hero-shift', `${(y * 0.35).toFixed(1)}px`);
-    vis.style.setProperty('--hero-fade', Math.max(0, 1 - y / (h * 0.85)).toFixed(3));
-  };
-  const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  update();
-  return () => { window.removeEventListener('scroll', onScroll); if (raf) cancelAnimationFrame(raf); };
+  countUp(el);
+  return () => {};
 }
