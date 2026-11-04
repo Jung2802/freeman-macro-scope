@@ -1,0 +1,892 @@
+{
+  "id": "br",
+  "name": {
+    "de": "Brasilien",
+    "en": "Brazil"
+  },
+  "currency": "BRL",
+  "continent": "south-america",
+  "selector": [
+    {
+      "land": "br",
+      "landName": {
+        "de": "Brasilien",
+        "en": "Brazil"
+      },
+      "group": "endogenous"
+    }
+  ],
+  "gdpIndicator": "gdp",
+  "groups": [
+    {
+      "id": "endogenous",
+      "name": {
+        "de": "Binnenwirtschaft · endogene Treiber",
+        "en": "Domestic economy · endogenous drivers"
+      },
+      "description": {
+        "de": "Wie geht es der Wirtschaft in Brasilien? Hier stehen die Daten, die im Land selbst entstehen: Stimmung von Unternehmen und Verbrauchern, Immobilien und Bau, Kredit und Währung, Zinsen, Preise, Jobs, Wachstum und Staatsfinanzen. Zusammen zeigen sie, in welcher Phase des Konjunkturzyklus das Land steht und wie die Banco Central do Brasil (BCB) und die Regierung wahrscheinlich reagieren. Alle Reihen sind international vergleichbar, damit sich die Länder nebeneinanderlegen lassen.",
+        "en": "How is the economy doing in Brazil? These are the data generated inside the country: business and consumer sentiment, housing and construction, credit and currency, rates, prices, jobs, growth and public finances. Together they show which phase of the business cycle the country is in and how the Banco Central do Brasil (BCB) and the government are likely to react. All series are internationally comparable, so countries can be set side by side."
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "surveys",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#a78bfa",
+      "name": {
+        "de": "Frühindikatoren & Umfragen",
+        "en": "Leading Indicators & Surveys"
+      }
+    },
+    {
+      "id": "housing",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#f59e0b",
+      "name": {
+        "de": "Immobilien & Bau",
+        "en": "Housing & Construction"
+      }
+    },
+    {
+      "id": "money",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#22d3ee",
+      "name": {
+        "de": "Geld, Kredit & Währung",
+        "en": "Money, Credit & Currency"
+      }
+    },
+    {
+      "id": "rates",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#60a5fa",
+      "name": {
+        "de": "Zinsen",
+        "en": "Interest Rates"
+      }
+    },
+    {
+      "id": "inflation",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#f472b6",
+      "name": {
+        "de": "Inflation",
+        "en": "Inflation"
+      }
+    },
+    {
+      "id": "activity",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#a3e635",
+      "name": {
+        "de": "Wachstum & Aktivität",
+        "en": "Growth & Activity"
+      }
+    },
+    {
+      "id": "fiscal",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#fb923c",
+      "name": {
+        "de": "Staatsfinanzen",
+        "en": "Public Finances"
+      }
+    }
+  ],
+  "indicators": [
+    {
+      "id": "mfg_conf",
+      "category": "surveys",
+      "code": "BCI-MFG",
+      "name": {
+        "de": "Industrievertrauen (EU-/OECD-Unternehmensumfrage)",
+        "en": "Industrial Confidence (EU/OECD business survey)"
+      },
+      "short": {
+        "de": "Industrievertrauen",
+        "en": "Industrial Confidence"
+      },
+      "unit": {
+        "de": "Saldo (Prozentpunkte)",
+        "en": "Balance (percentage points)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "BSCICP02BRM460S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Business Tendency and Consumer Opinion Surveys (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/business-tendency-and-consumer-opinion-surveys.html"
+        }
+      ],
+      "description": {
+        "de": "Monatliche Umfrage unter Industriebetrieben in Brasilien zu Auftragsbestand, Lagern und Produktionserwartungen, zusammengefasst als Saldo: Anteil positiver minus Anteil negativer Antworten. In der EU stammt sie aus dem harmonisierten Umfrageprogramm der Europäischen Kommission und ist das Gegenstück zu den Einkaufsmanagerindizes (PMI), die nur gegen Lizenz verfügbar sind.",
+        "en": "Monthly survey of manufacturers in Brazil on order books, stocks and production expectations, summarised as a balance: share of positive minus share of negative answers. In the EU it comes from the European Commission's harmonised survey programme and is the counterpart of the purchasing managers' indices (PMI), which are only available under licence."
+      },
+      "interpretation": {
+        "de": "Als Schwelle dient der langjährige Durchschnitt, denn der Saldo liegt bei manchen Ländern dauerhaft unter 0. Darüber: überdurchschnittliche Stimmung in der Industrie. Die Umfrage läuft der Produktion einige Monate voraus.",
+        "en": "The threshold is the long-run average, because in some countries the balance sits permanently below 0. Above it: above-average sentiment among manufacturers. The survey leads production by a few months."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "cons_conf",
+      "category": "surveys",
+      "code": "CCI",
+      "name": {
+        "de": "Verbrauchervertrauen",
+        "en": "Consumer Confidence"
+      },
+      "short": {
+        "de": "Verbrauchervertrauen",
+        "en": "Consumer Confidence"
+      },
+      "unit": {
+        "de": "Saldo (Prozentpunkte)",
+        "en": "Balance (percentage points)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "CSCICP02BRM460S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Optimistisch",
+          "en": "Optimistic"
+        },
+        "below": {
+          "de": "Pessimistisch",
+          "en": "Pessimistic"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Business Tendency and Consumer Opinion Surveys (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/business-tendency-and-consumer-opinion-surveys.html"
+        }
+      ],
+      "description": {
+        "de": "Monatliche Umfrage unter Haushalten in Brasilien zu finanzieller Lage, Wirtschaftslage und geplanten größeren Anschaffungen. Der private Konsum ist meist mehr als die Hälfte der Wirtschaftsleistung.",
+        "en": "Monthly household survey in Brazil on finances, the economic situation and planned major purchases. Private consumption is usually more than half of output."
+      },
+      "interpretation": {
+        "de": "Die Werte liegen meist dauerhaft auf einer Seite der Nulllinie bzw. der Neutralmarke, deshalb ist der langjährige Durchschnitt die Schwelle. Wichtiger als das Niveau ist die Richtung: steigt das Vertrauen, ziehen Konsum und Einzelhandel meist nach.",
+        "en": "Readings usually stay on one side of zero or the neutral mark, so the long-run average is the threshold. Direction matters more than the level: when confidence rises, consumption and retail sales usually follow."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "hp",
+      "category": "housing",
+      "code": "RPP",
+      "name": {
+        "de": "Reale Wohnimmobilienpreise",
+        "en": "Real Residential Property Prices"
+      },
+      "short": {
+        "de": "Immobilienpreise (real)",
+        "en": "House Prices (real)"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "QBRR628BIS"
+        }
+      },
+      "formula": "v",
+      "transform": "yoy",
+      "base": {
+        "unit": {
+          "de": "Index (2010 = 100, inflationsbereinigt)",
+          "en": "Index (2010 = 100, inflation-adjusted)"
+        },
+        "decimals": 1
+      },
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Steigend",
+          "en": "Rising"
+        },
+        "below": {
+          "de": "Fallend",
+          "en": "Falling"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Residential Property Prices (via FRED)",
+          "url": "https://data.bis.org/topics/RPP"
+        }
+      ],
+      "description": {
+        "de": "Preise für Wohnimmobilien in Brasilien, bereinigt um die Verbraucherpreise, als Veränderung gegenüber dem Vorjahr. Die BIS vereinheitlicht dafür die Daten der nationalen Quellen.",
+        "en": "Residential property prices in Brazil, deflated by consumer prices, as change versus the prior year. The BIS harmonises the national sources."
+      },
+      "interpretation": {
+        "de": "Steigende Immobilienpreise stärken Vermögen und Konsum der Haushalte und die Sicherheiten der Banken. Lange fallende reale Preise gingen oft schwachen Jahren voraus.",
+        "en": "Rising house prices lift household wealth, consumption and bank collateral. Long stretches of falling real prices often preceded weak years."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "credit",
+      "category": "money",
+      "code": "CREDIT",
+      "name": {
+        "de": "Kredit an den privaten Sektor in % des BIP",
+        "en": "Credit to the Private Sector as % of GDP"
+      },
+      "short": {
+        "de": "Privatkredit / BIP",
+        "en": "Private Credit / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "QBRPAM770A"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "regressorTransform": "yoy",
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Credit to the Non-Financial Sector (via FRED)",
+          "url": "https://data.bis.org/topics/TOTAL_CREDIT"
+        }
+      ],
+      "description": {
+        "de": "Alle Kredite an Unternehmen und Haushalte in Brasilien (Bankkredite, Anleihen und Kredite aus dem Ausland) im Verhältnis zur Wirtschaftsleistung. Ersetzt die Geldmenge M3, deren internationale Reihe 2023 eingestellt wurde.",
+        "en": "All credit to companies and households in Brazil (bank loans, bonds and cross-border lending) relative to output. Replaces the M3 money supply, whose international series was discontinued in 2023."
+      },
+      "interpretation": {
+        "de": "Ein schneller Anstieg der Kreditquote treibt die Nachfrage an, kann aber auch Übertreibungen anzeigen. In der BIP-Scorecard wird die Veränderung über ein Jahr verwendet: Wichtig ist der Kreditimpuls, nicht das Niveau.",
+        "en": "A rapid rise in the credit ratio boosts demand but can also signal excess. The GDP scorecard uses the change over one year: the credit impulse matters, not the level."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "hh_debt",
+      "category": "money",
+      "code": "HH-DEBT",
+      "name": {
+        "de": "Verschuldung der privaten Haushalte in % des BIP",
+        "en": "Household Debt as % of GDP"
+      },
+      "short": {
+        "de": "Haushaltsschulden / BIP",
+        "en": "Household Debt / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "QBRHAM770A"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 0,
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Credit to the Non-Financial Sector (via FRED)",
+          "url": "https://data.bis.org/topics/TOTAL_CREDIT"
+        }
+      ],
+      "description": {
+        "de": "Kredite an private Haushalte in Brasilien, vor allem Hypotheken, im Verhältnis zur Wirtschaftsleistung.",
+        "en": "Credit to households in Brazil, mostly mortgages, relative to output."
+      },
+      "interpretation": {
+        "de": "Hohe Haushaltsschulden machen den Konsum zinsempfindlich. Die Wirkung ist nicht eindeutig, deshalb fließt der Indikator nicht in den Score ein.",
+        "en": "High household debt makes consumption sensitive to interest rates. The effect is ambiguous, so the indicator is not scored."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "reer",
+      "category": "money",
+      "code": "REER",
+      "name": {
+        "de": "Realer effektiver Wechselkurs",
+        "en": "Real Effective Exchange Rate"
+      },
+      "short": {
+        "de": "Realer Wechselkurs",
+        "en": "Real Exchange Rate"
+      },
+      "unit": {
+        "de": "Index (2020 = 100)",
+        "en": "Index (2020 = 100)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "RBBRBIS"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Stark (teuer)",
+          "en": "Strong (expensive)"
+        },
+        "below": {
+          "de": "Schwach (günstig)",
+          "en": "Weak (cheap)"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Effective Exchange Rates (via FRED)",
+          "url": "https://data.bis.org/topics/EER"
+        }
+      ],
+      "description": {
+        "de": "Außenwert der Währung in Brasilien gegenüber einem breiten Korb von Handelspartnern, bereinigt um Preisunterschiede. Steigt der Index, werden Exporte teurer und Importe billiger.",
+        "en": "External value of the currency in Brazil against a broad basket of trading partners, adjusted for price differences. A rising index makes exports dearer and imports cheaper."
+      },
+      "interpretation": {
+        "de": "Eine starke Währung dämpft Exporte und Inflation, eine schwache stützt beides. Im Score zählt ein hoher Wert deshalb negativ (straffend).",
+        "en": "A strong currency dampens exports and inflation, a weak one supports both. In the score a high value therefore counts negative (tightening)."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "policy",
+      "category": "rates",
+      "code": "IR%",
+      "name": {
+        "de": "Leitzins-Proxy (Tagesgeldsatz)",
+        "en": "Policy Rate Proxy (overnight rate)"
+      },
+      "short": {
+        "de": "Leitzins (Tagesgeld)",
+        "en": "Policy Rate (overnight)"
+      },
+      "unit": {
+        "de": "%",
+        "en": "%"
+      },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "IRSTCI01BRM156N"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Über Median",
+          "en": "Above median"
+        },
+        "below": {
+          "de": "Unter Median",
+          "en": "Below median"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Tagesgeldsatz am Geldmarkt in Brasilien. Er wird von die Banco Central do Brasil (BCB) über den Leitzins gesteuert und folgt ihm sehr eng.",
+        "en": "Overnight money-market rate in Brazil. It is steered by the Banco Central do Brasil (BCB) through its policy rate and tracks it very closely."
+      },
+      "interpretation": {
+        "de": "Höhere Zinsen verteuern Kredite und bremsen die Wirtschaft. Im Score zählt ein hoher Zins negativ (restriktiv).",
+        "en": "Higher rates make credit more expensive and slow the economy. In the score a high rate counts negative (restrictive)."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "wb_cpi",
+      "category": "inflation",
+      "code": "CPI-A",
+      "name": {
+        "de": "Verbraucherpreise (Jahresinflation)",
+        "en": "Consumer Prices (annual inflation)"
+      },
+      "short": {
+        "de": "Inflation (jährlich)",
+        "en": "Inflation (annual)"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr (Jahresdurchschnitt)",
+        "en": "% year over year (annual average)"
+      },
+      "decimals": 1,
+      "frequency": "A",
+      "inputs": {
+        "v": {
+          "fred": "FPCPITOTLZGBRA"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 3,
+      "zones": {
+        "above": {
+          "de": "Über 3 %",
+          "en": "Above 3%"
+        },
+        "below": {
+          "de": "Unter 3 %",
+          "en": "Below 3%"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "World Bank – World Development Indicators: Inflation, consumer prices (via FRED)",
+          "url": "https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG"
+        }
+      ],
+      "description": {
+        "de": "Durchschnittliche Teuerung der Verbraucherpreise in Brasilien im Kalenderjahr, laut Weltbank.",
+        "en": "Average consumer price inflation in Brazil over the calendar year, per the World Bank."
+      },
+      "interpretation": {
+        "de": "Die Banco Central do Brasil (BCB) strebt eine Inflation von rund 3 % an. Die Linie bei 3 % dient als Orientierung.",
+        "en": "The Banco Central do Brasil (BCB) targets inflation of around 3%. The 3% line is a reference point."
+      },
+      "replaces": {
+        "de": "Die monatlichen Verbraucherpreise in Brasilien sind über FRED nicht mehr aktuell verfügbar (die OECD hat die Reihe 2025 eingestellt). Bis eine aktuelle Monatsquelle verfügbar ist, steht hier die Jahresinflation der Weltbank.",
+        "en": "Monthly consumer prices in Brazil are no longer updated on FRED (the OECD discontinued the series in 2025). Until a current monthly source is available, this shows the World Bank's annual inflation."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "gdp",
+      "category": "activity",
+      "code": "GDP",
+      "name": {
+        "de": "Reales BIP-Wachstum (annualisiert)",
+        "en": "Real GDP Growth (annualised)"
+      },
+      "short": {
+        "de": "Reales BIP",
+        "en": "Real GDP"
+      },
+      "unit": {
+        "de": "% ggü. Vorquartal, annualisiert",
+        "en": "% q/q, annualised"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "NAEXKP01BRQ657S"
+        }
+      },
+      "formula": "((1 + v / 100) ** 4 - 1) * 100",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Schrumpfung",
+          "en": "Contraction"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Quarterly National Accounts (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/quarterly-national-accounts.html"
+        }
+      ],
+      "description": {
+        "de": "Veränderung des preisbereinigten Bruttoinlandsprodukts in Brasilien gegenüber dem Vorquartal, auf ein Jahr hochgerechnet (wie in den USA üblich, damit die Länder vergleichbar sind). Referenz für die BIP-Scorecards der anderen Indikatoren.",
+        "en": "Change in inflation-adjusted GDP in Brazil versus the prior quarter, annualised (as is customary in the US, so countries are comparable). Reference for the other indicators' GDP scorecards."
+      },
+      "interpretation": {
+        "de": "Unter 0: die Wirtschaft schrumpft. In Europa wird das Quartalswachstum meist nicht annualisiert gemeldet; der Vorquartalswert entspricht etwa einem Viertel der hier gezeigten Zahl.",
+        "en": "Below 0: the economy is contracting. In Europe quarterly growth is usually reported non-annualised; the quarter-on-quarter figure is roughly a quarter of the number shown here."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "gdp_yoy",
+      "category": "activity",
+      "code": "GDP-YOY",
+      "name": {
+        "de": "Reales BIP – Wachstum ggü. Vorjahr",
+        "en": "Real GDP – Year-over-Year Growth"
+      },
+      "short": {
+        "de": "BIP ggü. Vorjahr",
+        "en": "GDP y/y"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "NGDPRSAXDCBRQ"
+        }
+      },
+      "formula": "v",
+      "transform": "yoy",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Schrumpfung",
+          "en": "Contraction"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Quarterly National Accounts (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/quarterly-national-accounts.html"
+        }
+      ],
+      "description": {
+        "de": "Preisbereinigtes BIP in Brasilien gegenüber dem Vorjahresquartal. Glatter als die Quartalsrate und die in Europa übliche Darstellung.",
+        "en": "Inflation-adjusted GDP in Brazil versus the same quarter a year earlier. Smoother than the quarterly rate and the usual presentation in Europe."
+      },
+      "interpretation": {
+        "de": "Zwei Jahreswerte unter 0 hintereinander deuten auf eine Rezession hin.",
+        "en": "Two consecutive readings below 0 point to a recession."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "ip",
+      "category": "activity",
+      "code": "INDPRO",
+      "name": {
+        "de": "Industrieproduktion",
+        "en": "Industrial Production"
+      },
+      "short": {
+        "de": "Industrieproduktion",
+        "en": "Industrial Production"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "BRAPRINTO01GYSAM"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Rückgang",
+          "en": "Decline"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Reale Produktion von Industrie, Bergbau und Energieversorgung in Brasilien, Veränderung gegenüber dem Vorjahresmonat, saisonbereinigt.",
+        "en": "Real output of manufacturing, mining and utilities in Brazil, change versus the same month a year earlier, seasonally adjusted."
+      },
+      "interpretation": {
+        "de": "Negative Raten zeigen eine schrumpfende Industrie. Ergänzt die Stimmungsumfragen um die tatsächlich produzierte Menge.",
+        "en": "Negative rates show a contracting industrial sector. Complements the sentiment surveys with actual volumes."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "retail",
+      "category": "activity",
+      "code": "RETAIL",
+      "name": {
+        "de": "Einzelhandelsumsätze (real)",
+        "en": "Retail Sales (volume)"
+      },
+      "short": {
+        "de": "Einzelhandel",
+        "en": "Retail Sales"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "BRASLRTTO01GYSAM"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Rückgang",
+          "en": "Decline"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Preisbereinigte Umsätze im Einzelhandel in Brasilien, Veränderung gegenüber dem Vorjahresmonat, saisonbereinigt. Der zeitnaheste Indikator für den privaten Konsum.",
+        "en": "Inflation-adjusted retail sales in Brazil, change versus the same month a year earlier, seasonally adjusted. The most timely gauge of private consumption."
+      },
+      "interpretation": {
+        "de": "Anders als in den USA ist die Reihe real, also bereits um Preissteigerungen bereinigt. Über 0: die Haushalte kaufen mehr als vor einem Jahr.",
+        "en": "Unlike the US series this one is real, i.e. already adjusted for price increases. Above 0: households are buying more than a year ago."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "debt",
+      "category": "fiscal",
+      "code": "Govt",
+      "name": {
+        "de": "Staatsverschuldung in % des BIP",
+        "en": "Government Debt as % of GDP"
+      },
+      "short": {
+        "de": "Schulden / BIP",
+        "en": "Debt / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "A",
+      "inputs": {
+        "v": {
+          "fred": "GGGDTABRA188N"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 100,
+      "zones": {
+        "above": {
+          "de": "Über 100 %",
+          "en": "Above 100%"
+        },
+        "below": {
+          "de": "Unter 100 %",
+          "en": "Below 100%"
+        }
+      },
+      "direction": 0,
+      "sources": [
+        {
+          "name": "International Monetary Fund – Fiscal Monitor / World Economic Outlook (via FRED)",
+          "url": "https://www.imf.org/en/Publications/FM"
+        }
+      ],
+      "description": {
+        "de": "Bruttoschulden des Gesamtstaats in Brasilien (Bund, Länder, Gemeinden, Sozialversicherung) im Verhältnis zum BIP, laut IWF.",
+        "en": "Gross debt of general government in Brazil (central, regional and local government, social security) relative to GDP, per the IMF."
+      },
+      "interpretation": {
+        "de": "Die Schwelle von 100 % markiert eine historisch kritische Zone. Eine hohe Schuldenquote schränkt den fiskalischen Spielraum ein. Jahresdaten erscheinen mit ein bis zwei Jahren Verzögerung. Der Indikator fließt nicht in den Score ein.",
+        "en": "The 100% threshold marks a historically critical zone. A high debt ratio limits fiscal room. Annual data appear with a lag of one to two years. The indicator is not scored."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "deficit",
+      "category": "fiscal",
+      "code": "Govt S/D",
+      "name": {
+        "de": "Haushaltssaldo des Staates in % des BIP",
+        "en": "Government Surplus/Deficit as % of GDP"
+      },
+      "short": {
+        "de": "Haushaltssaldo / BIP",
+        "en": "Surplus/Deficit / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "A",
+      "inputs": {
+        "v": {
+          "fred": "GGNLBABRA188N"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Überschuss",
+          "en": "Surplus"
+        },
+        "below": {
+          "de": "Defizit",
+          "en": "Deficit"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "International Monetary Fund – Fiscal Monitor / World Economic Outlook (via FRED)",
+          "url": "https://www.imf.org/en/Publications/FM"
+        }
+      ],
+      "description": {
+        "de": "Überschuss (positiv) oder Defizit (negativ) des Gesamtstaats in Brasilien im Verhältnis zum BIP, laut IWF.",
+        "en": "Surplus (positive) or deficit (negative) of general government in Brazil relative to GDP, per the IMF."
+      },
+      "interpretation": {
+        "de": "Defizite bedeuten zusätzliche staatliche Nachfrage, die über Schulden finanziert wird. Im Score zählt ein größeres Defizit deshalb als expansiv.",
+        "en": "Deficits mean additional government demand financed by debt. In the score a larger deficit therefore counts as expansionary."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    }
+  ],
+  "disabled": [
+    {
+      "id": "pmi",
+      "name": "S&P Global / HCOB PMIs",
+      "reason": "Commercial licence required; replaced by the EU/OECD business surveys."
+    },
+    {
+      "id": "m3",
+      "name": "Broad money (OECD M3)",
+      "reason": "OECD monetary aggregates on FRED end in 2023; replaced by BIS private credit / GDP."
+    },
+    {
+      "id": "cpi_m",
+      "name": "Monthly CPI (OECD MEI)",
+      "reason": "Discontinued on FRED in 2025; annual World Bank inflation used until a monthly source is available."
+    }
+  ]
+}

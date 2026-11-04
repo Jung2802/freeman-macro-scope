@@ -4,11 +4,11 @@ import { periodIndex } from './analysis.js';
 
 export const C = {
   bg: '#08090a', surface: '#0e0f11', surface2: '#151619', border: '#232427',
-  text: '#ececec', text2: '#9b9da1', text3: '#686b70',
+  text: '#ececec', text2: '#c6c9ce', text3: '#a7aab0',
   green: '#a3c4e8', red: '#c4a47c', gold: '#c4a47c', blue: '#7f9bbd', purple: '#b8cce4',
   sky: '#a3c4e8', amber: '#c4a47c', grid: 'rgba(255,255,255,0.05)', line: '#d3d8df',
 };
-const FONT = "'Inter', system-ui, sans-serif";
+const FONT = "'IBM Plex Mono', ui-monospace, monospace";   // axis ticks, tooltips and legends read as instrument values
 
 export function rgba(hex, a) {
   const h = hex.replace('#', '');
@@ -23,7 +23,7 @@ export function setupDefaults() {
   Chart.defaults.color = C.text2;
   Chart.defaults.borderColor = C.border;
   Chart.defaults.font.family = FONT;
-  Chart.defaults.font.size = 10;
+  Chart.defaults.font.size = 11;
   Chart.defaults.animation.duration = 350;
   Chart.defaults.maintainAspectRatio = false;
   Object.assign(Chart.defaults.plugins.tooltip, {
@@ -76,7 +76,7 @@ export function thresholdLine(thr, label, color = C.purple) {
       ctx.moveTo(a.left, ty); ctx.lineTo(a.right, ty); ctx.stroke();
       ctx.setLineDash([]);
       if (label) {
-        ctx.font = `9px ${FONT}`;
+        ctx.font = `10.5px ${FONT}`;
         ctx.fillStyle = rgba(color, 0.85);
         ctx.textAlign = 'right';
         ctx.fillText(label, a.right - 4, ty - 4);

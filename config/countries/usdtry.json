@@ -1,0 +1,553 @@
+{
+  "id": "usdtry",
+  "name": {
+    "de": "USD/TRY",
+    "en": "USD/TRY"
+  },
+  "currency": "USD/TRY",
+  "selector": [
+    {
+      "land": "us",
+      "landName": {
+        "de": "USA",
+        "en": "United States"
+      },
+      "group": "exogenous",
+      "vs": "TRY"
+    },
+    {
+      "land": "tr",
+      "landName": {
+        "de": "Türkei",
+        "en": "Türkiye"
+      },
+      "group": "exogenous",
+      "vs": "USD"
+    }
+  ],
+  "texts": {
+    "ov.subtitle": {
+      "de": "USA gegen Türkei: Welche der beiden Wirtschaften ist gerade stärker? Die wichtigsten Treiber des Wechselkurses USD/TRY an einem Ort, einfach bewertet und mit Quellen.",
+      "en": "US versus Türkiye: which of the two economies is stronger right now? The key drivers of the USD/TRY exchange rate in one place, simply scored and with sources."
+    },
+    "ov.scoreSentence": {
+      "de": "{pos} von {n} bewerteten Treibern sprechen aktuell für den USD (Score > 0), {neg} für den TRY (Score < 0).",
+      "en": "{pos} of {n} scored drivers currently favour the USD (score > 0), {neg} favour the TRY (score < 0)."
+    },
+    "ov.scoreLegend": {
+      "de": "+ = Vorteil USA / Rückenwind für USD, − = Vorteil Türkei / Rückenwind für TRY. Statistische Zusammenfassung, keine Empfehlung.",
+      "en": "+ = advantage US / tailwind for USD, − = advantage Türkiye / tailwind for TRY. Statistical summary, not a recommendation."
+    },
+    "info.dirPos": {
+      "de": "höherer Wert = Rückenwind für USD (+)",
+      "en": "higher = tailwind for USD (+)"
+    },
+    "info.dirNeg": {
+      "de": "höherer Wert = Rückenwind für TRY (−)",
+      "en": "higher = tailwind for TRY (−)"
+    }
+  },
+  "groups": [
+    {
+      "id": "exogenous",
+      "name": {
+        "de": "Währungsvergleich · exogene Treiber",
+        "en": "Currency comparison · exogenous drivers"
+      },
+      "description": {
+        "de": "Ein Wechselkurs ist immer ein Vergleich zweier Wirtschaftsräume. Darum stehen hier die USA und Türkei direkt nebeneinander: Wer wächst schneller, bietet höhere Zinsen, hat die stabileren Preise und die stärkere Börse? Wo die USA vorne liegt, fließt tendenziell Geld dorthin und der USD steigt gegenüber dem TRY. Plus heißt also: Rückenwind für den USD, Minus: Rückenwind für den TRY.",
+        "en": "An exchange rate always compares two economies. So the US and Türkiye stand side by side here: which grows faster, pays higher rates, has more stable prices and the stronger stock market? Where the US leads, money tends to flow there and the USD rises against the TRY. Plus means a tailwind for the USD, minus a tailwind for the TRY."
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "fx",
+      "group": "exogenous",
+      "tone": "neutral",
+      "color": "#e9e9e9",
+      "name": {
+        "de": "Wechselkurs",
+        "en": "Exchange Rate"
+      }
+    },
+    {
+      "id": "growth",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#a3e635",
+      "name": {
+        "de": "Relatives Wachstum & Arbeitsmarkt",
+        "en": "Relative Growth & Labour"
+      }
+    },
+    {
+      "id": "carry",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#60a5fa",
+      "name": {
+        "de": "Zinsdifferenz & Carry",
+        "en": "Interest Rate Differential & Carry"
+      }
+    },
+    {
+      "id": "prices",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#f472b6",
+      "name": {
+        "de": "Inflation & Kaufkraft",
+        "en": "Inflation & Purchasing Power"
+      }
+    },
+    {
+      "id": "trade",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#22d3ee",
+      "name": {
+        "de": "Rohstoffe & Handel",
+        "en": "Commodities & Trade"
+      }
+    },
+    {
+      "id": "wealth",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#f59e0b",
+      "name": {
+        "de": "Aktienmarkt / Relativer Wohlstand",
+        "en": "Stock Markets / Relative Wealth"
+      }
+    }
+  ],
+  "indicators": [
+    {
+      "id": "spot",
+      "category": "fx",
+      "code": "USD/TRY",
+      "decimals": 3,
+      "frequency": "M",
+      "name": {
+        "de": "Wechselkurs USD/TRY",
+        "en": "Exchange Rate USD/TRY"
+      },
+      "short": {
+        "de": "Kurs USD/TRY",
+        "en": "USD/TRY Rate"
+      },
+      "unit": {
+        "de": "TRY je USD",
+        "en": "TRY per USD"
+      },
+      "inputs": {
+        "trl": {
+          "fred": "CCUSMA02TRM618N"
+        }
+      },
+      "formula": "trl",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "USD über Durchschnitt",
+          "en": "USD above average"
+        },
+        "below": {
+          "de": "USD unter Durchschnitt",
+          "en": "USD below average"
+        }
+      },
+      "direction": 0,
+      "license": "public",
+      "sources": [
+        {
+          "name": "OECD – Exchange rates, monthly average (national currency per USD) (via FRED: CCUSMA02TRM618N)",
+          "url": "https://fred.stlouisfed.org/series/CCUSMA02TRM618N"
+        }
+      ],
+      "description": {
+        "de": "Wie viele TRY ein USD kostet (Monatsdurchschnitt laut OECD).",
+        "en": "How many TRY one USD costs (monthly average per the OECD)."
+      },
+      "interpretation": {
+        "de": "Das ist die Größe, die die anderen Treiber erklären sollen. Sie bekommt deshalb keinen eigenen Score. Vergleiche ihre Richtung mit dem Gesamt-Score: Laufen beide lange auseinander, ist der Kurs entweder überdehnt oder andere Kräfte (Risikostimmung, Kapitalflüsse) dominieren.",
+        "en": "This is what the other drivers are meant to explain, so it is not scored. Compare its direction with the total score: if the two diverge for long, the rate is either stretched or other forces (risk sentiment, capital flows) dominate."
+      },
+      "transform": "level",
+      "gdpRegression": false
+    },
+    {
+      "id": "rel_gdp",
+      "category": "growth",
+      "code": "GDP-DIFF",
+      "decimals": 2,
+      "frequency": "Q",
+      "name": {
+        "de": "Relatives BIP-Wachstum (USA − Türkei)",
+        "en": "Relative GDP Growth (US − Türkiye)"
+      },
+      "short": {
+        "de": "Relatives BIP-Wachstum",
+        "en": "Relative GDP Growth"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "inputs": {
+        "a": {
+          "fred": "GDPC1",
+          "transform": "yoy"
+        },
+        "b": {
+          "fred": "NGDPRSAXDCTRQ",
+          "transform": "yoy"
+        }
+      },
+      "formula": "a - b",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "USA wächst schneller",
+          "en": "US grows faster"
+        },
+        "below": {
+          "de": "Türkei wächst schneller",
+          "en": "Türkiye grows faster"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "U.S. Bureau of Economic Analysis – Real GDP (via FRED: GDPC1)",
+          "url": "https://fred.stlouisfed.org/series/GDPC1"
+        },
+        {
+          "name": "IMF International Financial Statistics – Real GDP (via FRED: NGDPRSAXDCTRQ)",
+          "url": "https://fred.stlouisfed.org/series/NGDPRSAXDCTRQ"
+        }
+      ],
+      "description": {
+        "de": "Reales BIP-Wachstum ggü. Vorjahr in den USA minus in der Türkei.",
+        "en": "Real GDP growth year on year in the US minus in Türkiye."
+      },
+      "interpretation": {
+        "de": "Über 0: Die Wirtschaft in den USA wächst schneller. Das zieht tendenziell Kapital an und stützt den USD. Unter 0: Rückenwind für den TRY.",
+        "en": "Above 0: the economy in the US grows faster, which tends to attract capital and support the USD. Below 0: tailwind for the TRY."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "rate_diff",
+      "category": "carry",
+      "code": "IR-DIFF",
+      "decimals": 2,
+      "frequency": "M",
+      "name": {
+        "de": "Leitzinsdifferenz & Carry (Fed − TCMB)",
+        "en": "Policy Rate Differential & Carry (Fed − CBRT)"
+      },
+      "short": {
+        "de": "Leitzinsdifferenz",
+        "en": "Policy Rate Gap"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "inputs": {
+        "a": {
+          "fred": "FEDFUNDS"
+        },
+        "b": {
+          "fred": "IRSTCI01TRM156N"
+        }
+      },
+      "formula": "a - b",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Zinsvorteil USD",
+          "en": "Yield advantage USD"
+        },
+        "below": {
+          "de": "Zinsvorteil TRY",
+          "en": "Yield advantage TRY"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "Federal Reserve – Effective Federal Funds Rate (via FRED: FEDFUNDS)",
+          "url": "https://fred.stlouisfed.org/series/FEDFUNDS"
+        },
+        {
+          "name": "OECD – Overnight interbank rate (policy-rate proxy) (via FRED: IRSTCI01TRM156N)",
+          "url": "https://fred.stlouisfed.org/series/IRSTCI01TRM156N"
+        }
+      ],
+      "description": {
+        "de": "Leitzins (bzw. Tagesgeldsatz) in den USA minus in der Türkei. Die Differenz ist der Zinsvorteil (Carry), den man beim Halten von USD statt TRY erhält.",
+        "en": "Policy (or overnight) rate in the US minus in Türkiye. The difference is the carry earned by holding USD instead of TRY."
+      },
+      "interpretation": {
+        "de": "Über 0: der USD bringt mehr Zins, Carry-Kapital fließt eher in den USD. Wichtiger als das Niveau ist oft die Richtung: Steigt die Differenz, weil Fed strafft oder TCMB lockert, bekommt der USD Rückenwind.",
+        "en": "Above 0: the USD yields more and carry capital tends to flow into it. Direction often matters more than level: when the gap widens because the Fed tightens or the CBRT eases, the USD gains."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "infl_diff",
+      "category": "prices",
+      "code": "CPI-DIFF",
+      "decimals": 2,
+      "frequency": "M",
+      "name": {
+        "de": "Inflationsdifferenz (USA − Türkei)",
+        "en": "Inflation Differential (US − Türkiye)"
+      },
+      "short": {
+        "de": "Inflationsdifferenz",
+        "en": "Inflation Gap"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "inputs": {
+        "a": {
+          "fred": "CPIAUCSL",
+          "transform": "yoy"
+        },
+        "b": {
+          "fred": "CP0000TRM086NEST",
+          "transform": "yoy"
+        }
+      },
+      "formula": "a - b",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Höhere Inflation in USA",
+          "en": "Higher inflation in US"
+        },
+        "below": {
+          "de": "Höhere Inflation in Türkei",
+          "en": "Higher inflation in Türkiye"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "U.S. Bureau of Labor Statistics – CPI (via FRED: CPIAUCSL)",
+          "url": "https://fred.stlouisfed.org/series/CPIAUCSL"
+        },
+        {
+          "name": "Eurostat – Harmonised Index of Consumer Prices (via FRED: CP0000TRM086NEST)",
+          "url": "https://fred.stlouisfed.org/series/CP0000TRM086NEST"
+        }
+      ],
+      "description": {
+        "de": "Inflationsrate in den USA minus in der Türkei.",
+        "en": "Inflation rate in the US minus in Türkiye."
+      },
+      "interpretation": {
+        "de": "Höhere Inflation zehrt auf Dauer an der Kaufkraft einer Währung (Kaufkraftparität). Im Score zählt eine höhere Inflation in den USA deshalb negativ für den USD. Kurzfristig kann sie den USD aber stützen, wenn die Notenbank deswegen die Zinsen erhöht, siehe Zinsdifferenz.",
+        "en": "Higher inflation erodes a currency's purchasing power over time (purchasing power parity). In the score higher inflation in the US therefore counts against the USD. In the short run it can support the USD if the central bank raises rates in response, see the rate gap."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "unemp_diff",
+      "category": "growth",
+      "code": "UR-DIFF",
+      "decimals": 2,
+      "frequency": "M",
+      "name": {
+        "de": "Arbeitslosenquote-Differenz (USA − Türkei)",
+        "en": "Unemployment Rate Differential (US − Türkiye)"
+      },
+      "short": {
+        "de": "Arbeitsmarkt-Differenz",
+        "en": "Unemployment Gap"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "inputs": {
+        "a": {
+          "fred": "UNRATE"
+        },
+        "b": {
+          "fred": "LRHUTTTTTRM156S"
+        }
+      },
+      "formula": "a - b",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Arbeitsmarkt Türkei relativ stärker",
+          "en": "Türkiye labour market relatively stronger"
+        },
+        "below": {
+          "de": "Arbeitsmarkt USA relativ stärker",
+          "en": "US labour market relatively stronger"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "U.S. Bureau of Labor Statistics – Unemployment Rate (via FRED: UNRATE)",
+          "url": "https://fred.stlouisfed.org/series/UNRATE"
+        },
+        {
+          "name": "OECD – Harmonised Unemployment Rate (via FRED: LRHUTTTTTRM156S)",
+          "url": "https://fred.stlouisfed.org/series/LRHUTTTTTRM156S"
+        }
+      ],
+      "description": {
+        "de": "Arbeitslosenquote in den USA minus in der Türkei. Weil die Quoten strukturell verschieden hoch sind, dient der historische Median als Schwelle.",
+        "en": "Unemployment rate in the US minus in Türkiye. Because the rates differ structurally, the historical median is the threshold."
+      },
+      "interpretation": {
+        "de": "Sinkt die Differenz, verbessert sich der Arbeitsmarkt in den USA relativ. Das spricht für Wachstum und straffere Geldpolitik und stützt den USD.",
+        "en": "A falling gap means the labour market in the US is improving relatively, which points to growth and tighter policy and supports the USD."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "rel_stocks",
+      "category": "wealth",
+      "code": "EQ-DIFF",
+      "decimals": 1,
+      "frequency": "M",
+      "name": {
+        "de": "Relative Aktienrendite (USA − Türkei, Vorjahr)",
+        "en": "Relative Stock Returns (US − Türkiye, year on year)"
+      },
+      "short": {
+        "de": "Relative Aktienrendite",
+        "en": "Relative Stock Returns"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "inputs": {
+        "a0": {
+          "fred": "SPASTT01USM661N",
+          "transform": "yoy"
+        },
+        "b0": {
+          "fred": "SPASTT01TRM661N",
+          "transform": "yoy"
+        }
+      },
+      "formula": "a0 - b0",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Aktien USA stärker",
+          "en": "US stocks stronger"
+        },
+        "below": {
+          "de": "Aktien Türkei stärker",
+          "en": "Türkiye stocks stronger"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Share Prices (via FRED: SPASTT01USM661N)",
+          "url": "https://fred.stlouisfed.org/series/SPASTT01USM661N"
+        },
+        {
+          "name": "OECD – Share Prices (via FRED: SPASTT01TRM661N)",
+          "url": "https://fred.stlouisfed.org/series/SPASTT01TRM661N"
+        }
+      ],
+      "description": {
+        "de": "Jahresveränderung der Aktienkurse in den USA minus in der Türkei (OECD-Indizes in Landeswährung).",
+        "en": "Year-on-year change in share prices in the US minus in Türkiye (OECD indices in local currency)."
+      },
+      "interpretation": {
+        "de": "Über 0: die Börse in den USA läuft besser, ausländisches Kapital fließt eher dorthin und stützt den USD.",
+        "en": "Above 0: the stock market in the US outperforms, foreign capital tends to flow there and support the USD."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "oil",
+      "category": "trade",
+      "code": "WTI",
+      "decimals": 1,
+      "frequency": "M",
+      "name": {
+        "de": "Ölpreis (WTI)",
+        "en": "Oil Price (WTI)"
+      },
+      "short": {
+        "de": "Ölpreis",
+        "en": "Oil Price"
+      },
+      "unit": {
+        "de": "USD je Barrel",
+        "en": "USD per barrel"
+      },
+      "inputs": {
+        "p": {
+          "fred": "MCOILWTICO"
+        }
+      },
+      "formula": "p",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Teuer",
+          "en": "High"
+        },
+        "below": {
+          "de": "Billig",
+          "en": "Low"
+        }
+      },
+      "direction": 1,
+      "license": "public",
+      "sources": [
+        {
+          "name": "U.S. Energy Information Administration – WTI Crude Oil Price (via FRED: MCOILWTICO)",
+          "url": "https://fred.stlouisfed.org/series/MCOILWTICO"
+        }
+      ],
+      "description": {
+        "de": "Preis für ein Barrel US-Rohöl (WTI, Monatsdurchschnitt). Die Türkei importiert fast ihre gesamte Energie: Ein hoher Ölpreis belastet Leistungsbilanz und Lira.",
+        "en": "Price of a barrel of US crude (WTI, monthly average). Türkiye imports almost all its energy: a high oil price weighs on the current account and the lira."
+      },
+      "interpretation": {
+        "de": "Hoher Ölpreis = Gegenwind für TRY, also Plus-Score für USD/TRY.",
+        "en": "High oil = headwind for the TRY, i.e. a plus score for USD/TRY."
+      },
+      "transform": "level",
+      "gdpRegression": false
+    }
+  ],
+  "recession": {
+    "fred": "USREC",
+    "source": {
+      "name": "NBER Business Cycle Dating Committee (via FRED: USREC)",
+      "url": "https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions"
+    }
+  }
+}

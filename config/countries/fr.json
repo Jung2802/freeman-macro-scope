@@ -1,0 +1,1747 @@
+{
+  "id": "fr",
+  "name": {
+    "de": "Frankreich",
+    "en": "France"
+  },
+  "currency": "EUR",
+  "continent": "europe",
+  "selector": [
+    {
+      "land": "fr",
+      "landName": {
+        "de": "Frankreich",
+        "en": "France"
+      },
+      "group": "endogenous"
+    }
+  ],
+  "gdpIndicator": "gdp",
+  "groups": [
+    {
+      "id": "endogenous",
+      "name": {
+        "de": "Binnenwirtschaft · endogene Treiber",
+        "en": "Domestic economy · endogenous drivers"
+      },
+      "description": {
+        "de": "Wie geht es der Wirtschaft in Frankreich? Hier stehen die Daten, die im Land selbst entstehen: Stimmung von Unternehmen und Verbrauchern, Immobilien und Bau, Kredit und Währung, Zinsen, Preise, Jobs, Wachstum und Staatsfinanzen. Zusammen zeigen sie, in welcher Phase des Konjunkturzyklus das Land steht und wie die Europäische Zentralbank (EZB) und die Regierung wahrscheinlich reagieren. Alle Reihen sind international vergleichbar, damit sich die Länder nebeneinanderlegen lassen.",
+        "en": "How is the economy doing in France? These are the data generated inside the country: business and consumer sentiment, housing and construction, credit and currency, rates, prices, jobs, growth and public finances. Together they show which phase of the business cycle the country is in and how the European Central Bank (ECB) and the government are likely to react. All series are internationally comparable, so countries can be set side by side."
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "surveys",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#a78bfa",
+      "name": {
+        "de": "Frühindikatoren & Umfragen",
+        "en": "Leading Indicators & Surveys"
+      }
+    },
+    {
+      "id": "housing",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#f59e0b",
+      "name": {
+        "de": "Immobilien & Bau",
+        "en": "Housing & Construction"
+      }
+    },
+    {
+      "id": "money",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#22d3ee",
+      "name": {
+        "de": "Geld, Kredit & Währung",
+        "en": "Money, Credit & Currency"
+      }
+    },
+    {
+      "id": "rates",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#60a5fa",
+      "name": {
+        "de": "Zinsen",
+        "en": "Interest Rates"
+      }
+    },
+    {
+      "id": "inflation",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#f472b6",
+      "name": {
+        "de": "Inflation",
+        "en": "Inflation"
+      }
+    },
+    {
+      "id": "labour",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#34d399",
+      "name": {
+        "de": "Arbeitsmarkt",
+        "en": "Labour Market"
+      }
+    },
+    {
+      "id": "activity",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#a3e635",
+      "name": {
+        "de": "Wachstum & Aktivität",
+        "en": "Growth & Activity"
+      }
+    },
+    {
+      "id": "fiscal",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#fb923c",
+      "name": {
+        "de": "Staatsfinanzen",
+        "en": "Public Finances"
+      }
+    }
+  ],
+  "indicators": [
+    {
+      "id": "mfg_conf",
+      "category": "surveys",
+      "code": "BCI-MFG",
+      "name": {
+        "de": "Industrievertrauen (EU-/OECD-Unternehmensumfrage)",
+        "en": "Industrial Confidence (EU/OECD business survey)"
+      },
+      "short": {
+        "de": "Industrievertrauen",
+        "en": "Industrial Confidence"
+      },
+      "unit": {
+        "de": "Saldo (Prozentpunkte)",
+        "en": "Balance (percentage points)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "BSCICP02FRM460S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Business Tendency and Consumer Opinion Surveys (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/business-tendency-and-consumer-opinion-surveys.html"
+        }
+      ],
+      "description": {
+        "de": "Monatliche Umfrage unter Industriebetrieben in Frankreich zu Auftragsbestand, Lagern und Produktionserwartungen, zusammengefasst als Saldo: Anteil positiver minus Anteil negativer Antworten. In der EU stammt sie aus dem harmonisierten Umfrageprogramm der Europäischen Kommission und ist das Gegenstück zu den Einkaufsmanagerindizes (PMI), die nur gegen Lizenz verfügbar sind.",
+        "en": "Monthly survey of manufacturers in France on order books, stocks and production expectations, summarised as a balance: share of positive minus share of negative answers. In the EU it comes from the European Commission's harmonised survey programme and is the counterpart of the purchasing managers' indices (PMI), which are only available under licence."
+      },
+      "interpretation": {
+        "de": "Als Schwelle dient der langjährige Durchschnitt, denn der Saldo liegt bei manchen Ländern dauerhaft unter 0. Darüber: überdurchschnittliche Stimmung in der Industrie. Die Umfrage läuft der Produktion einige Monate voraus.",
+        "en": "The threshold is the long-run average, because in some countries the balance sits permanently below 0. Above it: above-average sentiment among manufacturers. The survey leads production by a few months."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "svc_conf",
+      "category": "surveys",
+      "code": "BCI-SVC",
+      "name": {
+        "de": "Dienstleistungsvertrauen (EU-Unternehmensumfrage)",
+        "en": "Services Confidence (EU business survey)"
+      },
+      "short": {
+        "de": "Dienstleistungsvertrauen",
+        "en": "Services Confidence"
+      },
+      "unit": {
+        "de": "Saldo (Prozentpunkte)",
+        "en": "Balance (percentage points)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "BVCICP02FRM460S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Business Tendency and Consumer Opinion Surveys (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/business-tendency-and-consumer-opinion-surveys.html"
+        }
+      ],
+      "description": {
+        "de": "Umfrage unter Dienstleistern in Frankreich zu Geschäftslage, Nachfrage der letzten Monate und erwarteter Nachfrage (Saldo). Dienstleistungen sind der größte Teil der Wirtschaftsleistung.",
+        "en": "Survey of service providers in France on business situation, recent demand and expected demand (balance). Services are the largest part of output."
+      },
+      "interpretation": {
+        "de": "Über dem Durchschnitt: Dienstleister sind zuversichtlicher als üblich. Fällt der Saldo deutlich, folgen oft schwächerer Konsum und weniger Einstellungen.",
+        "en": "Above average: service firms are more confident than usual. A sharp fall is often followed by weaker consumption and hiring."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "cons_conf",
+      "category": "surveys",
+      "code": "CCI",
+      "name": {
+        "de": "Verbrauchervertrauen",
+        "en": "Consumer Confidence"
+      },
+      "short": {
+        "de": "Verbrauchervertrauen",
+        "en": "Consumer Confidence"
+      },
+      "unit": {
+        "de": "Saldo (Prozentpunkte)",
+        "en": "Balance (percentage points)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "CSCICP02FRM460S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Optimistisch",
+          "en": "Optimistic"
+        },
+        "below": {
+          "de": "Pessimistisch",
+          "en": "Pessimistic"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Business Tendency and Consumer Opinion Surveys (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/business-tendency-and-consumer-opinion-surveys.html"
+        }
+      ],
+      "description": {
+        "de": "Monatliche Umfrage unter Haushalten in Frankreich zu finanzieller Lage, Wirtschaftslage und geplanten größeren Anschaffungen. Der private Konsum ist meist mehr als die Hälfte der Wirtschaftsleistung.",
+        "en": "Monthly household survey in France on finances, the economic situation and planned major purchases. Private consumption is usually more than half of output."
+      },
+      "interpretation": {
+        "de": "Die Werte liegen meist dauerhaft auf einer Seite der Nulllinie bzw. der Neutralmarke, deshalb ist der langjährige Durchschnitt die Schwelle. Wichtiger als das Niveau ist die Richtung: steigt das Vertrauen, ziehen Konsum und Einzelhandel meist nach.",
+        "en": "Readings usually stay on one side of zero or the neutral mark, so the long-run average is the threshold. Direction matters more than the level: when confidence rises, consumption and retail sales usually follow."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "capu",
+      "category": "surveys",
+      "code": "CAPU",
+      "name": {
+        "de": "Kapazitätsauslastung der Industrie",
+        "en": "Manufacturing Capacity Utilisation"
+      },
+      "short": {
+        "de": "Kapazitätsauslastung",
+        "en": "Capacity Utilisation"
+      },
+      "unit": {
+        "de": "% der Kapazität",
+        "en": "% of capacity"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "BSCURT02FRQ160S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "regressorTransform": "diff1",
+      "sources": [
+        {
+          "name": "OECD – Business Tendency and Consumer Opinion Surveys (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/business-tendency-and-consumer-opinion-surveys.html"
+        }
+      ],
+      "description": {
+        "de": "Vierteljährliche Unternehmensumfrage: Wie stark sind die Produktionsanlagen der Industrie in Frankreich ausgelastet?",
+        "en": "Quarterly business survey: how intensively is manufacturing capacity in France being used?"
+      },
+      "interpretation": {
+        "de": "Hohe Auslastung bedeutet Investitionsbedarf und Preisdruck, niedrige Auslastung freie Kapazitäten. In der BIP-Scorecard wird die Veränderung zum Vorquartal verwendet, nicht das Niveau.",
+        "en": "High utilisation means pressure to invest and pricing power, low utilisation means spare capacity. The GDP scorecard uses the change from the prior quarter, not the level."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "hp",
+      "category": "housing",
+      "code": "RPP",
+      "name": {
+        "de": "Reale Wohnimmobilienpreise",
+        "en": "Real Residential Property Prices"
+      },
+      "short": {
+        "de": "Immobilienpreise (real)",
+        "en": "House Prices (real)"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "QFRR628BIS"
+        }
+      },
+      "formula": "v",
+      "transform": "yoy",
+      "base": {
+        "unit": {
+          "de": "Index (2010 = 100, inflationsbereinigt)",
+          "en": "Index (2010 = 100, inflation-adjusted)"
+        },
+        "decimals": 1
+      },
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Steigend",
+          "en": "Rising"
+        },
+        "below": {
+          "de": "Fallend",
+          "en": "Falling"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Residential Property Prices (via FRED)",
+          "url": "https://data.bis.org/topics/RPP"
+        }
+      ],
+      "description": {
+        "de": "Preise für Wohnimmobilien in Frankreich, bereinigt um die Verbraucherpreise, als Veränderung gegenüber dem Vorjahr. Die BIS vereinheitlicht dafür die Daten der nationalen Quellen.",
+        "en": "Residential property prices in France, deflated by consumer prices, as change versus the prior year. The BIS harmonises the national sources."
+      },
+      "interpretation": {
+        "de": "Steigende Immobilienpreise stärken Vermögen und Konsum der Haushalte und die Sicherheiten der Banken. Lange fallende reale Preise gingen oft schwachen Jahren voraus.",
+        "en": "Rising house prices lift household wealth, consumption and bank collateral. Long stretches of falling real prices often preceded weak years."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "constr_conf",
+      "category": "housing",
+      "code": "BCI-CON",
+      "name": {
+        "de": "Bauvertrauen (Unternehmensumfrage)",
+        "en": "Construction Confidence (business survey)"
+      },
+      "short": {
+        "de": "Bauvertrauen",
+        "en": "Construction Confidence"
+      },
+      "unit": {
+        "de": "Saldo (Prozentpunkte)",
+        "en": "Balance (percentage points)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "BCCICP02FRM460S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Business Tendency and Consumer Opinion Surveys (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/business-tendency-and-consumer-opinion-surveys.html"
+        }
+      ],
+      "description": {
+        "de": "Monatliche Umfrage unter Bauunternehmen in Frankreich zu Auftragsbestand und Beschäftigungserwartung (Saldo). Ersetzt die in Europa nicht einheitlich verfügbaren Baugenehmigungen als zeitnahen Frühindikator.",
+        "en": "Monthly survey of construction firms in France on order books and hiring plans (balance). Replaces building permits, which are not uniformly available in Europe, as a timely leading indicator."
+      },
+      "interpretation": {
+        "de": "Über dem Durchschnitt: Die Bauwirtschaft ist besser ausgelastet als üblich. Bau reagiert stark auf Zinsen, deshalb dreht diese Reihe oft früh.",
+        "en": "Above average: construction is busier than usual. Building reacts strongly to interest rates, so this series often turns early."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "constr_out",
+      "category": "housing",
+      "code": "CONSTR",
+      "name": {
+        "de": "Bauproduktion",
+        "en": "Construction Output"
+      },
+      "short": {
+        "de": "Bauproduktion",
+        "en": "Construction Output"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "PRCNTO01FRQ659S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Rückgang",
+          "en": "Decline"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Real erbrachte Bauleistung in Frankreich (Hoch- und Tiefbau), Veränderung zum Vorjahresquartal, saisonbereinigt.",
+        "en": "Real construction output in France (buildings and civil engineering), change versus the same quarter a year earlier, seasonally adjusted."
+      },
+      "interpretation": {
+        "de": "Negative Raten zeigen eine schrumpfende Bauwirtschaft. Ergänzt das Bauvertrauen um die tatsächlich gebaute Menge.",
+        "en": "Negative rates show a contracting construction sector. Complements construction confidence with actual volumes."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "cb_assets",
+      "category": "money",
+      "code": "CBBS",
+      "name": {
+        "de": "Notenbank-Bilanzsumme (EZB) – Wachstum",
+        "en": "Central Bank Balance Sheet (ECB) – Growth"
+      },
+      "short": {
+        "de": "EZB-Bilanz",
+        "en": "ECB Balance Sheet"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "ECBASSETSW"
+        }
+      },
+      "formula": "v",
+      "transform": "yoy",
+      "base": {
+        "unit": {
+          "de": "Mio. EUR",
+          "en": "EUR million"
+        },
+        "decimals": 0
+      },
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wächst (QE)",
+          "en": "Expanding (QE)"
+        },
+        "below": {
+          "de": "Schrumpft (QT)",
+          "en": "Shrinking (QT)"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "European Central Bank – Weekly Financial Statement (via FRED: ECBASSETSW)",
+          "url": "https://www.ecb.europa.eu/press/annual-reports-financial-statements/wfs/html/index.en.html"
+        }
+      ],
+      "description": {
+        "de": "Summe aller Vermögenswerte die Europäische Zentralbank (EZB), als Veränderung gegenüber dem Vorjahr. Sie steigt bei Anleihekäufen (Quantitative Easing) und sinkt beim Bilanzabbau (Quantitative Tightening). Die EZB-Bilanz gilt für den ganzen Euroraum.",
+        "en": "Total assets of the European Central Bank (ECB), as change versus the prior year. It rises with asset purchases (quantitative easing) and falls with balance-sheet runoff (quantitative tightening). The ECB balance sheet covers the whole euro area."
+      },
+      "interpretation": {
+        "de": "Eine wachsende Bilanz bringt zusätzliche Liquidität ins System, eine schrumpfende zieht sie ab. Wirkt eher auf Anleihen- und Aktienmärkte als direkt auf das BIP.",
+        "en": "An expanding balance sheet adds liquidity, a shrinking one withdraws it. It works more through bond and equity markets than directly through GDP."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "credit",
+      "category": "money",
+      "code": "CREDIT",
+      "name": {
+        "de": "Kredit an den privaten Sektor in % des BIP",
+        "en": "Credit to the Private Sector as % of GDP"
+      },
+      "short": {
+        "de": "Privatkredit / BIP",
+        "en": "Private Credit / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "QFRPAM770A"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "regressorTransform": "yoy",
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Credit to the Non-Financial Sector (via FRED)",
+          "url": "https://data.bis.org/topics/TOTAL_CREDIT"
+        }
+      ],
+      "description": {
+        "de": "Alle Kredite an Unternehmen und Haushalte in Frankreich (Bankkredite, Anleihen und Kredite aus dem Ausland) im Verhältnis zur Wirtschaftsleistung. Ersetzt die Geldmenge M3, deren internationale Reihe 2023 eingestellt wurde.",
+        "en": "All credit to companies and households in France (bank loans, bonds and cross-border lending) relative to output. Replaces the M3 money supply, whose international series was discontinued in 2023."
+      },
+      "interpretation": {
+        "de": "Ein schneller Anstieg der Kreditquote treibt die Nachfrage an, kann aber auch Übertreibungen anzeigen. In der BIP-Scorecard wird die Veränderung über ein Jahr verwendet: Wichtig ist der Kreditimpuls, nicht das Niveau.",
+        "en": "A rapid rise in the credit ratio boosts demand but can also signal excess. The GDP scorecard uses the change over one year: the credit impulse matters, not the level."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "hh_debt",
+      "category": "money",
+      "code": "HH-DEBT",
+      "name": {
+        "de": "Verschuldung der privaten Haushalte in % des BIP",
+        "en": "Household Debt as % of GDP"
+      },
+      "short": {
+        "de": "Haushaltsschulden / BIP",
+        "en": "Household Debt / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "QFRHAM770A"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 0,
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Credit to the Non-Financial Sector (via FRED)",
+          "url": "https://data.bis.org/topics/TOTAL_CREDIT"
+        }
+      ],
+      "description": {
+        "de": "Kredite an private Haushalte in Frankreich, vor allem Hypotheken, im Verhältnis zur Wirtschaftsleistung.",
+        "en": "Credit to households in France, mostly mortgages, relative to output."
+      },
+      "interpretation": {
+        "de": "Hohe Haushaltsschulden machen den Konsum zinsempfindlich. Die Wirkung ist nicht eindeutig, deshalb fließt der Indikator nicht in den Score ein.",
+        "en": "High household debt makes consumption sensitive to interest rates. The effect is ambiguous, so the indicator is not scored."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "reer",
+      "category": "money",
+      "code": "REER",
+      "name": {
+        "de": "Realer effektiver Wechselkurs",
+        "en": "Real Effective Exchange Rate"
+      },
+      "short": {
+        "de": "Realer Wechselkurs",
+        "en": "Real Exchange Rate"
+      },
+      "unit": {
+        "de": "Index (2020 = 100)",
+        "en": "Index (2020 = 100)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "RBFRBIS"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Stark (teuer)",
+          "en": "Strong (expensive)"
+        },
+        "below": {
+          "de": "Schwach (günstig)",
+          "en": "Weak (cheap)"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Effective Exchange Rates (via FRED)",
+          "url": "https://data.bis.org/topics/EER"
+        }
+      ],
+      "description": {
+        "de": "Außenwert der Währung in Frankreich gegenüber einem breiten Korb von Handelspartnern, bereinigt um Preisunterschiede. Steigt der Index, werden Exporte teurer und Importe billiger.",
+        "en": "External value of the currency in France against a broad basket of trading partners, adjusted for price differences. A rising index makes exports dearer and imports cheaper."
+      },
+      "interpretation": {
+        "de": "Eine starke Währung dämpft Exporte und Inflation, eine schwache stützt beides. Im Score zählt ein hoher Wert deshalb negativ (straffend).",
+        "en": "A strong currency dampens exports and inflation, a weak one supports both. In the score a high value therefore counts negative (tightening)."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "policy",
+      "category": "rates",
+      "code": "ECB-DFR",
+      "name": {
+        "de": "Leitzins (EZB-Einlagesatz)",
+        "en": "Policy Rate (ECB Deposit Facility Rate)"
+      },
+      "short": {
+        "de": "Leitzins (EZB)",
+        "en": "Policy Rate (ECB)"
+      },
+      "unit": {
+        "de": "%",
+        "en": "%"
+      },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "ECBDFR"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Über Median",
+          "en": "Above median"
+        },
+        "below": {
+          "de": "Unter Median",
+          "en": "Below median"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "European Central Bank – Key ECB Interest Rates (via FRED: ECBDFR)",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html"
+        }
+      ],
+      "description": {
+        "de": "Zinssatz, zu dem Banken überschüssiges Geld über Nacht bei der EZB anlegen. Seit der Zinswende 2022 ist er der maßgebliche Leitzins für den ganzen Euroraum, also auch in Frankreich.",
+        "en": "The rate at which banks park excess money overnight at the ECB. Since 2022 it is the decisive policy rate for the whole euro area, including France."
+      },
+      "interpretation": {
+        "de": "Höhere Zinsen verteuern Kredite und bremsen die Wirtschaft. Im Score zählt ein hoher Zins negativ (restriktiv). Die EZB richtet sich nach dem gesamten Euroraum, nicht nach einem einzelnen Land.",
+        "en": "Higher rates make credit more expensive and slow the economy. In the score a high rate counts negative (restrictive). The ECB sets policy for the whole euro area, not for a single country."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "real_rate",
+      "category": "rates",
+      "code": "RIR%",
+      "name": {
+        "de": "Realer Leitzins (EZB-Einlagesatz minus Inflation)",
+        "en": "Real Policy Rate (ECB deposit rate minus inflation)"
+      },
+      "short": {
+        "de": "Realer Leitzins",
+        "en": "Real Policy Rate"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": {
+        "r": {
+          "fred": "ECBDFR"
+        },
+        "p": {
+          "fred": "CP0000FRM086NEST",
+          "transform": "yoy"
+        }
+      },
+      "formula": "r - p",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Positiv (restriktiv)",
+          "en": "Positive (restrictive)"
+        },
+        "below": {
+          "de": "Negativ (expansiv)",
+          "en": "Negative (accommodative)"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "European Central Bank – Key ECB Interest Rates (via FRED: ECBDFR)",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html"
+        },
+        {
+          "name": "Eurostat – Harmonised Index of Consumer Prices (via FRED)",
+          "url": "https://ec.europa.eu/eurostat/web/hicp"
+        }
+      ],
+      "description": {
+        "de": "EZB-Einlagesatz abzüglich der Inflationsrate in Frankreich (HVPI, ggü. Vorjahr). Zeigt, ob die Geldpolitik für dieses Land straff oder locker ist.",
+        "en": "ECB deposit rate minus inflation in France (HICP, year over year). Shows whether monetary policy is tight or loose for this country."
+      },
+      "interpretation": {
+        "de": "Ein Leitzins für viele Länder wirkt unterschiedlich: Wo die Inflation höher ist, ist der reale Zins niedriger und die Geldpolitik lockerer.",
+        "en": "One policy rate for many countries works differently: where inflation is higher, the real rate is lower and policy looser."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "t10",
+      "category": "rates",
+      "code": "T10%",
+      "name": {
+        "de": "Rendite 10-jähriger Staatsanleihen",
+        "en": "10-Year Government Bond Yield"
+      },
+      "short": {
+        "de": "10J-Rendite",
+        "en": "10Y Yield"
+      },
+      "unit": {
+        "de": "%",
+        "en": "%"
+      },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "IRLTLT01FRM156N"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Über Median",
+          "en": "Above median"
+        },
+        "below": {
+          "de": "Unter Median",
+          "en": "Below median"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Marktrendite der 10-jährigen Staatsanleihe in Frankreich (Monatsdurchschnitt). Sie ist Referenz für Hypotheken- und Unternehmenszinsen und bestimmt die Zinslast des Staates mit.",
+        "en": "Market yield on the 10-year government bond in France (monthly average). It is the benchmark for mortgage and corporate rates and drives the government's interest bill."
+      },
+      "interpretation": {
+        "de": "Steigende Renditen erhöhen die Finanzierungskosten von Staat, Firmen und Haushalten.",
+        "en": "Rising yields increase financing costs for government, companies and households."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "curve",
+      "category": "rates",
+      "code": "10Y-ON",
+      "name": {
+        "de": "Zinskurve (10 Jahre minus Tagesgeld)",
+        "en": "Yield Curve (10Y minus overnight)"
+      },
+      "short": {
+        "de": "Zinskurve 10J–Tagesgeld",
+        "en": "Yield Curve 10Y–O/N"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": {
+        "l": {
+          "fred": "IRLTLT01FRM156N"
+        },
+        "k": {
+          "fred": "IRSTCI01FRM156N"
+        }
+      },
+      "formula": "l - k",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Normal (steil)",
+          "en": "Normal (upward)"
+        },
+        "below": {
+          "de": "Invers",
+          "en": "Inverted"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Differenz zwischen der 10-jährigen Rendite und dem Tagesgeldsatz in Frankreich. Normalerweise liegen lange Zinsen über kurzen.",
+        "en": "Spread between the 10-year yield and the overnight rate in France. Normally long rates sit above short rates."
+      },
+      "interpretation": {
+        "de": "Eine inverse Kurve (unter 0) zeigt, dass der Markt sinkende Leitzinsen und eine schwächere Wirtschaft erwartet. Sie ging vielen Abschwüngen voraus.",
+        "en": "An inverted curve (below 0) shows markets expect falling policy rates and a weaker economy. It preceded many downturns."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "bund_spread",
+      "category": "rates",
+      "code": "SPREAD-DE",
+      "name": {
+        "de": "Risikoaufschlag ggü. Bundesanleihen (10 Jahre)",
+        "en": "Spread over German Bunds (10Y)"
+      },
+      "short": {
+        "de": "Spread zu Bunds",
+        "en": "Spread vs Bunds"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": {
+        "x": {
+          "fred": "IRLTLT01FRM156N"
+        },
+        "de": {
+          "fred": "IRLTLT01DEM156N"
+        }
+      },
+      "formula": "x - de",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Erhöht",
+          "en": "Elevated"
+        },
+        "below": {
+          "de": "Niedrig",
+          "en": "Low"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Zusätzliche Rendite, die Anleger für 10-jährige Staatsanleihen in Frankreich gegenüber deutschen Bundesanleihen verlangen. Der wichtigste Stressindikator innerhalb des Euroraums.",
+        "en": "Extra yield investors demand on 10-year government bonds in France over German Bunds. The key stress gauge inside the euro area."
+      },
+      "interpretation": {
+        "de": "Steigende Aufschläge zeigen Zweifel an den Staatsfinanzen oder Fragmentierung des Euroraums (wie 2011/12). Sinkende Aufschläge zeigen Vertrauen.",
+        "en": "Widening spreads show doubts about public finances or euro-area fragmentation (as in 2011/12). Narrowing spreads show confidence."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "hicp",
+      "category": "inflation",
+      "code": "HICP",
+      "name": {
+        "de": "Verbraucherpreise (HVPI, gesamt)",
+        "en": "Consumer Prices (HICP, headline)"
+      },
+      "short": {
+        "de": "Inflation (HVPI)",
+        "en": "Inflation (HICP)"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "CP0000FRM086NEST"
+        }
+      },
+      "formula": "v",
+      "transform": "yoy",
+      "base": {
+        "unit": {
+          "de": "Index",
+          "en": "Index"
+        },
+        "decimals": 2
+      },
+      "threshold": 2,
+      "zones": {
+        "above": {
+          "de": "Über Ziel (2 %)",
+          "en": "Above target (2%)"
+        },
+        "below": {
+          "de": "Unter Ziel (2 %)",
+          "en": "Below target (2%)"
+        }
+      },
+      "direction": 1,
+      "license": "citation",
+      "sources": [
+        {
+          "name": "Eurostat – Harmonised Index of Consumer Prices (via FRED)",
+          "url": "https://ec.europa.eu/eurostat/web/hicp"
+        }
+      ],
+      "description": {
+        "de": "Harmonisierter Verbraucherpreisindex in Frankreich: Preisentwicklung eines repräsentativen Warenkorbs inklusive Energie und Nahrungsmittel, nach einheitlicher EU-Methode.",
+        "en": "Harmonised index of consumer prices in France: price change of a representative basket including energy and food, using the common EU method."
+      },
+      "interpretation": {
+        "de": "Das Inflationsziel der EZB liegt bei 2 % für den gesamten Euroraum. Energiepreise sorgen beim Gesamtindex für starke Schwankungen.",
+        "en": "The ECB's target is 2% for the euro area as a whole. Energy prices make the headline index volatile."
+      },
+      "gdpRegression": false
+    },
+    {
+      "id": "hicp_core",
+      "category": "inflation",
+      "code": "HICP-CORE",
+      "name": {
+        "de": "Kerninflation (HVPI ohne Energie, Nahrung, Alkohol & Tabak)",
+        "en": "Core Inflation (HICP ex energy, food, alcohol & tobacco)"
+      },
+      "short": {
+        "de": "Kerninflation",
+        "en": "Core Inflation"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "00XEFDFRM086NEST"
+        }
+      },
+      "formula": "v",
+      "transform": "yoy",
+      "base": {
+        "unit": {
+          "de": "Index",
+          "en": "Index"
+        },
+        "decimals": 2
+      },
+      "threshold": 2,
+      "zones": {
+        "above": {
+          "de": "Über 2 %",
+          "en": "Above 2%"
+        },
+        "below": {
+          "de": "Unter 2 %",
+          "en": "Below 2%"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "Eurostat – Harmonised Index of Consumer Prices (via FRED)",
+          "url": "https://ec.europa.eu/eurostat/web/hicp"
+        }
+      ],
+      "description": {
+        "de": "Verbraucherpreise in Frankreich ohne die schwankungsanfälligen Komponenten Energie, Nahrungsmittel, Alkohol und Tabak. Zeigt den zugrunde liegenden Preistrend.",
+        "en": "Consumer prices in France excluding the volatile components energy, food, alcohol and tobacco. Shows the underlying price trend."
+      },
+      "interpretation": {
+        "de": "Die Kernrate reagiert träger als der Gesamtindex. Auf sie achtet die Europäische Zentralbank (EZB), um den mittelfristigen Preisdruck einzuschätzen.",
+        "en": "The core rate moves more slowly than the headline. It is watched by the European Central Bank (ECB) to gauge medium-term price pressure."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "infl_exp",
+      "category": "inflation",
+      "code": "CS-PRICES",
+      "name": {
+        "de": "Preiserwartungen der Verbraucher (12 Monate)",
+        "en": "Consumer Price Expectations (12 months)"
+      },
+      "short": {
+        "de": "Preiserwartungen",
+        "en": "Price Expectations"
+      },
+      "unit": {
+        "de": "Saldo (Prozentpunkte)",
+        "en": "Balance (percentage points)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "CSINFT02FRM460S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Business Tendency and Consumer Opinion Surveys (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/business-tendency-and-consumer-opinion-surveys.html"
+        }
+      ],
+      "description": {
+        "de": "Erwarten die Haushalte in Frankreich, dass die Preise in den nächsten 12 Monaten schneller steigen? Saldo aus der EU-Verbraucherumfrage.",
+        "en": "Do households in France expect prices to rise faster over the next 12 months? Balance from the EU consumer survey."
+      },
+      "interpretation": {
+        "de": "Steigende Erwartungen können sich über Lohnforderungen und Preissetzung selbst erfüllen. Notenbanken beobachten sie deshalb genau.",
+        "en": "Rising expectations can become self-fulfilling through wage demands and price setting. Central banks therefore watch them closely."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "unemp",
+      "category": "labour",
+      "code": "UNRATE",
+      "name": {
+        "de": "Arbeitslosenquote (harmonisiert)",
+        "en": "Unemployment Rate (harmonised)"
+      },
+      "short": {
+        "de": "Arbeitslosenquote",
+        "en": "Unemployment Rate"
+      },
+      "unit": {
+        "de": "%",
+        "en": "%"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "LRHUTTTTFRM156S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Über Median",
+          "en": "Above median"
+        },
+        "below": {
+          "de": "Unter Median",
+          "en": "Below median"
+        }
+      },
+      "direction": -1,
+      "gdpRegression": true,
+      "regressorTransform": "diff1",
+      "sources": [
+        {
+          "name": "OECD – Infra-annual Labour Statistics (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/infra-annual-labour-statistics.html"
+        }
+      ],
+      "description": {
+        "de": "Anteil der Arbeitslosen an den Erwerbspersonen in Frankreich nach der international vergleichbaren ILO-Definition, saisonbereinigt. Nationale Quoten (z. B. der Bundesagentur für Arbeit) können wegen anderer Definitionen abweichen.",
+        "en": "Unemployed as a share of the labour force in France using the internationally comparable ILO definition, seasonally adjusted. National rates may differ because of other definitions."
+      },
+      "interpretation": {
+        "de": "Steigt die Quote, schrumpft die Wirtschaft meist (Okun'sches Gesetz). Deshalb verwendet die BIP-Scorecard die Veränderung, nicht das Niveau.",
+        "en": "When the rate rises the economy usually contracts (Okun's law). That's why the GDP scorecard uses the change, not the level."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "emp",
+      "category": "labour",
+      "code": "EMP",
+      "name": {
+        "de": "Erwerbstätige – Wachstum",
+        "en": "Employment – Growth"
+      },
+      "short": {
+        "de": "Beschäftigung",
+        "en": "Employment"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "LFEMTTTTFRQ647S"
+        }
+      },
+      "formula": "v",
+      "transform": "yoy",
+      "base": {
+        "unit": {
+          "de": "Tsd. Personen",
+          "en": "Thousand persons"
+        },
+        "decimals": 0
+      },
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Infra-annual Labour Statistics (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/infra-annual-labour-statistics.html"
+        }
+      ],
+      "description": {
+        "de": "Zahl der Erwerbstätigen ab 15 Jahren in Frankreich, als Veränderung gegenüber dem Vorjahresquartal. Das Gegenstück zu den US-Nonfarm-Payrolls.",
+        "en": "Number of employed persons aged 15+ in France, as change versus the same quarter a year earlier. The counterpart of US nonfarm payrolls."
+      },
+      "interpretation": {
+        "de": "Beschäftigungswachstum ist die Einkommensbasis des Konsums. Negative Raten traten meist nur in Rezessionen auf.",
+        "en": "Employment growth is the income base for consumption. Negative rates mostly occurred only in recessions."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "emprate",
+      "category": "labour",
+      "code": "EMP-RATE",
+      "name": {
+        "de": "Erwerbstätigenquote",
+        "en": "Employment Rate"
+      },
+      "short": {
+        "de": "Erwerbstätigenquote",
+        "en": "Employment Rate"
+      },
+      "unit": {
+        "de": "% der Bevölkerung ab 15",
+        "en": "% of population 15+"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "LREMTTTTFRQ156S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Über Median",
+          "en": "Above median"
+        },
+        "below": {
+          "de": "Unter Median",
+          "en": "Below median"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Infra-annual Labour Statistics (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/infra-annual-labour-statistics.html"
+        }
+      ],
+      "description": {
+        "de": "Anteil der Erwerbstätigen an der Bevölkerung ab 15 Jahren in Frankreich. Weniger anfällig für Verzerrungen als die Arbeitslosenquote, weil sie nicht davon abhängt, wer als arbeitssuchend gilt.",
+        "en": "Employed persons as a share of the population aged 15+ in France. Less prone to distortion than the unemployment rate because it does not depend on who counts as job-seeking."
+      },
+      "interpretation": {
+        "de": "Eine steigende Quote zeigt einen aufnahmefähigen Arbeitsmarkt. Langfristig wird sie auch von der Alterung beeinflusst.",
+        "en": "A rising rate shows a labour market that is absorbing workers. Over the long run it is also shaped by ageing."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "indeed",
+      "category": "labour",
+      "code": "INDEED",
+      "name": {
+        "de": "Online-Stellenanzeigen (Indeed)",
+        "en": "Online Job Postings (Indeed)"
+      },
+      "short": {
+        "de": "Stellenanzeigen",
+        "en": "Job Postings"
+      },
+      "unit": {
+        "de": "Index (1. Feb. 2020 = 100)",
+        "en": "Index (1 Feb 2020 = 100)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "IHLIDXFR"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 100,
+      "zones": {
+        "above": {
+          "de": "Über Vor-Corona-Niveau",
+          "en": "Above pre-pandemic"
+        },
+        "below": {
+          "de": "Unter Vor-Corona-Niveau",
+          "en": "Below pre-pandemic"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "Indeed Hiring Lab – Job Postings Index (via FRED)",
+          "url": "https://data.indeed.com/"
+        }
+      ],
+      "description": {
+        "de": "Täglich aktualisierter Index der auf Indeed ausgeschriebenen Stellen in Frankreich, hier als Monatsdurchschnitt. Der zeitnaheste Indikator für die Arbeitsnachfrage der Unternehmen.",
+        "en": "Daily index of job postings on Indeed in France, shown as a monthly average. The most timely gauge of companies' demand for labour."
+      },
+      "interpretation": {
+        "de": "Über 100: mehr Stellenanzeigen als vor der Pandemie. Ein anhaltender Rückgang zeigt, dass Unternehmen bei Einstellungen vorsichtiger werden. Die Reihe beginnt erst 2020, Vergleiche sind daher kurz.",
+        "en": "Above 100: more postings than before the pandemic. A sustained decline shows firms becoming cautious about hiring. The series only starts in 2020, so comparisons are short."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "gdp",
+      "category": "activity",
+      "code": "GDP",
+      "name": {
+        "de": "Reales BIP-Wachstum (annualisiert)",
+        "en": "Real GDP Growth (annualised)"
+      },
+      "short": {
+        "de": "Reales BIP",
+        "en": "Real GDP"
+      },
+      "unit": {
+        "de": "% ggü. Vorquartal, annualisiert",
+        "en": "% q/q, annualised"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "NAEXKP01FRQ657S"
+        }
+      },
+      "formula": "((1 + v / 100) ** 4 - 1) * 100",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Schrumpfung",
+          "en": "Contraction"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Quarterly National Accounts (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/quarterly-national-accounts.html"
+        }
+      ],
+      "description": {
+        "de": "Veränderung des preisbereinigten Bruttoinlandsprodukts in Frankreich gegenüber dem Vorquartal, auf ein Jahr hochgerechnet (wie in den USA üblich, damit die Länder vergleichbar sind). Referenz für die BIP-Scorecards der anderen Indikatoren.",
+        "en": "Change in inflation-adjusted GDP in France versus the prior quarter, annualised (as is customary in the US, so countries are comparable). Reference for the other indicators' GDP scorecards."
+      },
+      "interpretation": {
+        "de": "Unter 0: die Wirtschaft schrumpft. In Europa wird das Quartalswachstum meist nicht annualisiert gemeldet; der Vorquartalswert entspricht etwa einem Viertel der hier gezeigten Zahl.",
+        "en": "Below 0: the economy is contracting. In Europe quarterly growth is usually reported non-annualised; the quarter-on-quarter figure is roughly a quarter of the number shown here."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "gdp_yoy",
+      "category": "activity",
+      "code": "GDP-YOY",
+      "name": {
+        "de": "Reales BIP – Wachstum ggü. Vorjahr",
+        "en": "Real GDP – Year-over-Year Growth"
+      },
+      "short": {
+        "de": "BIP ggü. Vorjahr",
+        "en": "GDP y/y"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "NGDPRSAXDCFRQ"
+        }
+      },
+      "formula": "v",
+      "transform": "yoy",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Schrumpfung",
+          "en": "Contraction"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Quarterly National Accounts (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/quarterly-national-accounts.html"
+        }
+      ],
+      "description": {
+        "de": "Preisbereinigtes BIP in Frankreich gegenüber dem Vorjahresquartal. Glatter als die Quartalsrate und die in Europa übliche Darstellung.",
+        "en": "Inflation-adjusted GDP in France versus the same quarter a year earlier. Smoother than the quarterly rate and the usual presentation in Europe."
+      },
+      "interpretation": {
+        "de": "Zwei Jahreswerte unter 0 hintereinander deuten auf eine Rezession hin.",
+        "en": "Two consecutive readings below 0 point to a recession."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "ip",
+      "category": "activity",
+      "code": "INDPRO",
+      "name": {
+        "de": "Industrieproduktion",
+        "en": "Industrial Production"
+      },
+      "short": {
+        "de": "Industrieproduktion",
+        "en": "Industrial Production"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "FRAPRINTO01GYSAM"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Rückgang",
+          "en": "Decline"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Reale Produktion von Industrie, Bergbau und Energieversorgung in Frankreich, Veränderung gegenüber dem Vorjahresmonat, saisonbereinigt.",
+        "en": "Real output of manufacturing, mining and utilities in France, change versus the same month a year earlier, seasonally adjusted."
+      },
+      "interpretation": {
+        "de": "Negative Raten zeigen eine schrumpfende Industrie. Ergänzt die Stimmungsumfragen um die tatsächlich produzierte Menge.",
+        "en": "Negative rates show a contracting industrial sector. Complements the sentiment surveys with actual volumes."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "retail",
+      "category": "activity",
+      "code": "RETAIL",
+      "name": {
+        "de": "Einzelhandelsumsätze (real)",
+        "en": "Retail Sales (volume)"
+      },
+      "short": {
+        "de": "Einzelhandel",
+        "en": "Retail Sales"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "FRASLRTTO01GYSAM"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Rückgang",
+          "en": "Decline"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Preisbereinigte Umsätze im Einzelhandel in Frankreich, Veränderung gegenüber dem Vorjahresmonat, saisonbereinigt. Der zeitnaheste Indikator für den privaten Konsum.",
+        "en": "Inflation-adjusted retail sales in France, change versus the same month a year earlier, seasonally adjusted. The most timely gauge of private consumption."
+      },
+      "interpretation": {
+        "de": "Anders als in den USA ist die Reihe real, also bereits um Preissteigerungen bereinigt. Über 0: die Haushalte kaufen mehr als vor einem Jahr.",
+        "en": "Unlike the US series this one is real, i.e. already adjusted for price increases. Above 0: households are buying more than a year ago."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "debt",
+      "category": "fiscal",
+      "code": "Govt",
+      "name": {
+        "de": "Staatsverschuldung in % des BIP",
+        "en": "Government Debt as % of GDP"
+      },
+      "short": {
+        "de": "Schulden / BIP",
+        "en": "Debt / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "A",
+      "inputs": {
+        "v": {
+          "fred": "GGGDTAFRA188N"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 60,
+      "zones": {
+        "above": {
+          "de": "Über 60 % (Maastricht)",
+          "en": "Above 60% (Maastricht)"
+        },
+        "below": {
+          "de": "Unter 60 % (Maastricht)",
+          "en": "Below 60% (Maastricht)"
+        }
+      },
+      "direction": 0,
+      "sources": [
+        {
+          "name": "International Monetary Fund – Fiscal Monitor / World Economic Outlook (via FRED)",
+          "url": "https://www.imf.org/en/Publications/FM"
+        }
+      ],
+      "description": {
+        "de": "Bruttoschulden des Gesamtstaats in Frankreich (Bund, Länder, Gemeinden, Sozialversicherung) im Verhältnis zum BIP, laut IWF.",
+        "en": "Gross debt of general government in France (central, regional and local government, social security) relative to GDP, per the IMF."
+      },
+      "interpretation": {
+        "de": "Die Schwelle ist die 60-%-Grenze des Maastricht-Vertrags. Eine hohe Schuldenquote schränkt den fiskalischen Spielraum ein. Jahresdaten erscheinen mit ein bis zwei Jahren Verzögerung. Der Indikator fließt nicht in den Score ein.",
+        "en": "The threshold is the Maastricht Treaty's 60% limit. A high debt ratio limits fiscal room. Annual data appear with a lag of one to two years. The indicator is not scored."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "deficit",
+      "category": "fiscal",
+      "code": "Govt S/D",
+      "name": {
+        "de": "Haushaltssaldo des Staates in % des BIP",
+        "en": "Government Surplus/Deficit as % of GDP"
+      },
+      "short": {
+        "de": "Haushaltssaldo / BIP",
+        "en": "Surplus/Deficit / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "A",
+      "inputs": {
+        "v": {
+          "fred": "GGNLBAFRA188N"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": -3,
+      "zones": {
+        "above": {
+          "de": "Über −3 % (Maastricht)",
+          "en": "Above −3% (Maastricht)"
+        },
+        "below": {
+          "de": "Defizit über 3 %",
+          "en": "Deficit beyond 3%"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "International Monetary Fund – Fiscal Monitor / World Economic Outlook (via FRED)",
+          "url": "https://www.imf.org/en/Publications/FM"
+        }
+      ],
+      "description": {
+        "de": "Überschuss (positiv) oder Defizit (negativ) des Gesamtstaats in Frankreich im Verhältnis zum BIP, laut IWF.",
+        "en": "Surplus (positive) or deficit (negative) of general government in France relative to GDP, per the IMF."
+      },
+      "interpretation": {
+        "de": "Die Schwelle ist die Defizitgrenze von 3 % aus dem Maastricht-Vertrag. Defizite bedeuten zusätzliche staatliche Nachfrage, die über Schulden finanziert wird. Im Score zählt ein größeres Defizit deshalb als expansiv.",
+        "en": "The threshold is the Maastricht Treaty's 3% deficit limit. Deficits mean additional government demand financed by debt. In the score a larger deficit therefore counts as expansionary."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    }
+  ],
+  "disabled": [
+    {
+      "id": "pmi",
+      "name": "S&P Global / HCOB PMIs",
+      "reason": "Commercial licence required; replaced by the EU/OECD business surveys."
+    },
+    {
+      "id": "m3",
+      "name": "Broad money (OECD M3)",
+      "reason": "OECD monetary aggregates on FRED end in 2023; replaced by BIS private credit / GDP."
+    }
+  ]
+}

@@ -7,6 +7,8 @@ import { renderOverview } from './views/overview.js';
 import { renderIndicator } from './views/indicator.js';
 import { renderCompare } from './views/compare.js';
 import { renderPage } from './views/pages.js';
+import { renderWorld } from './views/world.js';
+import { initCosmos, reveal, setEarth, preloadEarths } from './cosmos.js';
 
 const app = document.getElementById('app');
 const PAGES = new Set(['methodik', 'quellen', 'impressum', 'datenschutz', 'disclaimer', 'pro']);
@@ -16,7 +18,7 @@ let country = SITE.defaultCountry;
 let land = (() => { try { return localStorage.getItem('fms.land'); } catch { return null; } })();
 const saveLand = () => { try { localStorage.setItem('fms.land', land); } catch { /* private mode */ } };
 
-// Routes: #/  #/us  #/us/<indicator>[/<tab>]  #/us/compare?a=..&b=..  #/<page>
+// Routes: #/  #/us  #/us/<indicator>[/<tab>]  #/us/compare?a=..&b=..  #/world  #/<page>
 function parseRoute() {
   const raw = location.hash.replace(/^#\/?/, '');
   const [path, query = ''] = raw.split('?');
@@ -24,6 +26,7 @@ function parseRoute() {
   const params = new URLSearchParams(query);
   if (!parts.length) return { view: 'overview', country };
   if (PAGES.has(parts[0])) return { view: 'page', name: parts[0], country };
+  if (parts[0] === 'world') return { view: 'world', country };
   const c = countries.some((x) => x.id === parts[0]) ? parts[0] : null;
   if (!c) return { view: 'page', name: '404', country };
   if (!parts[1]) return { view: 'overview', country: c };
@@ -45,6 +48,14 @@ function pick({ land: l, group: g, vs }) {
   return all.find((e) => e.group === g && (!vs || e.vs === vs)) || all.find((e) => e.group === g) || all[0];
 }
 
+// The country menu, grouped by continent (the order inside a group follows countries.json).
+const CONTINENTS = ['europe', 'north-america', 'south-america', 'asia', 'oceania', 'africa'];
+function landOptions(lands, cur, opt) {
+  const cont = (id) => countries.find((c) => c.id === id)?.continent || 'other';
+  const groups = [...CONTINENTS, 'other'].map((k) => [k, lands.filter(([id]) => cont(id) === k)]).filter(([, l]) => l.length);
+  return groups.map(([k, l]) => `<optgroup label="${esc(t('cont.' + k))}">${l.map(([id, n]) => opt(id, L(n), id === cur.land)).join('')}</optgroup>`).join('');
+}
+
 function selectors() {
   const cur = currentEntry();
   if (!cur) return '';
@@ -55,7 +66,7 @@ function selectors() {
   const opt = (v, label, sel, dis) => `<option value="${esc(v)}"${sel ? ' selected' : ''}${dis ? ' disabled' : ''}>${esc(label)}</option>`;
   return `
     <label class="sr-only" for="land-sel">${t('nav.country')}</label>
-    <select id="land-sel" title="${esc(t('nav.country'))}">${lands.map(([id, n]) => opt(id, L(n), id === cur.land)).join('')}</select>
+    <select id="land-sel" title="${esc(t('nav.country'))}">${landOptions(lands, cur, opt)}</select>
     <label class="sr-only" for="group-sel">${t('nav.group')}</label>
     <select id="group-sel" title="${esc(t('nav.group'))}">${GROUPS.map((g) => opt(g, t('group.' + g) + (groupsHere.has(g) ? '' : ` (${t('nav.soon')})`), g === cur.group, !groupsHere.has(g))).join('')}</select>
     ${cur.group === 'exogenous' ? `<label class="sr-only" for="vs-sel">${t('nav.vs')}</label>
@@ -67,6 +78,7 @@ function header() {
   const nav = [
     [`#/${country}`, t('nav.overview'), r.view === 'overview' || r.view === 'indicator'],
     [`#/${country}/compare`, t('nav.compare'), r.view === 'compare'],
+    ['#/world', t('nav.world'), r.view === 'world'],
     ['#/methodik', t('nav.method'), r.name === 'methodik'],
     ['#/quellen', t('nav.sources'), r.name === 'quellen'],
   ];
@@ -88,7 +100,6 @@ function footer() {
     <div class="foot-inner">
       <div class="foot-brand">
         <img src="assets/img/logo.png" alt="${SITE.name}" width="774" height="157" loading="lazy">
-        <p class="foot-tagline">Macro data. Clearer decisions.</p>
         <p>${t('app.tagline')}. ${t('foot.disclaimer')}</p>
         <p class="muted">${t('foot.data')}</p>
       </div>
@@ -107,6 +118,8 @@ async function render() {
   if (r.country) country = r.country;
   if (!entries().some((e) => e.id === country && e.land === land)) land = entries().find((e) => e.id === country)?.land ?? null;
   header();
+  // the earth shows the selected country's continent; currency pairs and the radar get the neutral one
+  setEarth(r.view === 'world' ? 'neutral' : countries.find((c) => c.id === country)?.continent || 'neutral');
   cleanup();
   cleanup = () => {};
   // The view is attached before rendering so charts measure a real container.
@@ -116,11 +129,12 @@ async function render() {
   app.replaceChildren(view);
   window.scrollTo({ top: 0 });
   try {
-    const fn = { overview: renderOverview, indicator: renderIndicator, compare: renderCompare }[r.view] || renderPage;
+    const fn = { overview: renderOverview, indicator: renderIndicator, compare: renderCompare, world: renderWorld }[r.view] || renderPage;
     const c = await fn(view, r);
     if (seq !== renderSeq) { c?.(); return; }
-    cleanup = c || (() => {});
-    if (r.view !== 'indicator' && r.view !== 'compare') document.title = `${SITE.name} · ${t('app.tagline')}`;
+    const unreveal = reveal(view);
+    cleanup = () => { c?.(); unreveal(); };
+    if (!['indicator', 'compare', 'world'].includes(r.view)) document.title = `${SITE.name} · ${t('app.tagline')}`;
   } catch (err) {
     console.error(err);
     if (seq === renderSeq) view.innerHTML = `<div class="empty">${t('err.load')}<br><small class="muted">${esc(err.message)}</small></div>`;
@@ -151,9 +165,11 @@ window.addEventListener('hashchange', render);
 
 (async function init() {
   document.documentElement.lang = getLang();
+  initCosmos();
   try { countries = await loadCountries(); } catch { /* keep default */ }
   footer();
   await render();
+  setTimeout(() => preloadEarths([...new Set(countries.map((c) => c.continent || 'neutral'))]), 2500);
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
     // When a new deploy's worker takes over an already-controlled page, reload once so it shows the new version.
     const hadController = !!navigator.serviceWorker.controller;

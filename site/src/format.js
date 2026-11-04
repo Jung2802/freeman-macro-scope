@@ -20,7 +20,8 @@ export function num(v, decimals = 1) {
 export function signed(v, decimals = 1) {
   if (v === null || v === undefined || Number.isNaN(v)) return '—';
   const s = num(v, decimals);
-  return v > 0 && /[1-9]/.test(s) ? `+${s}` : s;
+  // a true minus (U+2212) so it is as wide as the plus and lines up in figures
+  return v > 0 && /[1-9]/.test(s) ? `+${s}` : s.replace(/^-/, '\u2212');
 }
 
 export const pct = (v, decimals = 0) => (Number.isFinite(v) ? `${num(v * 100, decimals)} %` : '—');
