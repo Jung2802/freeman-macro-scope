@@ -138,7 +138,7 @@ html.motion .hero-copy > :nth-child(4) { animation-delay: 0.24s; } html.motion .
 .feature h2 { font-size: 17px; font-weight: 400; color: var(--text); letter-spacing: -0.005em; }
 .feature-value { font-size: 44px; font-weight: 300; letter-spacing: -0.02em; margin: 10px 0 2px; color: var(--text); }
 .feature-value small { font-size: 14px; color: var(--text3); letter-spacing: 0; }
-.feature p { color: var(--text2); font-size: 14px; line-height: 1.6; margin-top: 10px; max-width: 340px; }
+.feature p { color: #dcdee2; font-size: 14px; line-height: 1.6; margin-top: 10px; max-width: 340px; }
 .feature-link { margin-top: auto; padding-top: 22px; color: var(--text2); font-size: 13.5px; display: inline-flex; align-items: center; gap: 10px; }
 .feature-link:hover { color: var(--text); text-decoration: none; }
 
@@ -155,7 +155,7 @@ html.motion .hero-copy > :nth-child(4) { animation-delay: 0.24s; } html.motion .
 .gauge-marker { position: absolute; top: 2px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
 .gauge-marker span { font-size: 12px; color: var(--text); border: 1px solid rgba(255,255,255,0.25); border-radius: 2px; padding: 0 6px; background: var(--bg); }
 .gauge-marker::after { content: ''; width: 1px; height: 12px; background: var(--text); margin-top: 2px; }
-.gauge-scale { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-top: 8px; letter-spacing: 0.06em; }
+.gauge-scale { display: flex; justify-content: space-between; font-size: 11px; color: var(--text2); margin-top: 8px; letter-spacing: 0.06em; }
 .catbar-row { display: grid; grid-template-columns: minmax(150px, 1.2fr) 2fr 100px; align-items: center; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); }
 .catbar-row:last-child { border-bottom: 0; }
 .catbar-name { font-size: 14px; color: var(--text2); display: flex; align-items: center; gap: 10px; }
@@ -175,7 +175,7 @@ html.motion .hero-copy > :nth-child(4) { animation-delay: 0.24s; } html.motion .
 .cat-section { margin-top: 56px; }
 .cat-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
 .cat-head h2 { font-weight: 400; font-size: 20px; letter-spacing: -0.01em; color: var(--text); display: flex; align-items: center; gap: 12px; }
-.cat-score { font-size: 12px; color: var(--text3); display: flex; align-items: center; gap: 6px; letter-spacing: 0.06em; }
+.cat-score { font-size: 12px; color: var(--text2); background: rgba(10,11,13,0.8); padding: 4px 11px; border-radius: 999px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.06em; }
 .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; }
 .ind-card {
   display: flex; flex-direction: column; gap: 6px; color: var(--text);
