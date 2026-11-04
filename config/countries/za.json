@@ -1,0 +1,950 @@
+{
+  "id": "za",
+  "name": {
+    "de": "Südafrika",
+    "en": "South Africa"
+  },
+  "currency": "ZAR",
+  "continent": "africa",
+  "selector": [
+    {
+      "land": "za",
+      "landName": {
+        "de": "Südafrika",
+        "en": "South Africa"
+      },
+      "group": "endogenous"
+    }
+  ],
+  "gdpIndicator": "gdp",
+  "groups": [
+    {
+      "id": "endogenous",
+      "name": {
+        "de": "Binnenwirtschaft · endogene Treiber",
+        "en": "Domestic economy · endogenous drivers"
+      },
+      "description": {
+        "de": "Wie geht es der Wirtschaft in Südafrika? Hier stehen die Daten, die im Land selbst entstehen: Stimmung von Unternehmen und Verbrauchern, Immobilien und Bau, Kredit und Währung, Zinsen, Preise, Jobs, Wachstum und Staatsfinanzen. Zusammen zeigen sie, in welcher Phase des Konjunkturzyklus das Land steht und wie die South African Reserve Bank (SARB) und die Regierung wahrscheinlich reagieren. Alle Reihen sind international vergleichbar, damit sich die Länder nebeneinanderlegen lassen.",
+        "en": "How is the economy doing in South Africa? These are the data generated inside the country: business and consumer sentiment, housing and construction, credit and currency, rates, prices, jobs, growth and public finances. Together they show which phase of the business cycle the country is in and how the South African Reserve Bank (SARB) and the government are likely to react. All series are internationally comparable, so countries can be set side by side."
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "surveys",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#a78bfa",
+      "name": {
+        "de": "Frühindikatoren & Umfragen",
+        "en": "Leading Indicators & Surveys"
+      }
+    },
+    {
+      "id": "housing",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#f59e0b",
+      "name": {
+        "de": "Immobilien & Bau",
+        "en": "Housing & Construction"
+      }
+    },
+    {
+      "id": "money",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#22d3ee",
+      "name": {
+        "de": "Geld, Kredit & Währung",
+        "en": "Money, Credit & Currency"
+      }
+    },
+    {
+      "id": "rates",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#60a5fa",
+      "name": {
+        "de": "Zinsen",
+        "en": "Interest Rates"
+      }
+    },
+    {
+      "id": "inflation",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#f472b6",
+      "name": {
+        "de": "Inflation",
+        "en": "Inflation"
+      }
+    },
+    {
+      "id": "activity",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#a3e635",
+      "name": {
+        "de": "Wachstum & Aktivität",
+        "en": "Growth & Activity"
+      }
+    },
+    {
+      "id": "fiscal",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#fb923c",
+      "name": {
+        "de": "Staatsfinanzen",
+        "en": "Public Finances"
+      }
+    }
+  ],
+  "indicators": [
+    {
+      "id": "capu",
+      "category": "surveys",
+      "code": "CAPU",
+      "name": {
+        "de": "Kapazitätsauslastung der Industrie",
+        "en": "Manufacturing Capacity Utilisation"
+      },
+      "short": {
+        "de": "Kapazitätsauslastung",
+        "en": "Capacity Utilisation"
+      },
+      "unit": {
+        "de": "% der Kapazität",
+        "en": "% of capacity"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "BSCURT02ZAQ160S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "regressorTransform": "diff1",
+      "sources": [
+        {
+          "name": "OECD – Business Tendency and Consumer Opinion Surveys (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/business-tendency-and-consumer-opinion-surveys.html"
+        }
+      ],
+      "description": {
+        "de": "Vierteljährliche Unternehmensumfrage: Wie stark sind die Produktionsanlagen der Industrie in Südafrika ausgelastet?",
+        "en": "Quarterly business survey: how intensively is manufacturing capacity in South Africa being used?"
+      },
+      "interpretation": {
+        "de": "Hohe Auslastung bedeutet Investitionsbedarf und Preisdruck, niedrige Auslastung freie Kapazitäten. In der BIP-Scorecard wird die Veränderung zum Vorquartal verwendet, nicht das Niveau.",
+        "en": "High utilisation means pressure to invest and pricing power, low utilisation means spare capacity. The GDP scorecard uses the change from the prior quarter, not the level."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "hp",
+      "category": "housing",
+      "code": "RPP",
+      "name": {
+        "de": "Reale Wohnimmobilienpreise",
+        "en": "Real Residential Property Prices"
+      },
+      "short": {
+        "de": "Immobilienpreise (real)",
+        "en": "House Prices (real)"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "QZAR628BIS"
+        }
+      },
+      "formula": "v",
+      "transform": "yoy",
+      "base": {
+        "unit": {
+          "de": "Index (2010 = 100, inflationsbereinigt)",
+          "en": "Index (2010 = 100, inflation-adjusted)"
+        },
+        "decimals": 1
+      },
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Steigend",
+          "en": "Rising"
+        },
+        "below": {
+          "de": "Fallend",
+          "en": "Falling"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Residential Property Prices (via FRED)",
+          "url": "https://data.bis.org/topics/RPP"
+        }
+      ],
+      "description": {
+        "de": "Preise für Wohnimmobilien in Südafrika, bereinigt um die Verbraucherpreise, als Veränderung gegenüber dem Vorjahr. Die BIS vereinheitlicht dafür die Daten der nationalen Quellen.",
+        "en": "Residential property prices in South Africa, deflated by consumer prices, as change versus the prior year. The BIS harmonises the national sources."
+      },
+      "interpretation": {
+        "de": "Steigende Immobilienpreise stärken Vermögen und Konsum der Haushalte und die Sicherheiten der Banken. Lange fallende reale Preise gingen oft schwachen Jahren voraus.",
+        "en": "Rising house prices lift household wealth, consumption and bank collateral. Long stretches of falling real prices often preceded weak years."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "constr_out",
+      "category": "housing",
+      "code": "CONSTR",
+      "name": {
+        "de": "Bauproduktion",
+        "en": "Construction Output"
+      },
+      "short": {
+        "de": "Bauproduktion",
+        "en": "Construction Output"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "PRCNTO01ZAQ659S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Rückgang",
+          "en": "Decline"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Real erbrachte Bauleistung in Südafrika (Hoch- und Tiefbau), Veränderung zum Vorjahresquartal, saisonbereinigt.",
+        "en": "Real construction output in South Africa (buildings and civil engineering), change versus the same quarter a year earlier, seasonally adjusted."
+      },
+      "interpretation": {
+        "de": "Negative Raten zeigen eine schrumpfende Bauwirtschaft. Ergänzt das Bauvertrauen um die tatsächlich gebaute Menge.",
+        "en": "Negative rates show a contracting construction sector. Complements construction confidence with actual volumes."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "credit",
+      "category": "money",
+      "code": "CREDIT",
+      "name": {
+        "de": "Kredit an den privaten Sektor in % des BIP",
+        "en": "Credit to the Private Sector as % of GDP"
+      },
+      "short": {
+        "de": "Privatkredit / BIP",
+        "en": "Private Credit / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "QZAPAM770A"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "regressorTransform": "yoy",
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Credit to the Non-Financial Sector (via FRED)",
+          "url": "https://data.bis.org/topics/TOTAL_CREDIT"
+        }
+      ],
+      "description": {
+        "de": "Alle Kredite an Unternehmen und Haushalte in Südafrika (Bankkredite, Anleihen und Kredite aus dem Ausland) im Verhältnis zur Wirtschaftsleistung. Ersetzt die Geldmenge M3, deren internationale Reihe 2023 eingestellt wurde.",
+        "en": "All credit to companies and households in South Africa (bank loans, bonds and cross-border lending) relative to output. Replaces the M3 money supply, whose international series was discontinued in 2023."
+      },
+      "interpretation": {
+        "de": "Ein schneller Anstieg der Kreditquote treibt die Nachfrage an, kann aber auch Übertreibungen anzeigen. In der BIP-Scorecard wird die Veränderung über ein Jahr verwendet: Wichtig ist der Kreditimpuls, nicht das Niveau.",
+        "en": "A rapid rise in the credit ratio boosts demand but can also signal excess. The GDP scorecard uses the change over one year: the credit impulse matters, not the level."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "hh_debt",
+      "category": "money",
+      "code": "HH-DEBT",
+      "name": {
+        "de": "Verschuldung der privaten Haushalte in % des BIP",
+        "en": "Household Debt as % of GDP"
+      },
+      "short": {
+        "de": "Haushaltsschulden / BIP",
+        "en": "Household Debt / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "QZAHAM770A"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 0,
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Credit to the Non-Financial Sector (via FRED)",
+          "url": "https://data.bis.org/topics/TOTAL_CREDIT"
+        }
+      ],
+      "description": {
+        "de": "Kredite an private Haushalte in Südafrika, vor allem Hypotheken, im Verhältnis zur Wirtschaftsleistung.",
+        "en": "Credit to households in South Africa, mostly mortgages, relative to output."
+      },
+      "interpretation": {
+        "de": "Hohe Haushaltsschulden machen den Konsum zinsempfindlich. Die Wirkung ist nicht eindeutig, deshalb fließt der Indikator nicht in den Score ein.",
+        "en": "High household debt makes consumption sensitive to interest rates. The effect is ambiguous, so the indicator is not scored."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "reer",
+      "category": "money",
+      "code": "REER",
+      "name": {
+        "de": "Realer effektiver Wechselkurs",
+        "en": "Real Effective Exchange Rate"
+      },
+      "short": {
+        "de": "Realer Wechselkurs",
+        "en": "Real Exchange Rate"
+      },
+      "unit": {
+        "de": "Index (2020 = 100)",
+        "en": "Index (2020 = 100)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "RBZABIS"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Stark (teuer)",
+          "en": "Strong (expensive)"
+        },
+        "below": {
+          "de": "Schwach (günstig)",
+          "en": "Weak (cheap)"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Effective Exchange Rates (via FRED)",
+          "url": "https://data.bis.org/topics/EER"
+        }
+      ],
+      "description": {
+        "de": "Außenwert der Währung in Südafrika gegenüber einem breiten Korb von Handelspartnern, bereinigt um Preisunterschiede. Steigt der Index, werden Exporte teurer und Importe billiger.",
+        "en": "External value of the currency in South Africa against a broad basket of trading partners, adjusted for price differences. A rising index makes exports dearer and imports cheaper."
+      },
+      "interpretation": {
+        "de": "Eine starke Währung dämpft Exporte und Inflation, eine schwache stützt beides. Im Score zählt ein hoher Wert deshalb negativ (straffend).",
+        "en": "A strong currency dampens exports and inflation, a weak one supports both. In the score a high value therefore counts negative (tightening)."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "policy",
+      "category": "rates",
+      "code": "IR%",
+      "name": {
+        "de": "Leitzins-Proxy (Tagesgeldsatz)",
+        "en": "Policy Rate Proxy (overnight rate)"
+      },
+      "short": {
+        "de": "Leitzins (Tagesgeld)",
+        "en": "Policy Rate (overnight)"
+      },
+      "unit": {
+        "de": "%",
+        "en": "%"
+      },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "IRSTCI01ZAM156N"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Über Median",
+          "en": "Above median"
+        },
+        "below": {
+          "de": "Unter Median",
+          "en": "Below median"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Tagesgeldsatz am Geldmarkt in Südafrika. Er wird von die South African Reserve Bank (SARB) über den Leitzins gesteuert und folgt ihm sehr eng.",
+        "en": "Overnight money-market rate in South Africa. It is steered by the South African Reserve Bank (SARB) through its policy rate and tracks it very closely."
+      },
+      "interpretation": {
+        "de": "Höhere Zinsen verteuern Kredite und bremsen die Wirtschaft. Im Score zählt ein hoher Zins negativ (restriktiv).",
+        "en": "Higher rates make credit more expensive and slow the economy. In the score a high rate counts negative (restrictive)."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "t10",
+      "category": "rates",
+      "code": "T10%",
+      "name": {
+        "de": "Rendite 10-jähriger Staatsanleihen",
+        "en": "10-Year Government Bond Yield"
+      },
+      "short": {
+        "de": "10J-Rendite",
+        "en": "10Y Yield"
+      },
+      "unit": {
+        "de": "%",
+        "en": "%"
+      },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "IRLTLT01ZAM156N"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Über Median",
+          "en": "Above median"
+        },
+        "below": {
+          "de": "Unter Median",
+          "en": "Below median"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Marktrendite der 10-jährigen Staatsanleihe in Südafrika (Monatsdurchschnitt). Sie ist Referenz für Hypotheken- und Unternehmenszinsen und bestimmt die Zinslast des Staates mit.",
+        "en": "Market yield on the 10-year government bond in South Africa (monthly average). It is the benchmark for mortgage and corporate rates and drives the government's interest bill."
+      },
+      "interpretation": {
+        "de": "Steigende Renditen erhöhen die Finanzierungskosten von Staat, Firmen und Haushalten.",
+        "en": "Rising yields increase financing costs for government, companies and households."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "curve",
+      "category": "rates",
+      "code": "10Y-ON",
+      "name": {
+        "de": "Zinskurve (10 Jahre minus Tagesgeld)",
+        "en": "Yield Curve (10Y minus overnight)"
+      },
+      "short": {
+        "de": "Zinskurve 10J–Tagesgeld",
+        "en": "Yield Curve 10Y–O/N"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": {
+        "l": {
+          "fred": "IRLTLT01ZAM156N"
+        },
+        "k": {
+          "fred": "IRSTCI01ZAM156N"
+        }
+      },
+      "formula": "l - k",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Normal (steil)",
+          "en": "Normal (upward)"
+        },
+        "below": {
+          "de": "Invers",
+          "en": "Inverted"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Differenz zwischen der 10-jährigen Rendite und dem Tagesgeldsatz in Südafrika. Normalerweise liegen lange Zinsen über kurzen.",
+        "en": "Spread between the 10-year yield and the overnight rate in South Africa. Normally long rates sit above short rates."
+      },
+      "interpretation": {
+        "de": "Eine inverse Kurve (unter 0) zeigt, dass der Markt sinkende Leitzinsen und eine schwächere Wirtschaft erwartet. Sie ging vielen Abschwüngen voraus.",
+        "en": "An inverted curve (below 0) shows markets expect falling policy rates and a weaker economy. It preceded many downturns."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "wb_cpi",
+      "category": "inflation",
+      "code": "CPI-A",
+      "name": {
+        "de": "Verbraucherpreise (Jahresinflation)",
+        "en": "Consumer Prices (annual inflation)"
+      },
+      "short": {
+        "de": "Inflation (jährlich)",
+        "en": "Inflation (annual)"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr (Jahresdurchschnitt)",
+        "en": "% year over year (annual average)"
+      },
+      "decimals": 1,
+      "frequency": "A",
+      "inputs": {
+        "v": {
+          "fred": "FPCPITOTLZGZAF"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 3,
+      "zones": {
+        "above": {
+          "de": "Über 3 %",
+          "en": "Above 3%"
+        },
+        "below": {
+          "de": "Unter 3 %",
+          "en": "Below 3%"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "World Bank – World Development Indicators: Inflation, consumer prices (via FRED)",
+          "url": "https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG"
+        }
+      ],
+      "description": {
+        "de": "Durchschnittliche Teuerung der Verbraucherpreise in Südafrika im Kalenderjahr, laut Weltbank.",
+        "en": "Average consumer price inflation in South Africa over the calendar year, per the World Bank."
+      },
+      "interpretation": {
+        "de": "Die South African Reserve Bank (SARB) strebt eine Inflation von rund 3 % an. Die Linie bei 3 % dient als Orientierung.",
+        "en": "The South African Reserve Bank (SARB) targets inflation of around 3%. The 3% line is a reference point."
+      },
+      "replaces": {
+        "de": "Die monatlichen Verbraucherpreise in Südafrika sind über FRED nicht mehr aktuell verfügbar (die OECD hat die Reihe 2025 eingestellt). Bis eine aktuelle Monatsquelle verfügbar ist, steht hier die Jahresinflation der Weltbank.",
+        "en": "Monthly consumer prices in South Africa are no longer updated on FRED (the OECD discontinued the series in 2025). Until a current monthly source is available, this shows the World Bank's annual inflation."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "gdp",
+      "category": "activity",
+      "code": "GDP",
+      "name": {
+        "de": "Reales BIP-Wachstum (annualisiert)",
+        "en": "Real GDP Growth (annualised)"
+      },
+      "short": {
+        "de": "Reales BIP",
+        "en": "Real GDP"
+      },
+      "unit": {
+        "de": "% ggü. Vorquartal, annualisiert",
+        "en": "% q/q, annualised"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "NAEXKP01ZAQ657S"
+        }
+      },
+      "formula": "((1 + v / 100) ** 4 - 1) * 100",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Schrumpfung",
+          "en": "Contraction"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Quarterly National Accounts (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/quarterly-national-accounts.html"
+        }
+      ],
+      "description": {
+        "de": "Veränderung des preisbereinigten Bruttoinlandsprodukts in Südafrika gegenüber dem Vorquartal, auf ein Jahr hochgerechnet (wie in den USA üblich, damit die Länder vergleichbar sind). Referenz für die BIP-Scorecards der anderen Indikatoren.",
+        "en": "Change in inflation-adjusted GDP in South Africa versus the prior quarter, annualised (as is customary in the US, so countries are comparable). Reference for the other indicators' GDP scorecards."
+      },
+      "interpretation": {
+        "de": "Unter 0: die Wirtschaft schrumpft. In Europa wird das Quartalswachstum meist nicht annualisiert gemeldet; der Vorquartalswert entspricht etwa einem Viertel der hier gezeigten Zahl.",
+        "en": "Below 0: the economy is contracting. In Europe quarterly growth is usually reported non-annualised; the quarter-on-quarter figure is roughly a quarter of the number shown here."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "gdp_yoy",
+      "category": "activity",
+      "code": "GDP-YOY",
+      "name": {
+        "de": "Reales BIP – Wachstum ggü. Vorjahr",
+        "en": "Real GDP – Year-over-Year Growth"
+      },
+      "short": {
+        "de": "BIP ggü. Vorjahr",
+        "en": "GDP y/y"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "NGDPRSAXDCZAQ"
+        }
+      },
+      "formula": "v",
+      "transform": "yoy",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Schrumpfung",
+          "en": "Contraction"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Quarterly National Accounts (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/quarterly-national-accounts.html"
+        }
+      ],
+      "description": {
+        "de": "Preisbereinigtes BIP in Südafrika gegenüber dem Vorjahresquartal. Glatter als die Quartalsrate und die in Europa übliche Darstellung.",
+        "en": "Inflation-adjusted GDP in South Africa versus the same quarter a year earlier. Smoother than the quarterly rate and the usual presentation in Europe."
+      },
+      "interpretation": {
+        "de": "Zwei Jahreswerte unter 0 hintereinander deuten auf eine Rezession hin.",
+        "en": "Two consecutive readings below 0 point to a recession."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "retail",
+      "category": "activity",
+      "code": "RETAIL",
+      "name": {
+        "de": "Einzelhandelsumsätze (real)",
+        "en": "Retail Sales (volume)"
+      },
+      "short": {
+        "de": "Einzelhandel",
+        "en": "Retail Sales"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "ZAFSLRTTO01GYSAM"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Rückgang",
+          "en": "Decline"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Preisbereinigte Umsätze im Einzelhandel in Südafrika, Veränderung gegenüber dem Vorjahresmonat, saisonbereinigt. Der zeitnaheste Indikator für den privaten Konsum.",
+        "en": "Inflation-adjusted retail sales in South Africa, change versus the same month a year earlier, seasonally adjusted. The most timely gauge of private consumption."
+      },
+      "interpretation": {
+        "de": "Anders als in den USA ist die Reihe real, also bereits um Preissteigerungen bereinigt. Über 0: die Haushalte kaufen mehr als vor einem Jahr.",
+        "en": "Unlike the US series this one is real, i.e. already adjusted for price increases. Above 0: households are buying more than a year ago."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "debt",
+      "category": "fiscal",
+      "code": "Govt",
+      "name": {
+        "de": "Staatsverschuldung in % des BIP",
+        "en": "Government Debt as % of GDP"
+      },
+      "short": {
+        "de": "Schulden / BIP",
+        "en": "Debt / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "A",
+      "inputs": {
+        "v": {
+          "fred": "GGGDTAZAA188N"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 100,
+      "zones": {
+        "above": {
+          "de": "Über 100 %",
+          "en": "Above 100%"
+        },
+        "below": {
+          "de": "Unter 100 %",
+          "en": "Below 100%"
+        }
+      },
+      "direction": 0,
+      "sources": [
+        {
+          "name": "International Monetary Fund – Fiscal Monitor / World Economic Outlook (via FRED)",
+          "url": "https://www.imf.org/en/Publications/FM"
+        }
+      ],
+      "description": {
+        "de": "Bruttoschulden des Gesamtstaats in Südafrika (Bund, Länder, Gemeinden, Sozialversicherung) im Verhältnis zum BIP, laut IWF.",
+        "en": "Gross debt of general government in South Africa (central, regional and local government, social security) relative to GDP, per the IMF."
+      },
+      "interpretation": {
+        "de": "Die Schwelle von 100 % markiert eine historisch kritische Zone. Eine hohe Schuldenquote schränkt den fiskalischen Spielraum ein. Jahresdaten erscheinen mit ein bis zwei Jahren Verzögerung. Der Indikator fließt nicht in den Score ein.",
+        "en": "The 100% threshold marks a historically critical zone. A high debt ratio limits fiscal room. Annual data appear with a lag of one to two years. The indicator is not scored."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "deficit",
+      "category": "fiscal",
+      "code": "Govt S/D",
+      "name": {
+        "de": "Haushaltssaldo des Staates in % des BIP",
+        "en": "Government Surplus/Deficit as % of GDP"
+      },
+      "short": {
+        "de": "Haushaltssaldo / BIP",
+        "en": "Surplus/Deficit / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "A",
+      "inputs": {
+        "v": {
+          "fred": "GGNLBAZAA188N"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Überschuss",
+          "en": "Surplus"
+        },
+        "below": {
+          "de": "Defizit",
+          "en": "Deficit"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "International Monetary Fund – Fiscal Monitor / World Economic Outlook (via FRED)",
+          "url": "https://www.imf.org/en/Publications/FM"
+        }
+      ],
+      "description": {
+        "de": "Überschuss (positiv) oder Defizit (negativ) des Gesamtstaats in Südafrika im Verhältnis zum BIP, laut IWF.",
+        "en": "Surplus (positive) or deficit (negative) of general government in South Africa relative to GDP, per the IMF."
+      },
+      "interpretation": {
+        "de": "Defizite bedeuten zusätzliche staatliche Nachfrage, die über Schulden finanziert wird. Im Score zählt ein größeres Defizit deshalb als expansiv.",
+        "en": "Deficits mean additional government demand financed by debt. In the score a larger deficit therefore counts as expansionary."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    }
+  ],
+  "disabled": [
+    {
+      "id": "pmi",
+      "name": "S&P Global / HCOB PMIs",
+      "reason": "Commercial licence required; replaced by the EU/OECD business surveys."
+    },
+    {
+      "id": "m3",
+      "name": "Broad money (OECD M3)",
+      "reason": "OECD monetary aggregates on FRED end in 2023; replaced by BIS private credit / GDP."
+    },
+    {
+      "id": "cpi_m",
+      "name": "Monthly CPI (OECD MEI)",
+      "reason": "Discontinued on FRED in 2025; annual World Bank inflation used until a monthly source is available."
+    }
+  ]
+}

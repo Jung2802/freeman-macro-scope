@@ -1015,8 +1015,8 @@
         "en": "Consumer prices in Spain excluding the volatile components energy, food, alcohol and tobacco. Shows the underlying price trend."
       },
       "interpretation": {
-        "de": "Die Kernrate reagiert träger als der Gesamtindex. Auf sie achtet die EZB, um den mittelfristigen Preisdruck einzuschätzen.",
-        "en": "The core rate moves more slowly than the headline. The ECB watches it to gauge medium-term price pressure."
+        "de": "Die Kernrate reagiert träger als der Gesamtindex. Auf sie achtet die Europäische Zentralbank (EZB), um den mittelfristigen Preisdruck einzuschätzen.",
+        "en": "The core rate moves more slowly than the headline. It is watched by the European Central Bank (ECB) to gauge medium-term price pressure."
       },
       "license": "citation",
       "gdpRegression": false
@@ -1071,8 +1071,8 @@
         "en": "Unemployed as a share of the labour force in Spain using the internationally comparable ILO definition, seasonally adjusted. National rates may differ because of other definitions."
       },
       "interpretation": {
-        "de": "Steigt die Quote, schrumpft die Wirtschaft meist (Okun'sches Gesetz). Deshalb verwendet die BIP-Scorecard die monatliche Veränderung, nicht das Niveau.",
-        "en": "When the rate rises the economy usually contracts (Okun's law). That's why the GDP scorecard uses the monthly change, not the level."
+        "de": "Steigt die Quote, schrumpft die Wirtschaft meist (Okun'sches Gesetz). Deshalb verwendet die BIP-Scorecard die Veränderung, nicht das Niveau.",
+        "en": "When the rate rises the economy usually contracts (Okun's law). That's why the GDP scorecard uses the change, not the level."
       },
       "license": "citation"
     },

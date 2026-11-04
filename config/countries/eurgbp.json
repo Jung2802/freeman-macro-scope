@@ -43,6 +43,78 @@
       "vs": "GBP"
     },
     {
+      "land": "nl",
+      "landName": {
+        "de": "Niederlande",
+        "en": "Netherlands"
+      },
+      "group": "exogenous",
+      "vs": "GBP"
+    },
+    {
+      "land": "be",
+      "landName": {
+        "de": "Belgien",
+        "en": "Belgium"
+      },
+      "group": "exogenous",
+      "vs": "GBP"
+    },
+    {
+      "land": "at",
+      "landName": {
+        "de": "Österreich",
+        "en": "Austria"
+      },
+      "group": "exogenous",
+      "vs": "GBP"
+    },
+    {
+      "land": "pt",
+      "landName": {
+        "de": "Portugal",
+        "en": "Portugal"
+      },
+      "group": "exogenous",
+      "vs": "GBP"
+    },
+    {
+      "land": "ie",
+      "landName": {
+        "de": "Irland",
+        "en": "Ireland"
+      },
+      "group": "exogenous",
+      "vs": "GBP"
+    },
+    {
+      "land": "fi",
+      "landName": {
+        "de": "Finnland",
+        "en": "Finland"
+      },
+      "group": "exogenous",
+      "vs": "GBP"
+    },
+    {
+      "land": "gr",
+      "landName": {
+        "de": "Griechenland",
+        "en": "Greece"
+      },
+      "group": "exogenous",
+      "vs": "GBP"
+    },
+    {
+      "land": "sk",
+      "landName": {
+        "de": "Slowakei",
+        "en": "Slovakia"
+      },
+      "group": "exogenous",
+      "vs": "GBP"
+    },
+    {
       "land": "gb",
       "landName": {
         "de": "Vereinigtes Königreich",
@@ -437,8 +509,8 @@
         }
       ],
       "description": {
-        "de": "Inflationsrate im Euroraum minus im Vereinigten Königreich. Für UK, Japan und Kanada gibt es über FRED nur noch jährliche Verbraucherpreise, deshalb ist diese Reihe jährlich.",
-        "en": "Inflation rate in the euro area minus in the UK. For the UK, Japan and Canada FRED only has annual consumer prices now, so this series is annual."
+        "de": "Inflationsrate im Euroraum minus im Vereinigten Königreich. Für mindestens eine der beiden Seiten gibt es über FRED nur noch jährliche Verbraucherpreise, deshalb ist diese Reihe jährlich.",
+        "en": "Inflation rate in the euro area minus in the UK. For at least one side FRED only has annual consumer prices now, so this series is annual."
       },
       "interpretation": {
         "de": "Höhere Inflation zehrt auf Dauer an der Kaufkraft einer Währung (Kaufkraftparität). Im Score zählt eine höhere Inflation im Euroraum deshalb negativ für den EUR. Kurzfristig kann sie den EUR aber stützen, wenn die Notenbank deswegen die Zinsen erhöht, siehe Zinsdifferenz.",

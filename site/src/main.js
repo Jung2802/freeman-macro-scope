@@ -48,6 +48,14 @@ function pick({ land: l, group: g, vs }) {
   return all.find((e) => e.group === g && (!vs || e.vs === vs)) || all.find((e) => e.group === g) || all[0];
 }
 
+// The country menu, grouped by continent (the order inside a group follows countries.json).
+const CONTINENTS = ['europe', 'north-america', 'south-america', 'asia', 'oceania', 'africa'];
+function landOptions(lands, cur, opt) {
+  const cont = (id) => countries.find((c) => c.id === id)?.continent || 'other';
+  const groups = [...CONTINENTS, 'other'].map((k) => [k, lands.filter(([id]) => cont(id) === k)]).filter(([, l]) => l.length);
+  return groups.map(([k, l]) => `<optgroup label="${esc(t('cont.' + k))}">${l.map(([id, n]) => opt(id, L(n), id === cur.land)).join('')}</optgroup>`).join('');
+}
+
 function selectors() {
   const cur = currentEntry();
   if (!cur) return '';
@@ -58,7 +66,7 @@ function selectors() {
   const opt = (v, label, sel, dis) => `<option value="${esc(v)}"${sel ? ' selected' : ''}${dis ? ' disabled' : ''}>${esc(label)}</option>`;
   return `
     <label class="sr-only" for="land-sel">${t('nav.country')}</label>
-    <select id="land-sel" title="${esc(t('nav.country'))}">${lands.map(([id, n]) => opt(id, L(n), id === cur.land)).join('')}</select>
+    <select id="land-sel" title="${esc(t('nav.country'))}">${landOptions(lands, cur, opt)}</select>
     <label class="sr-only" for="group-sel">${t('nav.group')}</label>
     <select id="group-sel" title="${esc(t('nav.group'))}">${GROUPS.map((g) => opt(g, t('group.' + g) + (groupsHere.has(g) ? '' : ` (${t('nav.soon')})`), g === cur.group, !groupsHere.has(g))).join('')}</select>
     ${cur.group === 'exogenous' ? `<label class="sr-only" for="vs-sel">${t('nav.vs')}</label>

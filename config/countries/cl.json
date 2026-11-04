@@ -1,0 +1,957 @@
+{
+  "id": "cl",
+  "name": {
+    "de": "Chile",
+    "en": "Chile"
+  },
+  "currency": "CLP",
+  "continent": "south-america",
+  "selector": [
+    {
+      "land": "cl",
+      "landName": {
+        "de": "Chile",
+        "en": "Chile"
+      },
+      "group": "endogenous"
+    }
+  ],
+  "gdpIndicator": "gdp",
+  "groups": [
+    {
+      "id": "endogenous",
+      "name": {
+        "de": "Binnenwirtschaft · endogene Treiber",
+        "en": "Domestic economy · endogenous drivers"
+      },
+      "description": {
+        "de": "Wie geht es der Wirtschaft in Chile? Hier stehen die Daten, die im Land selbst entstehen: Stimmung von Unternehmen und Verbrauchern, Immobilien und Bau, Kredit und Währung, Zinsen, Preise, Jobs, Wachstum und Staatsfinanzen. Zusammen zeigen sie, in welcher Phase des Konjunkturzyklus das Land steht und wie die Banco Central de Chile (BCCh) und die Regierung wahrscheinlich reagieren. Alle Reihen sind international vergleichbar, damit sich die Länder nebeneinanderlegen lassen.",
+        "en": "How is the economy doing in Chile? These are the data generated inside the country: business and consumer sentiment, housing and construction, credit and currency, rates, prices, jobs, growth and public finances. Together they show which phase of the business cycle the country is in and how the Banco Central de Chile (BCCh) and the government are likely to react. All series are internationally comparable, so countries can be set side by side."
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "surveys",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#a78bfa",
+      "name": {
+        "de": "Frühindikatoren & Umfragen",
+        "en": "Leading Indicators & Surveys"
+      }
+    },
+    {
+      "id": "housing",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#f59e0b",
+      "name": {
+        "de": "Immobilien & Bau",
+        "en": "Housing & Construction"
+      }
+    },
+    {
+      "id": "money",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#22d3ee",
+      "name": {
+        "de": "Geld, Kredit & Währung",
+        "en": "Money, Credit & Currency"
+      }
+    },
+    {
+      "id": "rates",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#60a5fa",
+      "name": {
+        "de": "Zinsen",
+        "en": "Interest Rates"
+      }
+    },
+    {
+      "id": "inflation",
+      "group": "endogenous",
+      "tone": "neutral",
+      "color": "#f472b6",
+      "name": {
+        "de": "Inflation",
+        "en": "Inflation"
+      }
+    },
+    {
+      "id": "labour",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#34d399",
+      "name": {
+        "de": "Arbeitsmarkt",
+        "en": "Labour Market"
+      }
+    },
+    {
+      "id": "activity",
+      "group": "endogenous",
+      "tone": "growth",
+      "color": "#a3e635",
+      "name": {
+        "de": "Wachstum & Aktivität",
+        "en": "Growth & Activity"
+      }
+    }
+  ],
+  "indicators": [
+    {
+      "id": "mfg_conf",
+      "category": "surveys",
+      "code": "BCI-MFG",
+      "name": {
+        "de": "Industrievertrauen (EU-/OECD-Unternehmensumfrage)",
+        "en": "Industrial Confidence (EU/OECD business survey)"
+      },
+      "short": {
+        "de": "Industrievertrauen",
+        "en": "Industrial Confidence"
+      },
+      "unit": {
+        "de": "Saldo (Prozentpunkte)",
+        "en": "Balance (percentage points)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "BSCICP02CLM460S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Business Tendency and Consumer Opinion Surveys (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/business-tendency-and-consumer-opinion-surveys.html"
+        }
+      ],
+      "description": {
+        "de": "Monatliche Umfrage unter Industriebetrieben in Chile zu Auftragsbestand, Lagern und Produktionserwartungen, zusammengefasst als Saldo: Anteil positiver minus Anteil negativer Antworten. In der EU stammt sie aus dem harmonisierten Umfrageprogramm der Europäischen Kommission und ist das Gegenstück zu den Einkaufsmanagerindizes (PMI), die nur gegen Lizenz verfügbar sind.",
+        "en": "Monthly survey of manufacturers in Chile on order books, stocks and production expectations, summarised as a balance: share of positive minus share of negative answers. In the EU it comes from the European Commission's harmonised survey programme and is the counterpart of the purchasing managers' indices (PMI), which are only available under licence."
+      },
+      "interpretation": {
+        "de": "Als Schwelle dient der langjährige Durchschnitt, denn der Saldo liegt bei manchen Ländern dauerhaft unter 0. Darüber: überdurchschnittliche Stimmung in der Industrie. Die Umfrage läuft der Produktion einige Monate voraus.",
+        "en": "The threshold is the long-run average, because in some countries the balance sits permanently below 0. Above it: above-average sentiment among manufacturers. The survey leads production by a few months."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "hp",
+      "category": "housing",
+      "code": "RPP",
+      "name": {
+        "de": "Reale Wohnimmobilienpreise",
+        "en": "Real Residential Property Prices"
+      },
+      "short": {
+        "de": "Immobilienpreise (real)",
+        "en": "House Prices (real)"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "QCLR628BIS"
+        }
+      },
+      "formula": "v",
+      "transform": "yoy",
+      "base": {
+        "unit": {
+          "de": "Index (2010 = 100, inflationsbereinigt)",
+          "en": "Index (2010 = 100, inflation-adjusted)"
+        },
+        "decimals": 1
+      },
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Steigend",
+          "en": "Rising"
+        },
+        "below": {
+          "de": "Fallend",
+          "en": "Falling"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Residential Property Prices (via FRED)",
+          "url": "https://data.bis.org/topics/RPP"
+        }
+      ],
+      "description": {
+        "de": "Preise für Wohnimmobilien in Chile, bereinigt um die Verbraucherpreise, als Veränderung gegenüber dem Vorjahr. Die BIS vereinheitlicht dafür die Daten der nationalen Quellen.",
+        "en": "Residential property prices in Chile, deflated by consumer prices, as change versus the prior year. The BIS harmonises the national sources."
+      },
+      "interpretation": {
+        "de": "Steigende Immobilienpreise stärken Vermögen und Konsum der Haushalte und die Sicherheiten der Banken. Lange fallende reale Preise gingen oft schwachen Jahren voraus.",
+        "en": "Rising house prices lift household wealth, consumption and bank collateral. Long stretches of falling real prices often preceded weak years."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "constr_conf",
+      "category": "housing",
+      "code": "BCI-CON",
+      "name": {
+        "de": "Bauvertrauen (Unternehmensumfrage)",
+        "en": "Construction Confidence (business survey)"
+      },
+      "short": {
+        "de": "Bauvertrauen",
+        "en": "Construction Confidence"
+      },
+      "unit": {
+        "de": "Saldo (Prozentpunkte)",
+        "en": "Balance (percentage points)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "BCCICP02CLM460S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Business Tendency and Consumer Opinion Surveys (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/business-tendency-and-consumer-opinion-surveys.html"
+        }
+      ],
+      "description": {
+        "de": "Monatliche Umfrage unter Bauunternehmen in Chile zu Auftragsbestand und Beschäftigungserwartung (Saldo). Ersetzt die in Europa nicht einheitlich verfügbaren Baugenehmigungen als zeitnahen Frühindikator.",
+        "en": "Monthly survey of construction firms in Chile on order books and hiring plans (balance). Replaces building permits, which are not uniformly available in Europe, as a timely leading indicator."
+      },
+      "interpretation": {
+        "de": "Über dem Durchschnitt: Die Bauwirtschaft ist besser ausgelastet als üblich. Bau reagiert stark auf Zinsen, deshalb dreht diese Reihe oft früh.",
+        "en": "Above average: construction is busier than usual. Building reacts strongly to interest rates, so this series often turns early."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "constr_out",
+      "category": "housing",
+      "code": "CONSTR",
+      "name": {
+        "de": "Bauproduktion",
+        "en": "Construction Output"
+      },
+      "short": {
+        "de": "Bauproduktion",
+        "en": "Construction Output"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "PRCNTO01CLQ659S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Rückgang",
+          "en": "Decline"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Real erbrachte Bauleistung in Chile (Hoch- und Tiefbau), Veränderung zum Vorjahresquartal, saisonbereinigt.",
+        "en": "Real construction output in Chile (buildings and civil engineering), change versus the same quarter a year earlier, seasonally adjusted."
+      },
+      "interpretation": {
+        "de": "Negative Raten zeigen eine schrumpfende Bauwirtschaft. Ergänzt das Bauvertrauen um die tatsächlich gebaute Menge.",
+        "en": "Negative rates show a contracting construction sector. Complements construction confidence with actual volumes."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "credit",
+      "category": "money",
+      "code": "CREDIT",
+      "name": {
+        "de": "Kredit an den privaten Sektor in % des BIP",
+        "en": "Credit to the Private Sector as % of GDP"
+      },
+      "short": {
+        "de": "Privatkredit / BIP",
+        "en": "Private Credit / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "QCLPAM770A"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "regressorTransform": "yoy",
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Credit to the Non-Financial Sector (via FRED)",
+          "url": "https://data.bis.org/topics/TOTAL_CREDIT"
+        }
+      ],
+      "description": {
+        "de": "Alle Kredite an Unternehmen und Haushalte in Chile (Bankkredite, Anleihen und Kredite aus dem Ausland) im Verhältnis zur Wirtschaftsleistung. Ersetzt die Geldmenge M3, deren internationale Reihe 2023 eingestellt wurde.",
+        "en": "All credit to companies and households in Chile (bank loans, bonds and cross-border lending) relative to output. Replaces the M3 money supply, whose international series was discontinued in 2023."
+      },
+      "interpretation": {
+        "de": "Ein schneller Anstieg der Kreditquote treibt die Nachfrage an, kann aber auch Übertreibungen anzeigen. In der BIP-Scorecard wird die Veränderung über ein Jahr verwendet: Wichtig ist der Kreditimpuls, nicht das Niveau.",
+        "en": "A rapid rise in the credit ratio boosts demand but can also signal excess. The GDP scorecard uses the change over one year: the credit impulse matters, not the level."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "hh_debt",
+      "category": "money",
+      "code": "HH-DEBT",
+      "name": {
+        "de": "Verschuldung der privaten Haushalte in % des BIP",
+        "en": "Household Debt as % of GDP"
+      },
+      "short": {
+        "de": "Haushaltsschulden / BIP",
+        "en": "Household Debt / GDP"
+      },
+      "unit": {
+        "de": "% des BIP",
+        "en": "% of GDP"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "QCLHAM770A"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 0,
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Credit to the Non-Financial Sector (via FRED)",
+          "url": "https://data.bis.org/topics/TOTAL_CREDIT"
+        }
+      ],
+      "description": {
+        "de": "Kredite an private Haushalte in Chile, vor allem Hypotheken, im Verhältnis zur Wirtschaftsleistung.",
+        "en": "Credit to households in Chile, mostly mortgages, relative to output."
+      },
+      "interpretation": {
+        "de": "Hohe Haushaltsschulden machen den Konsum zinsempfindlich. Die Wirkung ist nicht eindeutig, deshalb fließt der Indikator nicht in den Score ein.",
+        "en": "High household debt makes consumption sensitive to interest rates. The effect is ambiguous, so the indicator is not scored."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "reer",
+      "category": "money",
+      "code": "REER",
+      "name": {
+        "de": "Realer effektiver Wechselkurs",
+        "en": "Real Effective Exchange Rate"
+      },
+      "short": {
+        "de": "Realer Wechselkurs",
+        "en": "Real Exchange Rate"
+      },
+      "unit": {
+        "de": "Index (2020 = 100)",
+        "en": "Index (2020 = 100)"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "RBCLBIS"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Stark (teuer)",
+          "en": "Strong (expensive)"
+        },
+        "below": {
+          "de": "Schwach (günstig)",
+          "en": "Weak (cheap)"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "Bank for International Settlements – Effective Exchange Rates (via FRED)",
+          "url": "https://data.bis.org/topics/EER"
+        }
+      ],
+      "description": {
+        "de": "Außenwert der Währung in Chile gegenüber einem breiten Korb von Handelspartnern, bereinigt um Preisunterschiede. Steigt der Index, werden Exporte teurer und Importe billiger.",
+        "en": "External value of the currency in Chile against a broad basket of trading partners, adjusted for price differences. A rising index makes exports dearer and imports cheaper."
+      },
+      "interpretation": {
+        "de": "Eine starke Währung dämpft Exporte und Inflation, eine schwache stützt beides. Im Score zählt ein hoher Wert deshalb negativ (straffend).",
+        "en": "A strong currency dampens exports and inflation, a weak one supports both. In the score a high value therefore counts negative (tightening)."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "policy",
+      "category": "rates",
+      "code": "IR%",
+      "name": {
+        "de": "Leitzins-Proxy (Tagesgeldsatz)",
+        "en": "Policy Rate Proxy (overnight rate)"
+      },
+      "short": {
+        "de": "Leitzins (Tagesgeld)",
+        "en": "Policy Rate (overnight)"
+      },
+      "unit": {
+        "de": "%",
+        "en": "%"
+      },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "IRSTCI01CLM156N"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Über Median",
+          "en": "Above median"
+        },
+        "below": {
+          "de": "Unter Median",
+          "en": "Below median"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Tagesgeldsatz am Geldmarkt in Chile. Er wird von die Banco Central de Chile (BCCh) über den Leitzins gesteuert und folgt ihm sehr eng.",
+        "en": "Overnight money-market rate in Chile. It is steered by the Banco Central de Chile (BCCh) through its policy rate and tracks it very closely."
+      },
+      "interpretation": {
+        "de": "Höhere Zinsen verteuern Kredite und bremsen die Wirtschaft. Im Score zählt ein hoher Zins negativ (restriktiv).",
+        "en": "Higher rates make credit more expensive and slow the economy. In the score a high rate counts negative (restrictive)."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "t10",
+      "category": "rates",
+      "code": "T10%",
+      "name": {
+        "de": "Rendite 10-jähriger Staatsanleihen",
+        "en": "10-Year Government Bond Yield"
+      },
+      "short": {
+        "de": "10J-Rendite",
+        "en": "10Y Yield"
+      },
+      "unit": {
+        "de": "%",
+        "en": "%"
+      },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "IRLTLT01CLM156N"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Über Median",
+          "en": "Above median"
+        },
+        "below": {
+          "de": "Unter Median",
+          "en": "Below median"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Marktrendite der 10-jährigen Staatsanleihe in Chile (Monatsdurchschnitt). Sie ist Referenz für Hypotheken- und Unternehmenszinsen und bestimmt die Zinslast des Staates mit.",
+        "en": "Market yield on the 10-year government bond in Chile (monthly average). It is the benchmark for mortgage and corporate rates and drives the government's interest bill."
+      },
+      "interpretation": {
+        "de": "Steigende Renditen erhöhen die Finanzierungskosten von Staat, Firmen und Haushalten.",
+        "en": "Rising yields increase financing costs for government, companies and households."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "curve",
+      "category": "rates",
+      "code": "10Y-ON",
+      "name": {
+        "de": "Zinskurve (10 Jahre minus Tagesgeld)",
+        "en": "Yield Curve (10Y minus overnight)"
+      },
+      "short": {
+        "de": "Zinskurve 10J–Tagesgeld",
+        "en": "Yield Curve 10Y–O/N"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "decimals": 2,
+      "frequency": "M",
+      "inputs": {
+        "l": {
+          "fred": "IRLTLT01CLM156N"
+        },
+        "k": {
+          "fred": "IRSTCI01CLM156N"
+        }
+      },
+      "formula": "l - k",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Normal (steil)",
+          "en": "Normal (upward)"
+        },
+        "below": {
+          "de": "Invers",
+          "en": "Inverted"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Main Economic Indicators (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/main-economic-indicators.html"
+        }
+      ],
+      "description": {
+        "de": "Differenz zwischen der 10-jährigen Rendite und dem Tagesgeldsatz in Chile. Normalerweise liegen lange Zinsen über kurzen.",
+        "en": "Spread between the 10-year yield and the overnight rate in Chile. Normally long rates sit above short rates."
+      },
+      "interpretation": {
+        "de": "Eine inverse Kurve (unter 0) zeigt, dass der Markt sinkende Leitzinsen und eine schwächere Wirtschaft erwartet. Sie ging vielen Abschwüngen voraus.",
+        "en": "An inverted curve (below 0) shows markets expect falling policy rates and a weaker economy. It preceded many downturns."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "wb_cpi",
+      "category": "inflation",
+      "code": "CPI-A",
+      "name": {
+        "de": "Verbraucherpreise (Jahresinflation)",
+        "en": "Consumer Prices (annual inflation)"
+      },
+      "short": {
+        "de": "Inflation (jährlich)",
+        "en": "Inflation (annual)"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr (Jahresdurchschnitt)",
+        "en": "% year over year (annual average)"
+      },
+      "decimals": 1,
+      "frequency": "A",
+      "inputs": {
+        "v": {
+          "fred": "FPCPITOTLZGCHL"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": 3,
+      "zones": {
+        "above": {
+          "de": "Über 3 %",
+          "en": "Above 3%"
+        },
+        "below": {
+          "de": "Unter 3 %",
+          "en": "Below 3%"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "World Bank – World Development Indicators: Inflation, consumer prices (via FRED)",
+          "url": "https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG"
+        }
+      ],
+      "description": {
+        "de": "Durchschnittliche Teuerung der Verbraucherpreise in Chile im Kalenderjahr, laut Weltbank.",
+        "en": "Average consumer price inflation in Chile over the calendar year, per the World Bank."
+      },
+      "interpretation": {
+        "de": "Die Banco Central de Chile (BCCh) strebt eine Inflation von rund 3 % an. Die Linie bei 3 % dient als Orientierung.",
+        "en": "The Banco Central de Chile (BCCh) targets inflation of around 3%. The 3% line is a reference point."
+      },
+      "replaces": {
+        "de": "Die monatlichen Verbraucherpreise in Chile sind über FRED nicht mehr aktuell verfügbar (die OECD hat die Reihe 2025 eingestellt). Bis eine aktuelle Monatsquelle verfügbar ist, steht hier die Jahresinflation der Weltbank.",
+        "en": "Monthly consumer prices in Chile are no longer updated on FRED (the OECD discontinued the series in 2025). Until a current monthly source is available, this shows the World Bank's annual inflation."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "unemp",
+      "category": "labour",
+      "code": "UNRATE",
+      "name": {
+        "de": "Arbeitslosenquote (harmonisiert)",
+        "en": "Unemployment Rate (harmonised)"
+      },
+      "short": {
+        "de": "Arbeitslosenquote",
+        "en": "Unemployment Rate"
+      },
+      "unit": {
+        "de": "%",
+        "en": "%"
+      },
+      "decimals": 1,
+      "frequency": "M",
+      "inputs": {
+        "v": {
+          "fred": "LRHUTTTTCLM156S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Über Median",
+          "en": "Above median"
+        },
+        "below": {
+          "de": "Unter Median",
+          "en": "Below median"
+        }
+      },
+      "direction": -1,
+      "gdpRegression": true,
+      "regressorTransform": "diff1",
+      "sources": [
+        {
+          "name": "OECD – Infra-annual Labour Statistics (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/infra-annual-labour-statistics.html"
+        }
+      ],
+      "description": {
+        "de": "Anteil der Arbeitslosen an den Erwerbspersonen in Chile nach der international vergleichbaren ILO-Definition, saisonbereinigt. Nationale Quoten (z. B. der Bundesagentur für Arbeit) können wegen anderer Definitionen abweichen.",
+        "en": "Unemployed as a share of the labour force in Chile using the internationally comparable ILO definition, seasonally adjusted. National rates may differ because of other definitions."
+      },
+      "interpretation": {
+        "de": "Steigt die Quote, schrumpft die Wirtschaft meist (Okun'sches Gesetz). Deshalb verwendet die BIP-Scorecard die Veränderung, nicht das Niveau.",
+        "en": "When the rate rises the economy usually contracts (Okun's law). That's why the GDP scorecard uses the change, not the level."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "emp",
+      "category": "labour",
+      "code": "EMP",
+      "name": {
+        "de": "Erwerbstätige – Wachstum",
+        "en": "Employment – Growth"
+      },
+      "short": {
+        "de": "Beschäftigung",
+        "en": "Employment"
+      },
+      "unit": {
+        "de": "% ggü. Vorjahr",
+        "en": "% year over year"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "LFEMTTTTCLQ647S"
+        }
+      },
+      "formula": "v",
+      "transform": "yoy",
+      "base": {
+        "unit": {
+          "de": "Tsd. Personen",
+          "en": "Thousand persons"
+        },
+        "decimals": 0
+      },
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "Über Durchschnitt",
+          "en": "Above average"
+        },
+        "below": {
+          "de": "Unter Durchschnitt",
+          "en": "Below average"
+        }
+      },
+      "direction": 1,
+      "gdpRegression": true,
+      "sources": [
+        {
+          "name": "OECD – Infra-annual Labour Statistics (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/infra-annual-labour-statistics.html"
+        }
+      ],
+      "description": {
+        "de": "Zahl der Erwerbstätigen ab 15 Jahren in Chile, als Veränderung gegenüber dem Vorjahresquartal. Das Gegenstück zu den US-Nonfarm-Payrolls.",
+        "en": "Number of employed persons aged 15+ in Chile, as change versus the same quarter a year earlier. The counterpart of US nonfarm payrolls."
+      },
+      "interpretation": {
+        "de": "Beschäftigungswachstum ist die Einkommensbasis des Konsums. Negative Raten traten meist nur in Rezessionen auf.",
+        "en": "Employment growth is the income base for consumption. Negative rates mostly occurred only in recessions."
+      },
+      "license": "citation"
+    },
+    {
+      "id": "emprate",
+      "category": "labour",
+      "code": "EMP-RATE",
+      "name": {
+        "de": "Erwerbstätigenquote",
+        "en": "Employment Rate"
+      },
+      "short": {
+        "de": "Erwerbstätigenquote",
+        "en": "Employment Rate"
+      },
+      "unit": {
+        "de": "% der Bevölkerung ab 15",
+        "en": "% of population 15+"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "LREMTTTTCLQ156S"
+        }
+      },
+      "formula": "v",
+      "transform": "level",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Über Median",
+          "en": "Above median"
+        },
+        "below": {
+          "de": "Unter Median",
+          "en": "Below median"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Infra-annual Labour Statistics (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/infra-annual-labour-statistics.html"
+        }
+      ],
+      "description": {
+        "de": "Anteil der Erwerbstätigen an der Bevölkerung ab 15 Jahren in Chile. Weniger anfällig für Verzerrungen als die Arbeitslosenquote, weil sie nicht davon abhängt, wer als arbeitssuchend gilt.",
+        "en": "Employed persons as a share of the population aged 15+ in Chile. Less prone to distortion than the unemployment rate because it does not depend on who counts as job-seeking."
+      },
+      "interpretation": {
+        "de": "Eine steigende Quote zeigt einen aufnahmefähigen Arbeitsmarkt. Langfristig wird sie auch von der Alterung beeinflusst.",
+        "en": "A rising rate shows a labour market that is absorbing workers. Over the long run it is also shaped by ageing."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "gdp",
+      "category": "activity",
+      "code": "GDP",
+      "name": {
+        "de": "Reales BIP-Wachstum (annualisiert)",
+        "en": "Real GDP Growth (annualised)"
+      },
+      "short": {
+        "de": "Reales BIP",
+        "en": "Real GDP"
+      },
+      "unit": {
+        "de": "% ggü. Vorquartal, annualisiert",
+        "en": "% q/q, annualised"
+      },
+      "decimals": 1,
+      "frequency": "Q",
+      "inputs": {
+        "v": {
+          "fred": "NAEXKP01CLQ657S"
+        }
+      },
+      "formula": "((1 + v / 100) ** 4 - 1) * 100",
+      "transform": "level",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Wachstum",
+          "en": "Growth"
+        },
+        "below": {
+          "de": "Schrumpfung",
+          "en": "Contraction"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Quarterly National Accounts (via FRED)",
+          "url": "https://www.oecd.org/en/data/datasets/quarterly-national-accounts.html"
+        }
+      ],
+      "description": {
+        "de": "Veränderung des preisbereinigten Bruttoinlandsprodukts in Chile gegenüber dem Vorquartal, auf ein Jahr hochgerechnet (wie in den USA üblich, damit die Länder vergleichbar sind). Referenz für die BIP-Scorecards der anderen Indikatoren.",
+        "en": "Change in inflation-adjusted GDP in Chile versus the prior quarter, annualised (as is customary in the US, so countries are comparable). Reference for the other indicators' GDP scorecards."
+      },
+      "interpretation": {
+        "de": "Unter 0: die Wirtschaft schrumpft. In Europa wird das Quartalswachstum meist nicht annualisiert gemeldet; der Vorquartalswert entspricht etwa einem Viertel der hier gezeigten Zahl.",
+        "en": "Below 0: the economy is contracting. In Europe quarterly growth is usually reported non-annualised; the quarter-on-quarter figure is roughly a quarter of the number shown here."
+      },
+      "license": "citation",
+      "gdpRegression": false
+    }
+  ],
+  "disabled": [
+    {
+      "id": "pmi",
+      "name": "S&P Global / HCOB PMIs",
+      "reason": "Commercial licence required; replaced by the EU/OECD business surveys."
+    },
+    {
+      "id": "m3",
+      "name": "Broad money (OECD M3)",
+      "reason": "OECD monetary aggregates on FRED end in 2023; replaced by BIS private credit / GDP."
+    },
+    {
+      "id": "cpi_m",
+      "name": "Monthly CPI (OECD MEI)",
+      "reason": "Discontinued on FRED in 2025; annual World Bank inflation used until a monthly source is available."
+    }
+  ]
+}

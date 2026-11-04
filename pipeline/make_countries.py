@@ -11,6 +11,7 @@ Every series id below was checked to be live on FRED (2026-11).
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent.parent / "config" / "countries"
@@ -42,7 +43,7 @@ def src(*keys, fred=()):
 # ── countries ───────────────────────────────────────────────────────────────
 # s = series ids per template key; a key missing here means the indicator is left out.
 
-def ez(iso2, iso3, de, en, de_in, en_in, epu=None, indeed=False, ip=True, svc=True, cons=True, gdpl=True, spread=True, infl_exp=True):
+def ez(iso2, iso3, de, en, de_in, en_in, epu=None, indeed=False, ip=True, svc=True, cons=True, gdpl=True, spread=True, infl_exp=True, drop=()):
     s = {
         "mfg_conf": f"BSCICP02{iso2}M460S", "constr_conf": f"BCCICP02{iso2}M460S", "capu": f"BSCURT02{iso2}Q160S",
         "hp": f"Q{iso2}R628BIS", "constr_out": f"PRCNTO01{iso2}Q659S",
@@ -61,14 +62,40 @@ def ez(iso2, iso3, de, en, de_in, en_in, epu=None, indeed=False, ip=True, svc=Tr
     if ip: s["ip"] = f"{iso3}PRINTO01GYSAM"
     if gdpl: s["gdp_yoy"] = f"NGDPRSAXDC{iso2}Q"
     if spread: s["bund_spread"] = f"IRLTLT01{iso2}M156N"
+    for k in drop:
+        s.pop(k, None)
     return {"id": iso2.lower(), "name": {"de": de, "en": en}, "in": {"de": de_in, "en": en_in}, "currency": "EUR",
             "continent": "europe", "euro": True, "cb": {"de": "die Europäische Zentralbank (EZB)", "en": "the European Central Bank (ECB)"},
             "cbShort": {"de": "EZB", "en": "ECB"}, "s": s}
 
 
-def other(iso2, iso3, de, en, de_in, en_in, cur, cb, cb_short, s, continent):
+def other(iso2, iso3, de, en, de_in, en_in, cur, cb, cb_short, s, continent, target=2):
     return {"id": iso2.lower(), "name": {"de": de, "en": en}, "in": {"de": de_in, "en": en_in}, "currency": cur,
-            "continent": continent, "euro": False, "cb": cb, "cbShort": cb_short, "s": s}
+            "continent": continent, "euro": False, "cb": cb, "cbShort": cb_short, "s": s, "target": target}
+
+
+PATTERN = {
+    "mfg_conf": "BSCICP02{c}M460S", "cons_conf": "CSCICP02{c}M460S", "svc_conf": "BVCICP02{c}M460S", "constr_conf": "BCCICP02{c}M460S",
+    "capu": "BSCURT02{c}Q160S", "infl_exp": "CSINFT02{c}M460S", "hp": "Q{c}R628BIS", "constr_out": "PRCNTO01{c}Q659S",
+    "credit": "Q{c}PAM770A", "hh_debt": "Q{c}HAM770A", "reer": "RB{c}BIS", "short": "IRSTCI01{c}M156N", "ib3": "IR3TIB01{c}M156N",
+    "t10": "IRLTLT01{c}M156N", "hicp": "CP0000{c}M086NEST", "hicp_core": "00XEFD{c}M086NEST", "wb_cpi": "FPCPITOTLZG{i}",
+    "unemp": "LRHUTTTT{c}M156S", "unemp_q": "LRHUTTTT{c}Q156S", "emp": "LFEMTTTT{c}Q647S", "emprate": "LREMTTTT{c}Q156S",
+    "indeed": "IHLIDX{c}", "gdp": "NAEXKP01{c}Q657S", "gdp_yoy": "NGDPRSAXDC{c}Q", "ip": "{i}PRINTO01GYSAM", "retail": "{i}SLRTTO01GYSAM",
+    "debt": "GGGDTA{c}A188N", "deficit": "GGNLBA{c}A188N",
+}
+
+
+def auto(iso2, iso3, keys, **extra):
+    """Series ids for `keys` from the standard patterns. `ib3` (3-month interbank rate) and `unemp_q`
+    (quarterly unemployment) stand in for the overnight rate and the monthly rate where those are not current."""
+    s = {}
+    for k in keys:
+        sid = PATTERN[k].format(c=iso2, i=iso3)
+        s["short" if k == "ib3" else "unemp" if k == "unemp_q" else k] = sid
+    if "short" in s:
+        s["policy"] = s["short"]
+    s.update(extra)
+    return s
 
 
 COUNTRIES = [
@@ -116,6 +143,60 @@ COUNTRIES = [
               "unemp": "LRHUTTTTAUM156S", "emp": "LFEMTTTTAUQ647S", "emprate": "LREMTTTTAUQ156S", "indeed": "IHLIDXAU",
               "gdp": "NAEXKP01AUQ657S", "gdp_yoy": "NGDPRSAXDCAUQ",
               "debt": "GGGDTAAUA188N", "deficit": "GGNLBAAUA188N"}, "oceania"),
+    # ── added 2026-11: every further country with enough current series on FRED ──
+    ez("NL", "NLD", "Niederlande", "Netherlands", "in den Niederlanden", "in the Netherlands", gdpl=False, drop=("debt", "deficit")),
+    ez("BE", "BEL", "Belgien", "Belgium", "in Belgien", "in Belgium", gdpl=False, drop=("debt", "deficit")),
+    ez("AT", "AUT", "Österreich", "Austria", "in Österreich", "in Austria", gdpl=False, drop=("debt", "deficit")),
+    ez("PT", "PRT", "Portugal", "Portugal", "in Portugal", "in Portugal", gdpl=False, drop=("debt", "deficit", "mfg_conf")),
+    ez("IE", "IRL", "Irland", "Ireland", "in Irland", "in Ireland", indeed=True, gdpl=False, drop=("debt", "deficit", "constr_conf", "retail")),
+    ez("FI", "FIN", "Finnland", "Finland", "in Finnland", "in Finland", ip=False, gdpl=False, drop=("debt", "deficit")),
+    ez("GR", "GRC", "Griechenland", "Greece", "in Griechenland", "in Greece", gdpl=False, drop=("debt", "deficit")),
+    ez("SK", "SVK", "Slowakei", "Slovakia", "in der Slowakei", "in Slovakia", gdpl=False, drop=("debt", "deficit", "credit", "hh_debt")),
+    other("CH", "CHE", "Schweiz", "Switzerland", "in der Schweiz", "in Switzerland", "CHF", {"de": "die Schweizerische Nationalbank (SNB)", "en": "the Swiss National Bank (SNB)"}, {"de": "SNB", "en": "SNB"},
+          auto("CH", "CHE", ["mfg_conf", "constr_conf", "capu", "hp", "constr_out", "credit", "hh_debt", "reer", "ib3", "t10",
+                             "hicp", "hicp_core", "unemp_q", "emp", "emprate", "gdp", "retail"]), "europe"),
+    other("SE", "SWE", "Schweden", "Sweden", "in Schweden", "in Sweden", "SEK", {"de": "die Riksbank", "en": "the Riksbank"}, {"de": "Riksbank", "en": "Riksbank"},
+          auto("SE", "SWE", ["mfg_conf", "cons_conf", "svc_conf", "constr_conf", "capu", "infl_exp", "hp", "constr_out", "credit", "hh_debt", "reer",
+                             "ib3", "t10", "hicp", "hicp_core", "unemp", "emp", "emprate", "gdp", "ip"]), "europe"),
+    other("NO", "NOR", "Norwegen", "Norway", "in Norwegen", "in Norway", "NOK", {"de": "die Norges Bank", "en": "Norges Bank"}, {"de": "Norges Bank", "en": "Norges Bank"},
+          auto("NO", "NOR", ["capu", "hp", "credit", "hh_debt", "reer", "short", "t10", "hicp", "hicp_core", "unemp", "emp", "emprate", "gdp", "ip"]), "europe"),
+    other("DK", "DNK", "Dänemark", "Denmark", "in Dänemark", "in Denmark", "DKK", {"de": "die Danmarks Nationalbank (DN)", "en": "Danmarks Nationalbank (DN)"}, {"de": "DN", "en": "DN"},
+          auto("DK", "DNK", ["mfg_conf", "cons_conf", "svc_conf", "constr_conf", "capu", "infl_exp", "hp", "constr_out", "credit", "hh_debt", "reer",
+                             "ib3", "t10", "hicp", "hicp_core", "unemp", "emp", "emprate", "gdp", "ip", "retail"]), "europe"),
+    other("PL", "POL", "Polen", "Poland", "in Polen", "in Poland", "PLN", {"de": "die Narodowy Bank Polski (NBP)", "en": "Narodowy Bank Polski (NBP)"}, {"de": "NBP", "en": "NBP"},
+          auto("PL", "POL", ["mfg_conf", "svc_conf", "constr_conf", "capu", "infl_exp", "hp", "constr_out", "credit", "hh_debt", "reer",
+                             "short", "t10", "hicp", "hicp_core", "unemp", "emp", "emprate", "gdp", "gdp_yoy", "ip", "retail", "debt", "deficit"]), "europe", target=2.5),
+    other("CZ", "CZE", "Tschechien", "Czechia", "in Tschechien", "in Czechia", "CZK", {"de": "die Tschechische Nationalbank (ČNB)", "en": "the Czech National Bank (CNB)"}, {"de": "ČNB", "en": "ČNB"},
+          auto("CZ", "CZE", ["mfg_conf", "cons_conf", "svc_conf", "constr_conf", "capu", "infl_exp", "hp", "constr_out", "credit", "hh_debt", "reer",
+                             "short", "t10", "hicp", "hicp_core", "unemp", "emp", "emprate", "gdp", "ip", "retail"]), "europe"),
+    other("HU", "HUN", "Ungarn", "Hungary", "in Ungarn", "in Hungary", "HUF", {"de": "die Ungarische Nationalbank (MNB)", "en": "the Hungarian National Bank (MNB)"}, {"de": "MNB", "en": "MNB"},
+          auto("HU", "HUN", ["mfg_conf", "cons_conf", "svc_conf", "constr_conf", "capu", "infl_exp", "hp", "constr_out", "credit", "hh_debt", "reer",
+                             "short", "t10", "hicp", "hicp_core", "unemp", "emp", "emprate", "gdp", "ip", "retail"]), "europe", target=3),
+    other("TR", "TUR", "Türkei", "Türkiye", "in der Türkei", "in Türkiye", "TRY", {"de": "die türkische Zentralbank (TCMB)", "en": "the Central Bank of the Republic of Türkiye (CBRT)"}, {"de": "TCMB", "en": "TCMB"},
+          auto("TR", "TUR", ["mfg_conf", "cons_conf", "hp", "credit", "hh_debt", "reer", "short", "hicp", "hicp_core", "unemp", "emp", "emprate",
+                             "gdp", "gdp_yoy", "ip", "retail", "debt", "deficit"]), "europe", target=5),
+    other("NZ", "NZL", "Neuseeland", "New Zealand", "in Neuseeland", "in New Zealand", "NZD", {"de": "die Reserve Bank of New Zealand (RBNZ)", "en": "the Reserve Bank of New Zealand (RBNZ)"}, {"de": "RBNZ", "en": "RBNZ"},
+          auto("NZ", "NZL", ["capu", "hp", "constr_out", "credit", "hh_debt", "reer", "ib3", "t10", "wb_cpi", "unemp_q", "emp", "emprate", "gdp"]), "oceania"),
+    other("KR", "KOR", "Südkorea", "South Korea", "in Südkorea", "in South Korea", "KRW", {"de": "die Bank of Korea (BoK)", "en": "the Bank of Korea (BoK)"}, {"de": "BoK", "en": "BoK"},
+          auto("KR", "KOR", ["mfg_conf", "hp", "credit", "hh_debt", "reer", "short", "t10", "wb_cpi", "unemp", "emp", "emprate",
+                             "gdp", "gdp_yoy", "ip", "retail", "debt", "deficit"]), "asia"),
+    other("IN", "IND", "Indien", "India", "in Indien", "in India", "INR", {"de": "die Reserve Bank of India (RBI)", "en": "the Reserve Bank of India (RBI)"}, {"de": "RBI", "en": "RBI"},
+          auto("IN", "IND", ["capu", "hp", "credit", "hh_debt", "reer", "short", "wb_cpi", "gdp", "ip", "debt", "deficit"],
+               t10="INDIRLTLT01STM", epu="INDEPUINDXM"), "asia", target=4),
+    other("IL", "ISR", "Israel", "Israel", "in Israel", "in Israel", "ILS", {"de": "die Bank of Israel (BoI)", "en": "the Bank of Israel (BoI)"}, {"de": "BoI", "en": "BoI"},
+          auto("IL", "ISR", ["hp", "credit", "hh_debt", "reer", "short", "t10", "wb_cpi", "unemp", "emp", "emprate", "gdp", "ip", "retail"]), "asia"),
+    other("MX", "MEX", "Mexiko", "Mexico", "in Mexiko", "in Mexico", "MXN", {"de": "die Banco de México (Banxico)", "en": "the Banco de México (Banxico)"}, {"de": "Banxico", "en": "Banxico"},
+          auto("MX", "MEX", ["mfg_conf", "cons_conf", "hp", "credit", "hh_debt", "reer", "short", "t10", "wb_cpi", "unemp", "emp", "emprate",
+                             "gdp", "gdp_yoy", "retail", "debt", "deficit"]), "north-america", target=3),
+    other("BR", "BRA", "Brasilien", "Brazil", "in Brasilien", "in Brazil", "BRL", {"de": "die Banco Central do Brasil (BCB)", "en": "the Banco Central do Brasil (BCB)"}, {"de": "BCB", "en": "BCB"},
+          auto("BR", "BRA", ["mfg_conf", "cons_conf", "hp", "credit", "hh_debt", "reer", "short", "wb_cpi",
+                             "gdp", "gdp_yoy", "ip", "retail", "debt", "deficit"]), "south-america", target=3),
+    other("CL", "CHL", "Chile", "Chile", "in Chile", "in Chile", "CLP", {"de": "die Banco Central de Chile (BCCh)", "en": "the Banco Central de Chile (BCCh)"}, {"de": "BCCh", "en": "BCCh"},
+          auto("CL", "CHL", ["mfg_conf", "constr_conf", "hp", "constr_out", "credit", "hh_debt", "reer", "short", "t10", "wb_cpi",
+                             "unemp", "emp", "emprate", "gdp"]), "south-america", target=3),
+    other("ZA", "ZAF", "Südafrika", "South Africa", "in Südafrika", "in South Africa", "ZAR", {"de": "die South African Reserve Bank (SARB)", "en": "the South African Reserve Bank (SARB)"}, {"de": "SARB", "en": "SARB"},
+          auto("ZA", "ZAF", ["capu", "hp", "constr_out", "credit", "hh_debt", "reer", "short", "t10", "wb_cpi",
+                             "gdp", "gdp_yoy", "retail", "debt", "deficit"]), "africa", target=3),
 ]
 
 CATEGORIES = [
@@ -136,8 +217,12 @@ def T(de, en):
 
 def fill(obj, c):
     """Replace {in}, {name}, {cb}, {cbs} placeholders in a {de, en} text."""
-    return {lang: obj[lang].format(**{"in": c["in"][lang], "name": c["name"][lang], "cb": c["cb"][lang], "cbs": c["cbShort"][lang]})
-            for lang in ("de", "en")}
+    def one(lang):
+        # "{cb}" opening a sentence gets a capital letter ("die Riksbank strebt …" → "Die Riksbank strebt …")
+        text = re.sub(r"(^|[.!?] )\{cb\}", r"\1{Cb}", obj[lang])
+        cb = c["cb"][lang]
+        return text.format(**{"in": c["in"][lang], "name": c["name"][lang], "cb": cb, "Cb": cb[:1].upper() + cb[1:], "cbs": c["cbShort"][lang]})
+    return {lang: one(lang) for lang in ("de", "en")}
 
 
 BAL = T("Saldo (Prozentpunkte)", "Balance (percentage points)")
@@ -168,10 +253,15 @@ def ind(c, key, **kw):
 def indicators(c):
     s, euro = dict(c["s"]), c["euro"]
     # Derived indicators: present whenever their inputs are.
-    s["curve"] = s["t10"]
+    if "t10" in s and "short" in s:
+        s["curve"] = s["t10"]
     if euro:
         s["real_rate"] = s["policy"]
     c = {**c, "s": s}
+    ib3 = s.get("short", "").startswith("IR3TIB01")
+    tgt = c.get("target", 2)
+    tg = f"{tgt:g}".replace(".", ",")      # German decimal comma
+    tge = f"{tgt:g}"
     out = []
     add = lambda key, **kw: out.append(ind(c, key, **kw)) if key in s else None
 
@@ -313,6 +403,14 @@ def indicators(c):
                           "ECB deposit rate minus inflation {in} (HICP, year over year). Shows whether monetary policy is tight or loose for this country."),
             interpretation=T("Ein Leitzins für viele Länder wirkt unterschiedlich: Wo die Inflation höher ist, ist der reale Zins niedriger und die Geldpolitik lockerer.",
                              "One policy rate for many countries works differently: where inflation is higher, the real rate is lower and policy looser."))
+    elif ib3:
+        add("policy", category="rates", code="IR3M%", decimals=2,
+            name=T("Leitzins-Proxy (3-Monats-Geldmarktsatz)", "Policy Rate Proxy (3-month money-market rate)"), short=T("Leitzins (3M-Geldmarkt)", "Policy Rate (3M money market)"),
+            unit=T("%", "%"), threshold="median", zones=MEDZ, direction=-1, sources=src("oecd_mei", fred=[s.get("policy", "")]),
+            description=T("3-Monats-Zinssatz am Interbankenmarkt {in}. Ein aktueller Tagesgeldsatz ist über FRED nicht verfügbar; der 3-Monats-Satz folgt dem Leitzins {cb} eng und nimmt erwartete Zinsschritte etwas vorweg.",
+                          "3-month interbank rate {in}. A current overnight rate is not available via FRED; the 3-month rate tracks the policy rate of {cb} closely and prices in expected moves a little earlier."),
+            interpretation=T("Höhere Zinsen verteuern Kredite und bremsen die Wirtschaft. Im Score zählt ein hoher Zins negativ (restriktiv).",
+                             "Higher rates make credit more expensive and slow the economy. In the score a high rate counts negative (restrictive)."))
     else:
         add("policy", category="rates", code="IR%", decimals=2,
             name=T("Leitzins-Proxy (Tagesgeldsatz)", "Policy Rate Proxy (overnight rate)"), short=T("Leitzins (Tagesgeld)", "Policy Rate (overnight)"),
@@ -323,19 +421,20 @@ def indicators(c):
                              "Higher rates make credit more expensive and slow the economy. In the score a high rate counts negative (restrictive)."))
     add("t10", category="rates", code="T10%", decimals=2,
         name=T("Rendite 10-jähriger Staatsanleihen", "10-Year Government Bond Yield"), short=T("10J-Rendite", "10Y Yield"),
-        unit=T("%", "%"), threshold="median", zones=MEDZ, direction=-1, sources=src("oecd_mei", fred=[s["t10"]]),
+        unit=T("%", "%"), threshold="median", zones=MEDZ, direction=-1, sources=src("oecd_mei", fred=[s.get("t10", "")]),
         description=T("Marktrendite der 10-jährigen Staatsanleihe {in} (Monatsdurchschnitt). Sie ist Referenz für Hypotheken- und Unternehmenszinsen und bestimmt die Zinslast des Staates mit.",
                       "Market yield on the 10-year government bond {in} (monthly average). It is the benchmark for mortgage and corporate rates and drives the government's interest bill."),
         interpretation=T("Steigende Renditen erhöhen die Finanzierungskosten von Staat, Firmen und Haushalten.",
                          "Rising yields increase financing costs for government, companies and households."))
     add("curve", category="rates", code="10Y-ON", decimals=2,
-        inputs={"l": {"fred": s["t10"]}, "k": {"fred": s["short"]}}, formula="l - k",
-        name=T("Zinskurve (10 Jahre minus Tagesgeld)", "Yield Curve (10Y minus overnight)"), short=T("Zinskurve 10J–Tagesgeld", "Yield Curve 10Y–O/N"),
+        inputs={"l": {"fred": s.get("t10")}, "k": {"fred": s.get("short")}}, formula="l - k",
+        name=T("Zinskurve (10 Jahre minus 3 Monate)", "Yield Curve (10Y minus 3M)") if ib3 else T("Zinskurve (10 Jahre minus Tagesgeld)", "Yield Curve (10Y minus overnight)"),
+        short=T("Zinskurve 10J–3M", "Yield Curve 10Y–3M") if ib3 else T("Zinskurve 10J–Tagesgeld", "Yield Curve 10Y–O/N"),
         unit=T("Prozentpunkte", "Percentage points"), threshold=0,
         zones={"above": T("Normal (steil)", "Normal (upward)"), "below": T("Invers", "Inverted")}, direction=1,
-        sources=src("oecd_mei", fred=[s["t10"], s["short"]]),
-        description=T("Differenz zwischen der 10-jährigen Rendite und dem Tagesgeldsatz {in}. Normalerweise liegen lange Zinsen über kurzen.",
-                      "Spread between the 10-year yield and the overnight rate {in}. Normally long rates sit above short rates."),
+        sources=src("oecd_mei", fred=[s.get("t10", ""), s.get("short", "")]),
+        description=T("Differenz zwischen der 10-jährigen Rendite und dem " + ("3-Monats-Geldmarktsatz" if ib3 else "Tagesgeldsatz") + " {in}. Normalerweise liegen lange Zinsen über kurzen.",
+                      "Spread between the 10-year yield and the " + ("3-month money-market rate" if ib3 else "overnight rate") + " {in}. Normally long rates sit above short rates."),
         interpretation=T("Eine inverse Kurve (unter 0) zeigt, dass der Markt sinkende Leitzinsen und eine schwächere Wirtschaft erwartet. Sie ging vielen Abschwüngen voraus.",
                          "An inverted curve (below 0) shows markets expect falling policy rates and a weaker economy. It preceded many downturns."))
     if "bund_spread" in s:
@@ -343,7 +442,7 @@ def indicators(c):
             inputs={"x": {"fred": s["bund_spread"]}, "de": {"fred": "IRLTLT01DEM156N"}}, formula="x - de",
             name=T("Risikoaufschlag ggü. Bundesanleihen (10 Jahre)", "Spread over German Bunds (10Y)"), short=T("Spread zu Bunds", "Spread vs Bunds"),
             unit=T("Prozentpunkte", "Percentage points"), threshold="median", zones={"above": T("Erhöht", "Elevated"), "below": T("Niedrig", "Low")},
-            direction=-1, sources=src("oecd_mei", fred=[s["bund_spread"], "IRLTLT01DEM156N"]),
+            direction=-1, sources=src("oecd_mei", fred=[s.get("bund_spread", ""), "IRLTLT01DEM156N"]),
             description=T("Zusätzliche Rendite, die Anleger für 10-jährige Staatsanleihen {in} gegenüber deutschen Bundesanleihen verlangen. Der wichtigste Stressindikator innerhalb des Euroraums.",
                           "Extra yield investors demand on 10-year government bonds {in} over German Bunds. The key stress gauge inside the euro area."),
             interpretation=T("Steigende Aufschläge zeigen Zweifel an den Staatsfinanzen oder Fragmentierung des Euroraums (wie 2011/12). Sinkende Aufschläge zeigen Vertrauen.",
@@ -352,22 +451,24 @@ def indicators(c):
     # inflation
     add("hicp", category="inflation", code="HICP", transform="yoy",
         name=T("Verbraucherpreise (HVPI, gesamt)", "Consumer Prices (HICP, headline)"), short=T("Inflation (HVPI)", "Inflation (HICP)"),
-        unit=YOY, base={"unit": T("Index", "Index"), "decimals": 2}, threshold=2,
-        zones={"above": T("Über Ziel (2 %)", "Above target (2%)"), "below": T("Unter Ziel (2 %)", "Below target (2%)")}, direction=1,
+        unit=YOY, base={"unit": T("Index", "Index"), "decimals": 2}, threshold=tgt,
+        zones={"above": T(f"Über Ziel ({tg} %)", f"Above target ({tge}%)"), "below": T(f"Unter Ziel ({tg} %)", f"Below target ({tge}%)")}, direction=1,
         license="citation", sources=src("eurostat_hicp", fred=[s.get("hicp", "")]),
         description=T("Harmonisierter Verbraucherpreisindex {in}: Preisentwicklung eines repräsentativen Warenkorbs inklusive Energie und Nahrungsmittel, nach einheitlicher EU-Methode.",
                       "Harmonised index of consumer prices {in}: price change of a representative basket including energy and food, using the common EU method."),
         interpretation=T("Das Inflationsziel der EZB liegt bei 2 % für den gesamten Euroraum. Energiepreise sorgen beim Gesamtindex für starke Schwankungen.",
-                         "The ECB's target is 2% for the euro area as a whole. Energy prices make the headline index volatile."))
+                         "The ECB's target is 2% for the euro area as a whole. Energy prices make the headline index volatile.") if euro else
+                       T(f"{{cb}} strebt eine Inflation von rund {tg} % an. Eurostat berechnet den HVPI auch für dieses Land, nach derselben Methode wie im Euroraum. Energiepreise sorgen beim Gesamtindex für starke Schwankungen.",
+                         f"{{cb}} targets inflation of around {tge}%. Eurostat also compiles the HICP for this country, with the same method as in the euro area. Energy prices make the headline index volatile."))
     add("hicp_core", category="inflation", code="HICP-CORE", transform="yoy",
         name=T("Kerninflation (HVPI ohne Energie, Nahrung, Alkohol & Tabak)", "Core Inflation (HICP ex energy, food, alcohol & tobacco)"),
-        short=T("Kerninflation", "Core Inflation"), unit=YOY, base={"unit": T("Index", "Index"), "decimals": 2}, threshold=2,
-        zones={"above": T("Über 2 %", "Above 2%"), "below": T("Unter 2 %", "Below 2%")}, direction=1,
+        short=T("Kerninflation", "Core Inflation"), unit=YOY, base={"unit": T("Index", "Index"), "decimals": 2}, threshold=tgt,
+        zones={"above": T(f"Über {tg} %", f"Above {tge}%"), "below": T(f"Unter {tg} %", f"Below {tge}%")}, direction=1,
         sources=src("eurostat_hicp", fred=[s.get("hicp_core", "")]),
         description=T("Verbraucherpreise {in} ohne die schwankungsanfälligen Komponenten Energie, Nahrungsmittel, Alkohol und Tabak. Zeigt den zugrunde liegenden Preistrend.",
                       "Consumer prices {in} excluding the volatile components energy, food, alcohol and tobacco. Shows the underlying price trend."),
-        interpretation=T("Die Kernrate reagiert träger als der Gesamtindex. Auf sie achtet die EZB, um den mittelfristigen Preisdruck einzuschätzen.",
-                         "The core rate moves more slowly than the headline. The ECB watches it to gauge medium-term price pressure."))
+        interpretation=T("Die Kernrate reagiert träger als der Gesamtindex. Auf sie achtet {cb}, um den mittelfristigen Preisdruck einzuschätzen.",
+                         "The core rate moves more slowly than the headline. It is watched by {cb} to gauge medium-term price pressure."))
     add("infl_exp", category="inflation", code="CS-PRICES",
         name=T("Preiserwartungen der Verbraucher (12 Monate)", "Consumer Price Expectations (12 months)"), short=T("Preiserwartungen", "Price Expectations"),
         unit=BAL, threshold="mean", zones=EXPZ, direction=1, sources=src("oecd_bts", fred=[s.get("infl_exp", "")]),
@@ -377,29 +478,29 @@ def indicators(c):
                          "Rising expectations can become self-fulfilling through wage demands and price setting. Central banks therefore watch them closely."))
     add("wb_cpi", category="inflation", code="CPI-A", frequency="A",
         name=T("Verbraucherpreise (Jahresinflation)", "Consumer Prices (annual inflation)"), short=T("Inflation (jährlich)", "Inflation (annual)"),
-        unit=T("% ggü. Vorjahr (Jahresdurchschnitt)", "% year over year (annual average)"), threshold=2,
-        zones={"above": T("Über 2 %", "Above 2%"), "below": T("Unter 2 %", "Below 2%")}, direction=1,
+        unit=T("% ggü. Vorjahr (Jahresdurchschnitt)", "% year over year (annual average)"), threshold=tgt,
+        zones={"above": T(f"Über {tg} %", f"Above {tge}%"), "below": T(f"Unter {tg} %", f"Below {tge}%")}, direction=1,
         sources=src("wb_cpi", fred=[s.get("wb_cpi", "")]),
         replaces=T("Die monatlichen Verbraucherpreise {in} sind über FRED nicht mehr aktuell verfügbar (die OECD hat die Reihe 2025 eingestellt). Bis eine aktuelle Monatsquelle verfügbar ist, steht hier die Jahresinflation der Weltbank.",
                    "Monthly consumer prices {in} are no longer updated on FRED (the OECD discontinued the series in 2025). Until a current monthly source is available, this shows the World Bank's annual inflation."),
         description=T("Durchschnittliche Teuerung der Verbraucherpreise {in} im Kalenderjahr, laut Weltbank.",
                       "Average consumer price inflation {in} over the calendar year, per the World Bank."),
-        interpretation=T("{cb} strebt eine Inflation von rund 2 % an. Die Linie bei 2 % dient als Orientierung.",
-                         "{cb} targets inflation of around 2%. The 2% line is a reference point."))
+        interpretation=T(f"{{cb}} strebt eine Inflation von rund {tg} % an. Die Linie bei {tg} % dient als Orientierung.",
+                         f"{{cb}} targets inflation of around {tge}%. The {tge}% line is a reference point."))
 
     # labour
-    add("unemp", category="labour", code="UNRATE",
+    add("unemp", category="labour", code="UNRATE", frequency="Q" if s.get("unemp", "").endswith("Q156S") else "M",
         name=T("Arbeitslosenquote (harmonisiert)", "Unemployment Rate (harmonised)"), short=T("Arbeitslosenquote", "Unemployment Rate"),
         unit=T("%", "%"), threshold="median", zones=MEDZ, direction=-1, gdpRegression=True, regressorTransform="diff1",
-        sources=src("oecd_lab", fred=[s["unemp"]]),
+        sources=src("oecd_lab", fred=[s.get("unemp", "")]),
         description=T("Anteil der Arbeitslosen an den Erwerbspersonen {in} nach der international vergleichbaren ILO-Definition, saisonbereinigt. Nationale Quoten (z. B. der Bundesagentur für Arbeit) können wegen anderer Definitionen abweichen.",
                       "Unemployed as a share of the labour force {in} using the internationally comparable ILO definition, seasonally adjusted. National rates may differ because of other definitions."),
-        interpretation=T("Steigt die Quote, schrumpft die Wirtschaft meist (Okun'sches Gesetz). Deshalb verwendet die BIP-Scorecard die monatliche Veränderung, nicht das Niveau.",
-                         "When the rate rises the economy usually contracts (Okun's law). That's why the GDP scorecard uses the monthly change, not the level."))
+        interpretation=T("Steigt die Quote, schrumpft die Wirtschaft meist (Okun'sches Gesetz). Deshalb verwendet die BIP-Scorecard die Veränderung, nicht das Niveau.",
+                         "When the rate rises the economy usually contracts (Okun's law). That's why the GDP scorecard uses the change, not the level."))
     add("emp", category="labour", code="EMP", frequency="Q", transform="yoy",
         name=T("Erwerbstätige – Wachstum", "Employment – Growth"), short=T("Beschäftigung", "Employment"), unit=YOY,
         base={"unit": T("Tsd. Personen", "Thousand persons"), "decimals": 0}, threshold="mean", zones=EXPZ, direction=1, gdpRegression=True,
-        sources=src("oecd_lab", fred=[s["emp"]]),
+        sources=src("oecd_lab", fred=[s.get("emp", "")]),
         description=T("Zahl der Erwerbstätigen ab 15 Jahren {in}, als Veränderung gegenüber dem Vorjahresquartal. Das Gegenstück zu den US-Nonfarm-Payrolls.",
                       "Number of employed persons aged 15+ {in}, as change versus the same quarter a year earlier. The counterpart of US nonfarm payrolls."),
         interpretation=T("Beschäftigungswachstum ist die Einkommensbasis des Konsums. Negative Raten traten meist nur in Rezessionen auf.",
@@ -407,7 +508,7 @@ def indicators(c):
     add("emprate", category="labour", code="EMP-RATE", frequency="Q",
         name=T("Erwerbstätigenquote", "Employment Rate"), short=T("Erwerbstätigenquote", "Employment Rate"),
         unit=T("% der Bevölkerung ab 15", "% of population 15+"), threshold="median", zones=MEDZ, direction=1,
-        sources=src("oecd_lab", fred=[s["emprate"]]),
+        sources=src("oecd_lab", fred=[s.get("emprate", "")]),
         description=T("Anteil der Erwerbstätigen an der Bevölkerung ab 15 Jahren {in}. Weniger anfällig für Verzerrungen als die Arbeitslosenquote, weil sie nicht davon abhängt, wer als arbeitssuchend gilt.",
                       "Employed persons as a share of the population aged 15+ {in}. Less prone to distortion than the unemployment rate because it does not depend on who counts as job-seeking."),
         interpretation=T("Eine steigende Quote zeigt einen aufnahmefähigen Arbeitsmarkt. Langfristig wird sie auch von der Alterung beeinflusst.",
@@ -427,7 +528,7 @@ def indicators(c):
         name=T("Reales BIP-Wachstum (annualisiert)", "Real GDP Growth (annualised)"), short=T("Reales BIP", "Real GDP"),
         unit=T("% ggü. Vorquartal, annualisiert", "% q/q, annualised"), threshold=0,
         zones={"above": T("Wachstum", "Growth"), "below": T("Schrumpfung", "Contraction")}, direction=1,
-        sources=src("oecd_qna", fred=[s["gdp"]]),
+        sources=src("oecd_qna", fred=[s.get("gdp", "")]),
         description=T("Veränderung des preisbereinigten Bruttoinlandsprodukts {in} gegenüber dem Vorquartal, auf ein Jahr hochgerechnet (wie in den USA üblich, damit die Länder vergleichbar sind). Referenz für die BIP-Scorecards der anderen Indikatoren.",
                       "Change in inflation-adjusted GDP {in} versus the prior quarter, annualised (as is customary in the US, so countries are comparable). Reference for the other indicators' GDP scorecards."),
         interpretation=T("Unter 0: die Wirtschaft schrumpft. In Europa wird das Quartalswachstum meist nicht annualisiert gemeldet; der Vorquartalswert entspricht etwa einem Viertel der hier gezeigten Zahl.",
@@ -461,7 +562,7 @@ def indicators(c):
         unit=T("% des BIP", "% of GDP"), threshold=60 if euro else 100,
         zones={"above": T("Über 60 % (Maastricht)", "Above 60% (Maastricht)"), "below": T("Unter 60 % (Maastricht)", "Below 60% (Maastricht)")} if euro
         else {"above": T("Über 100 %", "Above 100%"), "below": T("Unter 100 %", "Below 100%")},
-        direction=0, sources=src("imf_debt", fred=[s["debt"]]),
+        direction=0, sources=src("imf_debt", fred=[s.get("debt", "")]),
         description=T("Bruttoschulden des Gesamtstaats {in} (Bund, Länder, Gemeinden, Sozialversicherung) im Verhältnis zum BIP, laut IWF.",
                       "Gross debt of general government {in} (central, regional and local government, social security) relative to GDP, per the IMF."),
         interpretation=T(("Die Schwelle ist die 60-%-Grenze des Maastricht-Vertrags. " if euro else "Die Schwelle von 100 % markiert eine historisch kritische Zone. ")
@@ -473,7 +574,7 @@ def indicators(c):
         unit=T("% des BIP", "% of GDP"), threshold=-3 if euro else 0,
         zones={"above": T("Über −3 % (Maastricht)", "Above −3% (Maastricht)"), "below": T("Defizit über 3 %", "Deficit beyond 3%")} if euro
         else {"above": T("Überschuss", "Surplus"), "below": T("Defizit", "Deficit")},
-        direction=-1, sources=src("imf_debt", fred=[s["deficit"]]),
+        direction=-1, sources=src("imf_debt", fred=[s.get("deficit", "")]),
         description=T("Überschuss (positiv) oder Defizit (negativ) des Gesamtstaats {in} im Verhältnis zum BIP, laut IWF.",
                       "Surplus (positive) or deficit (negative) of general government {in} relative to GDP, per the IMF."),
         interpretation=T(("Die Schwelle ist die Defizitgrenze von 3 % aus dem Maastricht-Vertrag. " if euro else "")
@@ -491,7 +592,7 @@ def config(c):
         {"id": "pmi", "name": "S&P Global / HCOB PMIs", "reason": "Commercial licence required; replaced by the EU/OECD business surveys."},
         {"id": "m3", "name": "Broad money (OECD M3)", "reason": "OECD monetary aggregates on FRED end in 2023; replaced by BIS private credit / GDP."},
     ]
-    if not c["euro"]:
+    if "wb_cpi" in c["s"]:
         disabled.append({"id": "cpi_m", "name": "Monthly CPI (OECD MEI)", "reason": "Discontinued on FRED in 2025; annual World Bank inflation used until a monthly source is available."})
     return {
         "id": c["id"],

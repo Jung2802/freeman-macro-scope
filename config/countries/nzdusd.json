@@ -1,0 +1,415 @@
+{
+  "id": "nzdusd",
+  "name": {
+    "de": "NZD/USD",
+    "en": "NZD/USD"
+  },
+  "currency": "NZD/USD",
+  "selector": [
+    {
+      "land": "nz",
+      "landName": {
+        "de": "Neuseeland",
+        "en": "New Zealand"
+      },
+      "group": "exogenous",
+      "vs": "USD"
+    },
+    {
+      "land": "us",
+      "landName": {
+        "de": "USA",
+        "en": "United States"
+      },
+      "group": "exogenous",
+      "vs": "NZD"
+    }
+  ],
+  "texts": {
+    "ov.subtitle": {
+      "de": "Neuseeland gegen USA: Welche der beiden Wirtschaften ist gerade stärker? Die wichtigsten Treiber des Wechselkurses NZD/USD an einem Ort, einfach bewertet und mit Quellen.",
+      "en": "New Zealand versus US: which of the two economies is stronger right now? The key drivers of the NZD/USD exchange rate in one place, simply scored and with sources."
+    },
+    "ov.scoreSentence": {
+      "de": "{pos} von {n} bewerteten Treibern sprechen aktuell für den NZD (Score > 0), {neg} für den USD (Score < 0).",
+      "en": "{pos} of {n} scored drivers currently favour the NZD (score > 0), {neg} favour the USD (score < 0)."
+    },
+    "ov.scoreLegend": {
+      "de": "+ = Vorteil Neuseeland / Rückenwind für NZD, − = Vorteil USA / Rückenwind für USD. Statistische Zusammenfassung, keine Empfehlung.",
+      "en": "+ = advantage New Zealand / tailwind for NZD, − = advantage US / tailwind for USD. Statistical summary, not a recommendation."
+    },
+    "info.dirPos": {
+      "de": "höherer Wert = Rückenwind für NZD (+)",
+      "en": "higher = tailwind for NZD (+)"
+    },
+    "info.dirNeg": {
+      "de": "höherer Wert = Rückenwind für USD (−)",
+      "en": "higher = tailwind for USD (−)"
+    }
+  },
+  "groups": [
+    {
+      "id": "exogenous",
+      "name": {
+        "de": "Währungsvergleich · exogene Treiber",
+        "en": "Currency comparison · exogenous drivers"
+      },
+      "description": {
+        "de": "Ein Wechselkurs ist immer ein Vergleich zweier Wirtschaftsräume. Darum stehen hier Neuseeland und die USA direkt nebeneinander: Wer wächst schneller, bietet höhere Zinsen, hat die stabileren Preise und die stärkere Börse? Wo Neuseeland vorne liegt, fließt tendenziell Geld dorthin und der NZD steigt gegenüber dem USD. Plus heißt also: Rückenwind für den NZD, Minus: Rückenwind für den USD.",
+        "en": "An exchange rate always compares two economies. So New Zealand and the US stand side by side here: which grows faster, pays higher rates, has more stable prices and the stronger stock market? Where New Zealand leads, money tends to flow there and the NZD rises against the USD. Plus means a tailwind for the NZD, minus a tailwind for the USD."
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "fx",
+      "group": "exogenous",
+      "tone": "neutral",
+      "color": "#e9e9e9",
+      "name": {
+        "de": "Wechselkurs",
+        "en": "Exchange Rate"
+      }
+    },
+    {
+      "id": "carry",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#60a5fa",
+      "name": {
+        "de": "Zinsdifferenz & Carry",
+        "en": "Interest Rate Differential & Carry"
+      }
+    },
+    {
+      "id": "prices",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#f472b6",
+      "name": {
+        "de": "Inflation & Kaufkraft",
+        "en": "Inflation & Purchasing Power"
+      }
+    },
+    {
+      "id": "wealth",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#f59e0b",
+      "name": {
+        "de": "Aktienmarkt / Relativer Wohlstand",
+        "en": "Stock Markets / Relative Wealth"
+      }
+    }
+  ],
+  "indicators": [
+    {
+      "id": "spot",
+      "category": "fx",
+      "code": "NZD/USD",
+      "decimals": 4,
+      "frequency": "M",
+      "name": {
+        "de": "Wechselkurs NZD/USD",
+        "en": "Exchange Rate NZD/USD"
+      },
+      "short": {
+        "de": "Kurs NZD/USD",
+        "en": "NZD/USD Rate"
+      },
+      "unit": {
+        "de": "USD je NZD",
+        "en": "USD per NZD"
+      },
+      "inputs": {
+        "nzd": {
+          "fred": "DEXUSNZ"
+        }
+      },
+      "formula": "nzd",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "NZD über Durchschnitt",
+          "en": "NZD above average"
+        },
+        "below": {
+          "de": "NZD unter Durchschnitt",
+          "en": "NZD below average"
+        }
+      },
+      "direction": 0,
+      "license": "public",
+      "sources": [
+        {
+          "name": "Federal Reserve H.10 – Foreign Exchange Rates (via FRED: DEXUSNZ)",
+          "url": "https://fred.stlouisfed.org/series/DEXUSNZ"
+        }
+      ],
+      "description": {
+        "de": "Wie viele USD ein NZD kostet (Monatsdurchschnitt der täglichen Kurse der Federal Reserve).",
+        "en": "How many USD one NZD costs (monthly average of the Federal Reserve's daily rates)."
+      },
+      "interpretation": {
+        "de": "Das ist die Größe, die die anderen Treiber erklären sollen. Sie bekommt deshalb keinen eigenen Score. Vergleiche ihre Richtung mit dem Gesamt-Score: Laufen beide lange auseinander, ist der Kurs entweder überdehnt oder andere Kräfte (Risikostimmung, Kapitalflüsse) dominieren.",
+        "en": "This is what the other drivers are meant to explain, so it is not scored. Compare its direction with the total score: if the two diverge for long, the rate is either stretched or other forces (risk sentiment, capital flows) dominate."
+      },
+      "transform": "level",
+      "gdpRegression": false
+    },
+    {
+      "id": "rate_diff",
+      "category": "carry",
+      "code": "IR-DIFF",
+      "decimals": 2,
+      "frequency": "M",
+      "name": {
+        "de": "Leitzinsdifferenz & Carry (RBNZ − Fed)",
+        "en": "Policy Rate Differential & Carry (RBNZ − Fed)"
+      },
+      "short": {
+        "de": "Leitzinsdifferenz",
+        "en": "Policy Rate Gap"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "inputs": {
+        "a": {
+          "fred": "IR3TIB01NZM156N"
+        },
+        "b": {
+          "fred": "FEDFUNDS"
+        }
+      },
+      "formula": "a - b",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Zinsvorteil NZD",
+          "en": "Yield advantage NZD"
+        },
+        "below": {
+          "de": "Zinsvorteil USD",
+          "en": "Yield advantage USD"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – 3-month interbank rate (policy-rate proxy) (via FRED: IR3TIB01NZM156N)",
+          "url": "https://fred.stlouisfed.org/series/IR3TIB01NZM156N"
+        },
+        {
+          "name": "Federal Reserve – Effective Federal Funds Rate (via FRED: FEDFUNDS)",
+          "url": "https://fred.stlouisfed.org/series/FEDFUNDS"
+        }
+      ],
+      "description": {
+        "de": "Leitzins (bzw. Tagesgeldsatz) in Neuseeland minus in den USA. Die Differenz ist der Zinsvorteil (Carry), den man beim Halten von NZD statt USD erhält.",
+        "en": "Policy (or overnight) rate in New Zealand minus in the US. The difference is the carry earned by holding NZD instead of USD."
+      },
+      "interpretation": {
+        "de": "Über 0: der NZD bringt mehr Zins, Carry-Kapital fließt eher in den NZD. Wichtiger als das Niveau ist oft die Richtung: Steigt die Differenz, weil RBNZ strafft oder Fed lockert, bekommt der NZD Rückenwind.",
+        "en": "Above 0: the NZD yields more and carry capital tends to flow into it. Direction often matters more than level: when the gap widens because the RBNZ tightens or the Fed eases, the NZD gains."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "yield_diff",
+      "category": "carry",
+      "code": "10Y-DIFF",
+      "decimals": 2,
+      "frequency": "M",
+      "name": {
+        "de": "Renditedifferenz 10 Jahre (Neuseeland − USA)",
+        "en": "10-Year Yield Differential (New Zealand − US)"
+      },
+      "short": {
+        "de": "Renditedifferenz 10J",
+        "en": "10Y Yield Gap"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "inputs": {
+        "a": {
+          "fred": "IRLTLT01NZM156N"
+        },
+        "b": {
+          "fred": "GS10"
+        }
+      },
+      "formula": "a - b",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Renditevorteil NZD",
+          "en": "Yield advantage NZD"
+        },
+        "below": {
+          "de": "Renditevorteil USD",
+          "en": "Yield advantage USD"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – 10-Year Government Bond Yield (via FRED: IRLTLT01NZM156N)",
+          "url": "https://fred.stlouisfed.org/series/IRLTLT01NZM156N"
+        },
+        {
+          "name": "Federal Reserve – 10-Year Treasury Yield (via FRED: GS10)",
+          "url": "https://fred.stlouisfed.org/series/GS10"
+        }
+      ],
+      "description": {
+        "de": "Rendite 10-jähriger Staatsanleihen in Neuseeland minus in den USA.",
+        "en": "10-year government bond yield in New Zealand minus in the US."
+      },
+      "interpretation": {
+        "de": "Langfristige Zinsen spiegeln Wachstums- und Inflationserwartungen. Ein steigender Vorsprung zieht Anleihekäufer an und stützt den NZD.",
+        "en": "Long-term yields reflect growth and inflation expectations. A widening lead attracts bond buyers and supports the NZD."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "infl_diff",
+      "category": "prices",
+      "code": "CPI-DIFF",
+      "decimals": 2,
+      "frequency": "A",
+      "name": {
+        "de": "Inflationsdifferenz (Neuseeland − USA)",
+        "en": "Inflation Differential (New Zealand − US)"
+      },
+      "short": {
+        "de": "Inflationsdifferenz",
+        "en": "Inflation Gap"
+      },
+      "unit": {
+        "de": "Prozentpunkte (Jahresdurchschnitt)",
+        "en": "Percentage points (annual average)"
+      },
+      "inputs": {
+        "a": {
+          "fred": "FPCPITOTLZGNZL"
+        },
+        "b": {
+          "fred": "CPIAUCSL",
+          "transform": "yoy"
+        }
+      },
+      "formula": "a - b",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Höhere Inflation in Neuseeland",
+          "en": "Higher inflation in New Zealand"
+        },
+        "below": {
+          "de": "Höhere Inflation in USA",
+          "en": "Higher inflation in US"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "World Bank – Inflation, consumer prices (via FRED: FPCPITOTLZGNZL)",
+          "url": "https://fred.stlouisfed.org/series/FPCPITOTLZGNZL"
+        },
+        {
+          "name": "U.S. Bureau of Labor Statistics – CPI (via FRED: CPIAUCSL)",
+          "url": "https://fred.stlouisfed.org/series/CPIAUCSL"
+        }
+      ],
+      "description": {
+        "de": "Inflationsrate in Neuseeland minus in den USA. Für mindestens eine der beiden Seiten gibt es über FRED nur noch jährliche Verbraucherpreise, deshalb ist diese Reihe jährlich.",
+        "en": "Inflation rate in New Zealand minus in the US. For at least one side FRED only has annual consumer prices now, so this series is annual."
+      },
+      "interpretation": {
+        "de": "Höhere Inflation zehrt auf Dauer an der Kaufkraft einer Währung (Kaufkraftparität). Im Score zählt eine höhere Inflation in Neuseeland deshalb negativ für den NZD. Kurzfristig kann sie den NZD aber stützen, wenn die Notenbank deswegen die Zinsen erhöht, siehe Zinsdifferenz.",
+        "en": "Higher inflation erodes a currency's purchasing power over time (purchasing power parity). In the score higher inflation in New Zealand therefore counts against the NZD. In the short run it can support the NZD if the central bank raises rates in response, see the rate gap."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "rel_stocks",
+      "category": "wealth",
+      "code": "EQ-DIFF",
+      "decimals": 1,
+      "frequency": "M",
+      "name": {
+        "de": "Relative Aktienrendite (Neuseeland − USA, Vorjahr)",
+        "en": "Relative Stock Returns (New Zealand − US, year on year)"
+      },
+      "short": {
+        "de": "Relative Aktienrendite",
+        "en": "Relative Stock Returns"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "inputs": {
+        "a0": {
+          "fred": "SPASTT01NZM661N",
+          "transform": "yoy"
+        },
+        "b0": {
+          "fred": "SPASTT01USM661N",
+          "transform": "yoy"
+        }
+      },
+      "formula": "a0 - b0",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Aktien Neuseeland stärker",
+          "en": "New Zealand stocks stronger"
+        },
+        "below": {
+          "de": "Aktien USA stärker",
+          "en": "US stocks stronger"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Share Prices (via FRED: SPASTT01NZM661N)",
+          "url": "https://fred.stlouisfed.org/series/SPASTT01NZM661N"
+        },
+        {
+          "name": "OECD – Share Prices (via FRED: SPASTT01USM661N)",
+          "url": "https://fred.stlouisfed.org/series/SPASTT01USM661N"
+        }
+      ],
+      "description": {
+        "de": "Jahresveränderung der Aktienkurse in Neuseeland minus in den USA (OECD-Indizes in Landeswährung).",
+        "en": "Year-on-year change in share prices in New Zealand minus in the US (OECD indices in local currency)."
+      },
+      "interpretation": {
+        "de": "Über 0: die Börse in Neuseeland läuft besser, ausländisches Kapital fließt eher dorthin und stützt den NZD.",
+        "en": "Above 0: the stock market in New Zealand outperforms, foreign capital tends to flow there and support the NZD."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    }
+  ],
+  "recession": {
+    "fred": "USREC",
+    "source": {
+      "name": "NBER Business Cycle Dating Committee (via FRED: USREC)",
+      "url": "https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions"
+    }
+  }
+}

@@ -1,0 +1,612 @@
+{
+  "id": "eurchf",
+  "name": {
+    "de": "EUR/CHF",
+    "en": "EUR/CHF"
+  },
+  "currency": "EUR/CHF",
+  "selector": [
+    {
+      "land": "de",
+      "landName": {
+        "de": "Deutschland",
+        "en": "Germany"
+      },
+      "group": "exogenous",
+      "vs": "CHF"
+    },
+    {
+      "land": "fr",
+      "landName": {
+        "de": "Frankreich",
+        "en": "France"
+      },
+      "group": "exogenous",
+      "vs": "CHF"
+    },
+    {
+      "land": "it",
+      "landName": {
+        "de": "Italien",
+        "en": "Italy"
+      },
+      "group": "exogenous",
+      "vs": "CHF"
+    },
+    {
+      "land": "es",
+      "landName": {
+        "de": "Spanien",
+        "en": "Spain"
+      },
+      "group": "exogenous",
+      "vs": "CHF"
+    },
+    {
+      "land": "nl",
+      "landName": {
+        "de": "Niederlande",
+        "en": "Netherlands"
+      },
+      "group": "exogenous",
+      "vs": "CHF"
+    },
+    {
+      "land": "be",
+      "landName": {
+        "de": "Belgien",
+        "en": "Belgium"
+      },
+      "group": "exogenous",
+      "vs": "CHF"
+    },
+    {
+      "land": "at",
+      "landName": {
+        "de": "Österreich",
+        "en": "Austria"
+      },
+      "group": "exogenous",
+      "vs": "CHF"
+    },
+    {
+      "land": "pt",
+      "landName": {
+        "de": "Portugal",
+        "en": "Portugal"
+      },
+      "group": "exogenous",
+      "vs": "CHF"
+    },
+    {
+      "land": "ie",
+      "landName": {
+        "de": "Irland",
+        "en": "Ireland"
+      },
+      "group": "exogenous",
+      "vs": "CHF"
+    },
+    {
+      "land": "fi",
+      "landName": {
+        "de": "Finnland",
+        "en": "Finland"
+      },
+      "group": "exogenous",
+      "vs": "CHF"
+    },
+    {
+      "land": "gr",
+      "landName": {
+        "de": "Griechenland",
+        "en": "Greece"
+      },
+      "group": "exogenous",
+      "vs": "CHF"
+    },
+    {
+      "land": "sk",
+      "landName": {
+        "de": "Slowakei",
+        "en": "Slovakia"
+      },
+      "group": "exogenous",
+      "vs": "CHF"
+    },
+    {
+      "land": "ch",
+      "landName": {
+        "de": "Schweiz",
+        "en": "Switzerland"
+      },
+      "group": "exogenous",
+      "vs": "EUR"
+    }
+  ],
+  "texts": {
+    "ov.subtitle": {
+      "de": "Euroraum gegen Schweiz: Welche der beiden Wirtschaften ist gerade stärker? Die wichtigsten Treiber des Wechselkurses EUR/CHF an einem Ort, einfach bewertet und mit Quellen.",
+      "en": "Euro area versus Switzerland: which of the two economies is stronger right now? The key drivers of the EUR/CHF exchange rate in one place, simply scored and with sources."
+    },
+    "ov.scoreSentence": {
+      "de": "{pos} von {n} bewerteten Treibern sprechen aktuell für den EUR (Score > 0), {neg} für den CHF (Score < 0).",
+      "en": "{pos} of {n} scored drivers currently favour the EUR (score > 0), {neg} favour the CHF (score < 0)."
+    },
+    "ov.scoreLegend": {
+      "de": "+ = Vorteil Euroraum / Rückenwind für EUR, − = Vorteil Schweiz / Rückenwind für CHF. Statistische Zusammenfassung, keine Empfehlung.",
+      "en": "+ = advantage Euro area / tailwind for EUR, − = advantage Switzerland / tailwind for CHF. Statistical summary, not a recommendation."
+    },
+    "info.dirPos": {
+      "de": "höherer Wert = Rückenwind für EUR (+)",
+      "en": "higher = tailwind for EUR (+)"
+    },
+    "info.dirNeg": {
+      "de": "höherer Wert = Rückenwind für CHF (−)",
+      "en": "higher = tailwind for CHF (−)"
+    }
+  },
+  "groups": [
+    {
+      "id": "exogenous",
+      "name": {
+        "de": "Währungsvergleich · exogene Treiber",
+        "en": "Currency comparison · exogenous drivers"
+      },
+      "description": {
+        "de": "Ein Wechselkurs ist immer ein Vergleich zweier Wirtschaftsräume. Darum stehen hier der Euroraum und Schweiz direkt nebeneinander: Wer wächst schneller, bietet höhere Zinsen, hat die stabileren Preise und die stärkere Börse? Wo der Euroraum vorne liegt, fließt tendenziell Geld dorthin und der EUR steigt gegenüber dem CHF. Plus heißt also: Rückenwind für den EUR, Minus: Rückenwind für den CHF.",
+        "en": "An exchange rate always compares two economies. So the euro area and Switzerland stand side by side here: which grows faster, pays higher rates, has more stable prices and the stronger stock market? Where the euro area leads, money tends to flow there and the EUR rises against the CHF. Plus means a tailwind for the EUR, minus a tailwind for the CHF."
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "fx",
+      "group": "exogenous",
+      "tone": "neutral",
+      "color": "#e9e9e9",
+      "name": {
+        "de": "Wechselkurs",
+        "en": "Exchange Rate"
+      }
+    },
+    {
+      "id": "growth",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#a3e635",
+      "name": {
+        "de": "Relatives Wachstum & Arbeitsmarkt",
+        "en": "Relative Growth & Labour"
+      }
+    },
+    {
+      "id": "carry",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#60a5fa",
+      "name": {
+        "de": "Zinsdifferenz & Carry",
+        "en": "Interest Rate Differential & Carry"
+      }
+    },
+    {
+      "id": "prices",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#f472b6",
+      "name": {
+        "de": "Inflation & Kaufkraft",
+        "en": "Inflation & Purchasing Power"
+      }
+    },
+    {
+      "id": "wealth",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#f59e0b",
+      "name": {
+        "de": "Aktienmarkt / Relativer Wohlstand",
+        "en": "Stock Markets / Relative Wealth"
+      }
+    }
+  ],
+  "indicators": [
+    {
+      "id": "spot",
+      "category": "fx",
+      "code": "EUR/CHF",
+      "decimals": 4,
+      "frequency": "M",
+      "name": {
+        "de": "Wechselkurs EUR/CHF",
+        "en": "Exchange Rate EUR/CHF"
+      },
+      "short": {
+        "de": "Kurs EUR/CHF",
+        "en": "EUR/CHF Rate"
+      },
+      "unit": {
+        "de": "CHF je EUR",
+        "en": "CHF per EUR"
+      },
+      "inputs": {
+        "eu": {
+          "fred": "DEXUSEU"
+        },
+        "chf": {
+          "fred": "DEXSZUS"
+        }
+      },
+      "formula": "eu * chf",
+      "threshold": "mean",
+      "zones": {
+        "above": {
+          "de": "EUR über Durchschnitt",
+          "en": "EUR above average"
+        },
+        "below": {
+          "de": "EUR unter Durchschnitt",
+          "en": "EUR below average"
+        }
+      },
+      "direction": 0,
+      "license": "public",
+      "sources": [
+        {
+          "name": "Federal Reserve H.10 – USD per EUR (via FRED: DEXUSEU)",
+          "url": "https://fred.stlouisfed.org/series/DEXUSEU"
+        },
+        {
+          "name": "Federal Reserve H.10 – Foreign Exchange Rates (via FRED: DEXSZUS)",
+          "url": "https://fred.stlouisfed.org/series/DEXSZUS"
+        }
+      ],
+      "description": {
+        "de": "Wie viele CHF ein EUR kostet (Monatsdurchschnitt der täglichen Kurse der Federal Reserve). Der Kreuzkurs wird aus den Dollarkursen beider Währungen berechnet.",
+        "en": "How many CHF one EUR costs (monthly average of the Federal Reserve's daily rates). The cross rate is computed from both currencies' dollar rates."
+      },
+      "interpretation": {
+        "de": "Das ist die Größe, die die anderen Treiber erklären sollen. Sie bekommt deshalb keinen eigenen Score. Vergleiche ihre Richtung mit dem Gesamt-Score: Laufen beide lange auseinander, ist der Kurs entweder überdehnt oder andere Kräfte (Risikostimmung, Kapitalflüsse) dominieren.",
+        "en": "This is what the other drivers are meant to explain, so it is not scored. Compare its direction with the total score: if the two diverge for long, the rate is either stretched or other forces (risk sentiment, capital flows) dominate."
+      },
+      "transform": "level",
+      "gdpRegression": false
+    },
+    {
+      "id": "rel_gdp",
+      "category": "growth",
+      "code": "GDP-DIFF",
+      "decimals": 2,
+      "frequency": "Q",
+      "name": {
+        "de": "Relatives BIP-Wachstum (Euroraum − Schweiz)",
+        "en": "Relative GDP Growth (Euro area − Switzerland)"
+      },
+      "short": {
+        "de": "Relatives BIP-Wachstum",
+        "en": "Relative GDP Growth"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "inputs": {
+        "a": {
+          "fred": "CLVMNACSCAB1GQEA19",
+          "transform": "yoy"
+        },
+        "b": {
+          "fred": "CLVMNACSCAB1GQCH",
+          "transform": "yoy"
+        }
+      },
+      "formula": "a - b",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Euroraum wächst schneller",
+          "en": "Euro area grows faster"
+        },
+        "below": {
+          "de": "Schweiz wächst schneller",
+          "en": "Switzerland grows faster"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "Eurostat – Real GDP, euro area (via FRED: CLVMNACSCAB1GQEA19)",
+          "url": "https://fred.stlouisfed.org/series/CLVMNACSCAB1GQEA19"
+        },
+        {
+          "name": "Eurostat – Real GDP (chain-linked volumes) (via FRED: CLVMNACSCAB1GQCH)",
+          "url": "https://fred.stlouisfed.org/series/CLVMNACSCAB1GQCH"
+        }
+      ],
+      "description": {
+        "de": "Reales BIP-Wachstum ggü. Vorjahr im Euroraum minus in der Schweiz.",
+        "en": "Real GDP growth year on year in the euro area minus in Switzerland."
+      },
+      "interpretation": {
+        "de": "Über 0: Die Wirtschaft im Euroraum wächst schneller. Das zieht tendenziell Kapital an und stützt den EUR. Unter 0: Rückenwind für den CHF.",
+        "en": "Above 0: the economy in the euro area grows faster, which tends to attract capital and support the EUR. Below 0: tailwind for the CHF."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "rate_diff",
+      "category": "carry",
+      "code": "IR-DIFF",
+      "decimals": 2,
+      "frequency": "M",
+      "name": {
+        "de": "Leitzinsdifferenz & Carry (EZB − SNB)",
+        "en": "Policy Rate Differential & Carry (ECB − SNB)"
+      },
+      "short": {
+        "de": "Leitzinsdifferenz",
+        "en": "Policy Rate Gap"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "inputs": {
+        "a": {
+          "fred": "ECBDFR"
+        },
+        "b": {
+          "fred": "IR3TIB01CHM156N"
+        }
+      },
+      "formula": "a - b",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Zinsvorteil EUR",
+          "en": "Yield advantage EUR"
+        },
+        "below": {
+          "de": "Zinsvorteil CHF",
+          "en": "Yield advantage CHF"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "European Central Bank – Deposit Facility Rate (via FRED: ECBDFR)",
+          "url": "https://fred.stlouisfed.org/series/ECBDFR"
+        },
+        {
+          "name": "OECD – 3-month interbank rate (policy-rate proxy) (via FRED: IR3TIB01CHM156N)",
+          "url": "https://fred.stlouisfed.org/series/IR3TIB01CHM156N"
+        }
+      ],
+      "description": {
+        "de": "Leitzins (bzw. Tagesgeldsatz) im Euroraum minus in der Schweiz. Die Differenz ist der Zinsvorteil (Carry), den man beim Halten von EUR statt CHF erhält.",
+        "en": "Policy (or overnight) rate in the euro area minus in Switzerland. The difference is the carry earned by holding EUR instead of CHF."
+      },
+      "interpretation": {
+        "de": "Über 0: der EUR bringt mehr Zins, Carry-Kapital fließt eher in den EUR. Wichtiger als das Niveau ist oft die Richtung: Steigt die Differenz, weil EZB strafft oder SNB lockert, bekommt der EUR Rückenwind.",
+        "en": "Above 0: the EUR yields more and carry capital tends to flow into it. Direction often matters more than level: when the gap widens because the ECB tightens or the SNB eases, the EUR gains."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "yield_diff",
+      "category": "carry",
+      "code": "10Y-DIFF",
+      "decimals": 2,
+      "frequency": "M",
+      "name": {
+        "de": "Renditedifferenz 10 Jahre (Euroraum − Schweiz)",
+        "en": "10-Year Yield Differential (Euro area − Switzerland)"
+      },
+      "short": {
+        "de": "Renditedifferenz 10J",
+        "en": "10Y Yield Gap"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "inputs": {
+        "a": {
+          "fred": "IRLTLT01DEM156N"
+        },
+        "b": {
+          "fred": "IRLTLT01CHM156N"
+        }
+      },
+      "formula": "a - b",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Renditevorteil EUR",
+          "en": "Yield advantage EUR"
+        },
+        "below": {
+          "de": "Renditevorteil CHF",
+          "en": "Yield advantage CHF"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – 10-Year Bund Yield (euro benchmark) (via FRED: IRLTLT01DEM156N)",
+          "url": "https://fred.stlouisfed.org/series/IRLTLT01DEM156N"
+        },
+        {
+          "name": "OECD – 10-Year Government Bond Yield (via FRED: IRLTLT01CHM156N)",
+          "url": "https://fred.stlouisfed.org/series/IRLTLT01CHM156N"
+        }
+      ],
+      "description": {
+        "de": "Rendite 10-jähriger Staatsanleihen im Euroraum minus in der Schweiz. Für den Euroraum dient die deutsche Bundesanleihe als Referenz.",
+        "en": "10-year government bond yield in the euro area minus in Switzerland. For the euro area the German Bund is the benchmark."
+      },
+      "interpretation": {
+        "de": "Langfristige Zinsen spiegeln Wachstums- und Inflationserwartungen. Ein steigender Vorsprung zieht Anleihekäufer an und stützt den EUR.",
+        "en": "Long-term yields reflect growth and inflation expectations. A widening lead attracts bond buyers and supports the EUR."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "infl_diff",
+      "category": "prices",
+      "code": "CPI-DIFF",
+      "decimals": 2,
+      "frequency": "M",
+      "name": {
+        "de": "Inflationsdifferenz (Euroraum − Schweiz)",
+        "en": "Inflation Differential (Euro area − Switzerland)"
+      },
+      "short": {
+        "de": "Inflationsdifferenz",
+        "en": "Inflation Gap"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "inputs": {
+        "a": {
+          "fred": "CP0000EZ19M086NEST",
+          "transform": "yoy"
+        },
+        "b": {
+          "fred": "CP0000CHM086NEST",
+          "transform": "yoy"
+        }
+      },
+      "formula": "a - b",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Höhere Inflation in Euroraum",
+          "en": "Higher inflation in Euro area"
+        },
+        "below": {
+          "de": "Höhere Inflation in Schweiz",
+          "en": "Higher inflation in Switzerland"
+        }
+      },
+      "direction": -1,
+      "sources": [
+        {
+          "name": "Eurostat – HICP, euro area (via FRED: CP0000EZ19M086NEST)",
+          "url": "https://fred.stlouisfed.org/series/CP0000EZ19M086NEST"
+        },
+        {
+          "name": "Eurostat – Harmonised Index of Consumer Prices (via FRED: CP0000CHM086NEST)",
+          "url": "https://fred.stlouisfed.org/series/CP0000CHM086NEST"
+        }
+      ],
+      "description": {
+        "de": "Inflationsrate im Euroraum minus in der Schweiz.",
+        "en": "Inflation rate in the euro area minus in Switzerland."
+      },
+      "interpretation": {
+        "de": "Höhere Inflation zehrt auf Dauer an der Kaufkraft einer Währung (Kaufkraftparität). Im Score zählt eine höhere Inflation im Euroraum deshalb negativ für den EUR. Kurzfristig kann sie den EUR aber stützen, wenn die Notenbank deswegen die Zinsen erhöht, siehe Zinsdifferenz.",
+        "en": "Higher inflation erodes a currency's purchasing power over time (purchasing power parity). In the score higher inflation in the euro area therefore counts against the EUR. In the short run it can support the EUR if the central bank raises rates in response, see the rate gap."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "rel_stocks",
+      "category": "wealth",
+      "code": "EQ-DIFF",
+      "decimals": 1,
+      "frequency": "M",
+      "name": {
+        "de": "Relative Aktienrendite (Euroraum − Schweiz, Vorjahr)",
+        "en": "Relative Stock Returns (Euro area − Switzerland, year on year)"
+      },
+      "short": {
+        "de": "Relative Aktienrendite",
+        "en": "Relative Stock Returns"
+      },
+      "unit": {
+        "de": "Prozentpunkte",
+        "en": "Percentage points"
+      },
+      "inputs": {
+        "a0": {
+          "fred": "SPASTT01DEM661N",
+          "transform": "yoy"
+        },
+        "a1": {
+          "fred": "SPASTT01FRM661N",
+          "transform": "yoy"
+        },
+        "a2": {
+          "fred": "SPASTT01ITM661N",
+          "transform": "yoy"
+        },
+        "a3": {
+          "fred": "SPASTT01ESM661N",
+          "transform": "yoy"
+        },
+        "b0": {
+          "fred": "SPASTT01CHM661N",
+          "transform": "yoy"
+        }
+      },
+      "formula": "mean(a0, a1, a2, a3) - b0",
+      "threshold": 0,
+      "zones": {
+        "above": {
+          "de": "Aktien Euroraum stärker",
+          "en": "Euro area stocks stronger"
+        },
+        "below": {
+          "de": "Aktien Schweiz stärker",
+          "en": "Switzerland stocks stronger"
+        }
+      },
+      "direction": 1,
+      "sources": [
+        {
+          "name": "OECD – Share Prices (via FRED: SPASTT01DEM661N)",
+          "url": "https://fred.stlouisfed.org/series/SPASTT01DEM661N"
+        },
+        {
+          "name": "OECD – Share Prices (via FRED: SPASTT01FRM661N)",
+          "url": "https://fred.stlouisfed.org/series/SPASTT01FRM661N"
+        },
+        {
+          "name": "OECD – Share Prices (via FRED: SPASTT01ITM661N)",
+          "url": "https://fred.stlouisfed.org/series/SPASTT01ITM661N"
+        },
+        {
+          "name": "OECD – Share Prices (via FRED: SPASTT01ESM661N)",
+          "url": "https://fred.stlouisfed.org/series/SPASTT01ESM661N"
+        },
+        {
+          "name": "OECD – Share Prices (via FRED: SPASTT01CHM661N)",
+          "url": "https://fred.stlouisfed.org/series/SPASTT01CHM661N"
+        }
+      ],
+      "description": {
+        "de": "Jahresveränderung der Aktienkurse im Euroraum minus in der Schweiz (OECD-Indizes in Landeswährung). Für den Euroraum ist es der Durchschnitt der Aktienmärkte Deutschlands, Frankreichs, Italiens und Spaniens.",
+        "en": "Year-on-year change in share prices in the euro area minus in Switzerland (OECD indices in local currency). For the euro area it is the average of the German, French, Italian and Spanish markets."
+      },
+      "interpretation": {
+        "de": "Über 0: die Börse im Euroraum läuft besser, ausländisches Kapital fließt eher dorthin und stützt den EUR.",
+        "en": "Above 0: the stock market in the euro area outperforms, foreign capital tends to flow there and support the EUR."
+      },
+      "transform": "level",
+      "license": "citation",
+      "gdpRegression": false
+    }
+  ]
+}

@@ -280,7 +280,11 @@ def main() -> int:
 
     countries, errors = [], []
     # Selector order: countries, then USD majors before crosses (the first pair is the default vs-currency).
-    order = ["us", "de", "fr", "it", "es", "gb", "jp", "ca", "au", "eurusd", "gbpusd", "usdjpy", "usdcad", "audusd", "eurgbp", "eurjpy", "gbpjpy", "eurcad"]
+    order = ["us", "de", "fr", "it", "es", "nl", "be", "at", "pt", "ie", "fi", "gr", "sk",
+             "gb", "ch", "se", "no", "dk", "pl", "cz", "hu", "tr", "jp", "kr", "in", "il", "ca", "mx", "br", "cl", "au", "nz", "za",
+             "eurusd", "gbpusd", "usdjpy", "usdcad", "audusd", "nzdusd", "usdchf", "usdsek", "usdnok", "usdtry", "usdkrw", "usdinr", "usdils",
+             "usdmxn", "usdbrl", "usdclp", "usdzar",
+             "eurgbp", "eurjpy", "gbpjpy", "eurcad", "eurchf", "eursek", "eurnok", "eurpln", "eurczk", "eurhuf", "audnzd"]
     rank = lambda p: (order.index(p.stem) if p.stem in order else len(order), p.stem)
     for cfg_path in sorted(CONFIG_DIR.glob("*.json"), key=rank):
         if args.only and cfg_path.stem != args.only:

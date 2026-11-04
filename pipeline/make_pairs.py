@@ -26,7 +26,9 @@ SIDES = {
             "gdp": "GDPC1", "policy": "FEDFUNDS", "t10": "GS10", "infl_m": "CPIAUCSL", "unemp": "UNRATE",
             "stocks": ["SPASTT01USM661N"], "cb": T("Fed", "Fed")},
     "EUR": {"region": T("der Euroraum", "the euro area"), "regionN": T("Euroraum", "Euro area"), "in": T("im Euroraum", "in the euro area"),
-            "lands": [("de", T("Deutschland", "Germany")), ("fr", T("Frankreich", "France")), ("it", T("Italien", "Italy")), ("es", T("Spanien", "Spain"))],
+            "lands": [("de", T("Deutschland", "Germany")), ("fr", T("Frankreich", "France")), ("it", T("Italien", "Italy")), ("es", T("Spanien", "Spain")),
+                      ("nl", T("Niederlande", "Netherlands")), ("be", T("Belgien", "Belgium")), ("at", T("Österreich", "Austria")), ("pt", T("Portugal", "Portugal")),
+                      ("ie", T("Irland", "Ireland")), ("fi", T("Finnland", "Finland")), ("gr", T("Griechenland", "Greece")), ("sk", T("Slowakei", "Slovakia"))],
             "gdp": "CLVMNACSCAB1GQEA19", "policy": "ECBDFR", "t10": "IRLTLT01DEM156N", "infl_m": "CP0000EZ19M086NEST", "unemp": None,
             "stocks": ["SPASTT01DEM661N", "SPASTT01FRM661N", "SPASTT01ITM661N", "SPASTT01ESM661N"], "cb": T("EZB", "ECB")},
     "GBP": {"region": T("das Vereinigte Königreich", "the UK"), "regionN": T("UK", "UK"), "in": T("im Vereinigten Königreich", "in the UK"), "lands": [("gb", T("Vereinigtes Königreich", "United Kingdom"))],
@@ -40,18 +42,60 @@ SIDES = {
             "stocks": ["SPASTT01CAM661N"], "cb": T("BoC", "BoC")},
 }
 
-# FRED daily spot rates, as a formula over these names.
-SPOT_INPUTS = {"eu": "DEXUSEU", "uk": "DEXUSUK", "jp": "DEXJPUS", "ca": "DEXCAUS"}
+
+def side(iso2, iso3, land, de, en, de_in, en_in, cb, gdp=None, policy="short", t10=True, hicp=False, unemp=True, cb_de=None):
+    """One more currency from the standard FRED patterns (OECD, Eurostat, World Bank, IMF)."""
+    return {"region": T(de, en), "regionN": T(de, en), "in": T(de_in, en_in), "lands": [(land, T(de, en))],
+            "gdp": gdp, "policy": (f"IR3TIB01{iso2}M156N" if policy == "ib3" else f"IRSTCI01{iso2}M156N"),
+            "t10": (t10 if isinstance(t10, str) else f"IRLTLT01{iso2}M156N" if t10 else None),
+            **({"infl_m": f"CP0000{iso2}M086NEST"} if hicp else {"infl_a": f"FPCPITOTLZG{iso3}"}),
+            "unemp": f"LRHUTTTT{iso2}M156S" if unemp else None, "stocks": [f"SPASTT01{iso2}M661N"], "cb": T(cb_de or cb, cb)}
+
+
+SIDES.update({
+    "CHF": side("CH", "CHE", "ch", "Schweiz", "Switzerland", "in der Schweiz", "in Switzerland", "SNB", gdp="CLVMNACSCAB1GQCH", policy="ib3", hicp=True, unemp=False),
+    "SEK": side("SE", "SWE", "se", "Schweden", "Sweden", "in Schweden", "in Sweden", "Riksbank", gdp="CLVMNACSCAB1GQSE", policy="ib3", hicp=True),
+    "NOK": side("NO", "NOR", "no", "Norwegen", "Norway", "in Norwegen", "in Norway", "Norges Bank", gdp="CLVMNACSCAB1GQNO", hicp=True),
+    "PLN": side("PL", "POL", "pl", "Polen", "Poland", "in Polen", "in Poland", "NBP", gdp="CLVMNACSCAB1GQPL", hicp=True),
+    "CZK": side("CZ", "CZE", "cz", "Tschechien", "Czechia", "in Tschechien", "in Czechia", "CNB", gdp="CLVMNACSCAB1GQCZ", hicp=True, cb_de="ČNB"),
+    "HUF": side("HU", "HUN", "hu", "Ungarn", "Hungary", "in Ungarn", "in Hungary", "MNB", gdp="CLVMNACSCAB1GQHU", hicp=True),
+    "TRY": side("TR", "TUR", "tr", "Türkei", "Türkiye", "in der Türkei", "in Türkiye", "CBRT", gdp="NGDPRSAXDCTRQ", t10=False, hicp=True, cb_de="TCMB"),
+    "NZD": side("NZ", "NZL", "nz", "Neuseeland", "New Zealand", "in Neuseeland", "in New Zealand", "RBNZ", policy="ib3", unemp=False),
+    "AUD": side("AU", "AUS", "au", "Australien", "Australia", "in Australien", "in Australia", "RBA", gdp="NGDPRSAXDCAUQ"),
+    "KRW": side("KR", "KOR", "kr", "Südkorea", "South Korea", "in Südkorea", "in South Korea", "BoK", gdp="NGDPRSAXDCKRQ"),
+    "INR": side("IN", "IND", "in", "Indien", "India", "in Indien", "in India", "RBI", t10="INDIRLTLT01STM", unemp=False),
+    "ILS": side("IL", "ISR", "il", "Israel", "Israel", "in Israel", "in Israel", "BoI"),
+    "MXN": side("MX", "MEX", "mx", "Mexiko", "Mexico", "in Mexiko", "in Mexico", "Banxico", gdp="NGDPRSAXDCMXQ"),
+    "BRL": side("BR", "BRA", "br", "Brasilien", "Brazil", "in Brasilien", "in Brazil", "BCB", gdp="NGDPRSAXDCBRQ", t10=False, unemp=False),
+    "CLP": side("CL", "CHL", "cl", "Chile", "Chile", "in Chile", "in Chile", "BCCh"),
+    "ZAR": side("ZA", "ZAF", "za", "Südafrika", "South Africa", "in Südafrika", "in South Africa", "SARB", gdp="NGDPRSAXDCZAQ", unemp=False),
+})
+
+# Spot rates as a formula over these names: Federal Reserve H.10 (daily) where it quotes the currency,
+# otherwise the OECD's monthly average (CCUSMA02: national currency per USD).
+SPOT_INPUTS = {"eu": "DEXUSEU", "uk": "DEXUSUK", "jp": "DEXJPUS", "ca": "DEXCAUS",
+               "chf": "DEXSZUS", "sek": "DEXSDUS", "nok": "DEXNOUS", "nzd": "DEXUSNZ", "aud": "DEXUSAL", "krw": "DEXKOUS",
+               "inr": "DEXINUS", "mxn": "DEXMXUS", "brl": "DEXBZUS", "zar": "DEXSFUS",
+               "pln": "CCUSMA02PLM618N", "czk": "CCUSMA02CZM618N", "huf": "CCUSMA02HUM618N", "ils": "CCUSMA02ILM618N",
+               "trl": "CCUSMA02TRM618N", "clp": "CCUSMA02CLM618N"}
+
+# How oil moves a currency: +1 exporter (high oil supports it), −1 importer.
+OIL = {"CAD": (1, T("Rohöl ist Kanadas wichtigstes Exportgut: Steigt der Ölpreis, brauchen Käufer mehr CAD.", "Crude is Canada's most important export: when oil rises, buyers need more CAD.")),
+       "NOK": (1, T("Öl und Gas sind Norwegens größte Exportgüter: Steigt der Ölpreis, fließen mehr Devisen ins Land und stützen die NOK.", "Oil and gas are Norway's largest exports: when oil rises, more foreign currency flows in and supports the NOK.")),
+       "MXN": (1, T("Mexiko exportiert Rohöl, der Staatshaushalt hängt stark an den Öleinnahmen.", "Mexico exports crude and the budget depends heavily on oil revenue.")),
+       "JPY": (-1, T("Japan importiert fast sein gesamtes Öl: Steigt der Ölpreis, muss das Land mehr Fremdwährung kaufen, das belastet den JPY.", "Japan imports almost all its oil: when oil rises, it must buy more foreign currency, which weighs on the JPY.")),
+       "INR": (-1, T("Indien importiert den größten Teil seines Öls: Ein hoher Ölpreis vergrößert das Leistungsbilanzdefizit und belastet die INR.", "India imports most of its oil: a high oil price widens the current-account deficit and weighs on the INR.")),
+       "TRY": (-1, T("Die Türkei importiert fast ihre gesamte Energie: Ein hoher Ölpreis belastet Leistungsbilanz und Lira.", "Türkiye imports almost all its energy: a high oil price weighs on the current account and the lira."))}
 PAIRS = [
-    # base, quote, formula over SPOT_INPUTS, decimals, oil direction (None = not shown)
-    ("EUR", "USD", "eu", 4, None),
-    ("GBP", "USD", "uk", 4, None),
-    ("USD", "JPY", "jp", 2, 1),
-    ("USD", "CAD", "ca", 4, -1),
-    ("EUR", "GBP", "eu / uk", 4, None),
-    ("EUR", "JPY", "eu * jp", 2, None),
-    ("GBP", "JPY", "uk * jp", 2, None),
-    ("EUR", "CAD", "eu * ca", 4, -1),
+    # base, quote, formula over SPOT_INPUTS, decimals (oil is shown when one side is in OIL)
+    ("EUR", "USD", "eu", 4), ("GBP", "USD", "uk", 4), ("USD", "JPY", "jp", 2), ("USD", "CAD", "ca", 4),
+    ("EUR", "GBP", "eu / uk", 4), ("EUR", "JPY", "eu * jp", 2), ("GBP", "JPY", "uk * jp", 2), ("EUR", "CAD", "eu * ca", 4),
+    # added 2026-11
+    ("USD", "CHF", "chf", 4), ("EUR", "CHF", "eu * chf", 4), ("USD", "SEK", "sek", 4), ("EUR", "SEK", "eu * sek", 4),
+    ("USD", "NOK", "nok", 4), ("EUR", "NOK", "eu * nok", 4), ("EUR", "PLN", "eu * pln", 4), ("EUR", "CZK", "eu * czk", 3),
+    ("EUR", "HUF", "eu * huf", 2), ("USD", "TRY", "trl", 3), ("NZD", "USD", "nzd", 4), ("AUD", "NZD", "aud / nzd", 4),
+    ("USD", "KRW", "krw", 1), ("USD", "INR", "inr", 2), ("USD", "ILS", "ils", 4), ("USD", "MXN", "mxn", 4),
+    ("USD", "BRL", "brl", 4), ("USD", "CLP", "clp", 1), ("USD", "ZAR", "zar", 4),
 ]
 
 FRED = "https://fred.stlouisfed.org/series/"
@@ -63,12 +107,23 @@ SOURCE_NAMES = {
     "DEXUSEU": "Federal Reserve H.10 – USD per EUR", "DEXUSUK": "Federal Reserve H.10 – USD per GBP",
     "DEXJPUS": "Federal Reserve H.10 – JPY per USD", "DEXCAUS": "Federal Reserve H.10 – CAD per USD",
     "MCOILWTICO": "U.S. Energy Information Administration – WTI Crude Oil Price",
+    "INDIRLTLT01STM": "OECD – 10-Year Government Bond Yield",
 }
 
 
 def name_of(sid):
     if sid in SOURCE_NAMES:
         return SOURCE_NAMES[sid]
+    if sid.startswith("DEX"):
+        return "Federal Reserve H.10 – Foreign Exchange Rates"
+    if sid.startswith("CCUSMA02"):
+        return "OECD – Exchange rates, monthly average (national currency per USD)"
+    if sid.startswith("CLVMNACSCAB1GQ"):
+        return "Eurostat – Real GDP (chain-linked volumes)"
+    if sid.startswith("CP0000"):
+        return "Eurostat – Harmonised Index of Consumer Prices"
+    if sid.startswith("IR3TIB01"):
+        return "OECD – 3-month interbank rate (policy-rate proxy)"
     if sid.startswith("NGDPRSAXDC"):
         return "IMF International Financial Statistics – Real GDP"
     if sid.startswith("IRSTCI01"):
@@ -92,7 +147,7 @@ def fill(obj, ctx):
     return {k: v.format(**{n: (x[k] if isinstance(x, dict) else x) for n, x in ctx.items()}) for k, v in obj.items()}
 
 
-def pair_config(base, quote, spot, dec, oil):
+def pair_config(base, quote, spot, dec):
     A, B = SIDES[base], SIDES[quote]
     pid = (base + quote).lower()
     code = f"{base}/{quote}"
@@ -111,19 +166,21 @@ def pair_config(base, quote, spot, dec, oil):
         inds.append(kw)
 
     # the exchange rate itself
-    names = {"eu": "DEXUSEU", "uk": "DEXUSUK", "jp": "DEXJPUS", "ca": "DEXCAUS"}
+    names = SPOT_INPUTS
     used = [n for n in names if n in spot.replace("/", " ").replace("*", " ").split()]
+    oecd = any(names[n].startswith("CCUSMA02") for n in used)
     add(id="spot", category="fx", code=code, decimals=dec, frequency="M",
         name=T("Wechselkurs {A}/{B}", "Exchange Rate {A}/{B}"), short=T("Kurs {A}/{B}", "{A}/{B} Rate"),
         unit=T("{B} je {A}", "{B} per {A}"), inputs={n: {"fred": names[n]} for n in used}, formula=spot,
         threshold="mean", zones={"above": T("{A} über Durchschnitt", "{A} above average"), "below": T("{A} unter Durchschnitt", "{A} below average")},
         direction=0, license="public", sources=srcs(*[names[n] for n in used]),
-        description=T("Wie viele {B} ein {A} kostet (Monatsdurchschnitt der täglichen Kurse der Federal Reserve)." + (" Der Kreuzkurs wird aus den Dollarkursen beider Währungen berechnet." if len(used) > 1 else ""),
-                      "How many {B} one {A} costs (monthly average of the Federal Reserve's daily rates)." + (" The cross rate is computed from both currencies' dollar rates." if len(used) > 1 else "")),
+        description=T("Wie viele {B} ein {A} kostet (" + ("Monatsdurchschnitt laut OECD" if oecd else "Monatsdurchschnitt der täglichen Kurse der Federal Reserve") + ")." + (" Der Kreuzkurs wird aus den Dollarkursen beider Währungen berechnet." if len(used) > 1 else ""),
+                      "How many {B} one {A} costs (" + ("monthly average per the OECD" if oecd else "monthly average of the Federal Reserve's daily rates") + ")." + (" The cross rate is computed from both currencies' dollar rates." if len(used) > 1 else "")),
         interpretation=T("Das ist die Größe, die die anderen Treiber erklären sollen. Sie bekommt deshalb keinen eigenen Score. Vergleiche ihre Richtung mit dem Gesamt-Score: Laufen beide lange auseinander, ist der Kurs entweder überdehnt oder andere Kräfte (Risikostimmung, Kapitalflüsse) dominieren.",
                          "This is what the other drivers are meant to explain, so it is not scored. Compare its direction with the total score: if the two diverge for long, the rate is either stretched or other forces (risk sentiment, capital flows) dominate."))
 
-    add(id="rel_gdp", category="growth", code="GDP-DIFF", decimals=2, frequency="Q",
+    if A.get("gdp") and B.get("gdp"):
+      add(id="rel_gdp", category="growth", code="GDP-DIFF", decimals=2, frequency="Q",
         name=T("Relatives BIP-Wachstum ({aN} − {bN})", "Relative GDP Growth ({aN} − {bN})"), short=T("Relatives BIP-Wachstum", "Relative GDP Growth"),
         unit=T("Prozentpunkte", "Percentage points"),
         inputs={"a": {"fred": A["gdp"], "transform": "yoy"}, "b": {"fred": B["gdp"], "transform": "yoy"}}, formula="a - b",
@@ -143,7 +200,8 @@ def pair_config(base, quote, spot, dec, oil):
         interpretation=T("Über 0: der {A} bringt mehr Zins, Carry-Kapital fließt eher in den {A}. Wichtiger als das Niveau ist oft die Richtung: Steigt die Differenz, weil {ca} strafft oder {cb} lockert, bekommt der {A} Rückenwind.",
                          "Above 0: the {A} yields more and carry capital tends to flow into it. Direction often matters more than level: when the gap widens because the {ca} tightens or the {cb} eases, the {A} gains."))
 
-    add(id="yield_diff", category="carry", code="10Y-DIFF", decimals=2, frequency="M",
+    if A.get("t10") and B.get("t10"):
+      add(id="yield_diff", category="carry", code="10Y-DIFF", decimals=2, frequency="M",
         name=T("Renditedifferenz 10 Jahre ({aN} − {bN})", "10-Year Yield Differential ({aN} − {bN})"), short=T("Renditedifferenz 10J", "10Y Yield Gap"),
         unit=T("Prozentpunkte", "Percentage points"), inputs={"a": {"fred": A["t10"]}, "b": {"fred": B["t10"]}}, formula="a - b",
         threshold=0, zones={"above": T("Renditevorteil {A}", "Yield advantage {A}"), "below": T("Renditevorteil {B}", "Yield advantage {B}")},
@@ -167,8 +225,8 @@ def pair_config(base, quote, spot, dec, oil):
         unit=unit, inputs=inp, formula="a - b", threshold=0,
         zones={"above": T("Höhere Inflation in {aN}", "Higher inflation in {aN}"), "below": T("Höhere Inflation in {bN}", "Higher inflation in {bN}")},
         direction=-1, sources=srcs(*ids),
-        description=T("Inflationsrate {ia} minus {ib}." + (" Für UK, Japan und Kanada gibt es über FRED nur noch jährliche Verbraucherpreise, deshalb ist diese Reihe jährlich." if freq == "A" else ""),
-                      "Inflation rate {ia} minus {ib}." + (" For the UK, Japan and Canada FRED only has annual consumer prices now, so this series is annual." if freq == "A" else "")),
+        description=T("Inflationsrate {ia} minus {ib}." + (" Für mindestens eine der beiden Seiten gibt es über FRED nur noch jährliche Verbraucherpreise, deshalb ist diese Reihe jährlich." if freq == "A" else ""),
+                      "Inflation rate {ia} minus {ib}." + (" For at least one side FRED only has annual consumer prices now, so this series is annual." if freq == "A" else "")),
         interpretation=T("Höhere Inflation zehrt auf Dauer an der Kaufkraft einer Währung (Kaufkraftparität). Im Score zählt eine höhere Inflation {ia} deshalb negativ für den {A}. Kurzfristig kann sie den {A} aber stützen, wenn die Notenbank deswegen die Zinsen erhöht, siehe Zinsdifferenz.",
                          "Higher inflation erodes a currency's purchasing power over time (purchasing power parity). In the score higher inflation {ia} therefore counts against the {A}. In the short run it can support the {A} if the central bank raises rates in response, see the rate gap."))
 
@@ -199,16 +257,18 @@ def pair_config(base, quote, spot, dec, oil):
         interpretation=T("Über 0: die Börse {ia} läuft besser, ausländisches Kapital fließt eher dorthin und stützt den {A}.",
                          "Above 0: the stock market {ia} outperforms, foreign capital tends to flow there and support the {A}."))
 
-    if oil is not None:
-        cad = "CAD" in (base, quote)
+    oc = next((c for c in (base, quote) if c in OIL), None)
+    if oc:
+        sign, why = OIL[oc]
+        oil = sign if oc == base else -sign        # e.g. CAD (exporter) as quote: high oil pushes USD/CAD down
+        good = T(f"Hoher Ölpreis = Rückenwind für {oc}", f"High oil = tailwind for the {oc}") if sign > 0 else T(f"Hoher Ölpreis = Gegenwind für {oc}", f"High oil = headwind for the {oc}")
         add(id="oil", category="trade", code="WTI", decimals=1, frequency="M",
             name=T("Ölpreis (WTI)", "Oil Price (WTI)"), short=T("Ölpreis", "Oil Price"), unit=T("USD je Barrel", "USD per barrel"),
             inputs={"p": {"fred": "MCOILWTICO"}}, formula="p", threshold="median",
             zones={"above": T("Teuer", "High"), "below": T("Billig", "Low")}, direction=oil, license="public", sources=srcs("MCOILWTICO"),
-            description=T("Preis für ein Barrel US-Rohöl (WTI, Monatsdurchschnitt). " + ("Rohöl ist Kanadas wichtigstes Exportgut: Steigt der Ölpreis, brauchen Käufer mehr CAD." if cad else "Japan importiert fast sein gesamtes Öl: Steigt der Ölpreis, muss das Land mehr Fremdwährung kaufen, das belastet den JPY."),
-                          "Price of a barrel of US crude (WTI, monthly average). " + ("Crude is Canada's most important export: when oil rises, buyers need more CAD." if cad else "Japan imports almost all its oil: when oil rises, it must buy more foreign currency, which weighs on the JPY.")),
-            interpretation=T(("Hoher Ölpreis = Rückenwind für den CAD, also Minus-Score für {A}/{B}." if cad else "Hoher Ölpreis = Gegenwind für den JPY, also Plus-Score für {A}/{B}."),
-                             ("High oil = tailwind for the CAD, i.e. a minus score for {A}/{B}." if cad else "High oil = headwind for the JPY, i.e. a plus score for {A}/{B}.")))
+            description=T("Preis für ein Barrel US-Rohöl (WTI, Monatsdurchschnitt). " + why["de"], "Price of a barrel of US crude (WTI, monthly average). " + why["en"]),
+            interpretation=T(good["de"] + (", also Plus-Score für {A}/{B}." if oil > 0 else ", also Minus-Score für {A}/{B}."),
+                             good["en"] + (", i.e. a plus score for {A}/{B}." if oil > 0 else ", i.e. a minus score for {A}/{B}.")))
 
     selector = [{"land": l, "landName": n, "group": "exogenous", "vs": quote} for l, n in A["lands"]]
     selector += [{"land": l, "landName": n, "group": "exogenous", "vs": base} for l, n in B["lands"]]

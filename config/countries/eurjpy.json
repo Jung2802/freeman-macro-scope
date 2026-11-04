@@ -43,6 +43,78 @@
       "vs": "JPY"
     },
     {
+      "land": "nl",
+      "landName": {
+        "de": "Niederlande",
+        "en": "Netherlands"
+      },
+      "group": "exogenous",
+      "vs": "JPY"
+    },
+    {
+      "land": "be",
+      "landName": {
+        "de": "Belgien",
+        "en": "Belgium"
+      },
+      "group": "exogenous",
+      "vs": "JPY"
+    },
+    {
+      "land": "at",
+      "landName": {
+        "de": "Österreich",
+        "en": "Austria"
+      },
+      "group": "exogenous",
+      "vs": "JPY"
+    },
+    {
+      "land": "pt",
+      "landName": {
+        "de": "Portugal",
+        "en": "Portugal"
+      },
+      "group": "exogenous",
+      "vs": "JPY"
+    },
+    {
+      "land": "ie",
+      "landName": {
+        "de": "Irland",
+        "en": "Ireland"
+      },
+      "group": "exogenous",
+      "vs": "JPY"
+    },
+    {
+      "land": "fi",
+      "landName": {
+        "de": "Finnland",
+        "en": "Finland"
+      },
+      "group": "exogenous",
+      "vs": "JPY"
+    },
+    {
+      "land": "gr",
+      "landName": {
+        "de": "Griechenland",
+        "en": "Greece"
+      },
+      "group": "exogenous",
+      "vs": "JPY"
+    },
+    {
+      "land": "sk",
+      "landName": {
+        "de": "Slowakei",
+        "en": "Slovakia"
+      },
+      "group": "exogenous",
+      "vs": "JPY"
+    },
+    {
       "land": "jp",
       "landName": {
         "de": "Japan",
@@ -126,6 +198,16 @@
       "name": {
         "de": "Inflation & Kaufkraft",
         "en": "Inflation & Purchasing Power"
+      }
+    },
+    {
+      "id": "trade",
+      "group": "exogenous",
+      "tone": "growth",
+      "color": "#22d3ee",
+      "name": {
+        "de": "Rohstoffe & Handel",
+        "en": "Commodities & Trade"
       }
     },
     {
@@ -437,8 +519,8 @@
         }
       ],
       "description": {
-        "de": "Inflationsrate im Euroraum minus in Japan. Für UK, Japan und Kanada gibt es über FRED nur noch jährliche Verbraucherpreise, deshalb ist diese Reihe jährlich.",
-        "en": "Inflation rate in the euro area minus in Japan. For the UK, Japan and Canada FRED only has annual consumer prices now, so this series is annual."
+        "de": "Inflationsrate im Euroraum minus in Japan. Für mindestens eine der beiden Seiten gibt es über FRED nur noch jährliche Verbraucherpreise, deshalb ist diese Reihe jährlich.",
+        "en": "Inflation rate in the euro area minus in Japan. For at least one side FRED only has annual consumer prices now, so this series is annual."
       },
       "interpretation": {
         "de": "Höhere Inflation zehrt auf Dauer an der Kaufkraft einer Währung (Kaufkraftparität). Im Score zählt eine höhere Inflation im Euroraum deshalb negativ für den EUR. Kurzfristig kann sie den EUR aber stützen, wenn die Notenbank deswegen die Zinsen erhöht, siehe Zinsdifferenz.",
@@ -533,6 +615,60 @@
       },
       "transform": "level",
       "license": "citation",
+      "gdpRegression": false
+    },
+    {
+      "id": "oil",
+      "category": "trade",
+      "code": "WTI",
+      "decimals": 1,
+      "frequency": "M",
+      "name": {
+        "de": "Ölpreis (WTI)",
+        "en": "Oil Price (WTI)"
+      },
+      "short": {
+        "de": "Ölpreis",
+        "en": "Oil Price"
+      },
+      "unit": {
+        "de": "USD je Barrel",
+        "en": "USD per barrel"
+      },
+      "inputs": {
+        "p": {
+          "fred": "MCOILWTICO"
+        }
+      },
+      "formula": "p",
+      "threshold": "median",
+      "zones": {
+        "above": {
+          "de": "Teuer",
+          "en": "High"
+        },
+        "below": {
+          "de": "Billig",
+          "en": "Low"
+        }
+      },
+      "direction": 1,
+      "license": "public",
+      "sources": [
+        {
+          "name": "U.S. Energy Information Administration – WTI Crude Oil Price (via FRED: MCOILWTICO)",
+          "url": "https://fred.stlouisfed.org/series/MCOILWTICO"
+        }
+      ],
+      "description": {
+        "de": "Preis für ein Barrel US-Rohöl (WTI, Monatsdurchschnitt). Japan importiert fast sein gesamtes Öl: Steigt der Ölpreis, muss das Land mehr Fremdwährung kaufen, das belastet den JPY.",
+        "en": "Price of a barrel of US crude (WTI, monthly average). Japan imports almost all its oil: when oil rises, it must buy more foreign currency, which weighs on the JPY."
+      },
+      "interpretation": {
+        "de": "Hoher Ölpreis = Gegenwind für JPY, also Plus-Score für EUR/JPY.",
+        "en": "High oil = headwind for the JPY, i.e. a plus score for EUR/JPY."
+      },
+      "transform": "level",
       "gdpRegression": false
     }
   ]

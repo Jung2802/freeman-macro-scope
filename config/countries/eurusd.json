@@ -43,6 +43,78 @@
       "vs": "USD"
     },
     {
+      "land": "nl",
+      "landName": {
+        "de": "Niederlande",
+        "en": "Netherlands"
+      },
+      "group": "exogenous",
+      "vs": "USD"
+    },
+    {
+      "land": "be",
+      "landName": {
+        "de": "Belgien",
+        "en": "Belgium"
+      },
+      "group": "exogenous",
+      "vs": "USD"
+    },
+    {
+      "land": "at",
+      "landName": {
+        "de": "Österreich",
+        "en": "Austria"
+      },
+      "group": "exogenous",
+      "vs": "USD"
+    },
+    {
+      "land": "pt",
+      "landName": {
+        "de": "Portugal",
+        "en": "Portugal"
+      },
+      "group": "exogenous",
+      "vs": "USD"
+    },
+    {
+      "land": "ie",
+      "landName": {
+        "de": "Irland",
+        "en": "Ireland"
+      },
+      "group": "exogenous",
+      "vs": "USD"
+    },
+    {
+      "land": "fi",
+      "landName": {
+        "de": "Finnland",
+        "en": "Finland"
+      },
+      "group": "exogenous",
+      "vs": "USD"
+    },
+    {
+      "land": "gr",
+      "landName": {
+        "de": "Griechenland",
+        "en": "Greece"
+      },
+      "group": "exogenous",
+      "vs": "USD"
+    },
+    {
+      "land": "sk",
+      "landName": {
+        "de": "Slowakei",
+        "en": "Slovakia"
+      },
+      "group": "exogenous",
+      "vs": "USD"
+    },
+    {
       "land": "us",
       "landName": {
         "de": "USA",

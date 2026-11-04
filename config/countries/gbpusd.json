@@ -403,8 +403,8 @@
         }
       ],
       "description": {
-        "de": "Inflationsrate im Vereinigten Königreich minus in den USA. Für UK, Japan und Kanada gibt es über FRED nur noch jährliche Verbraucherpreise, deshalb ist diese Reihe jährlich.",
-        "en": "Inflation rate in the UK minus in the US. For the UK, Japan and Canada FRED only has annual consumer prices now, so this series is annual."
+        "de": "Inflationsrate im Vereinigten Königreich minus in den USA. Für mindestens eine der beiden Seiten gibt es über FRED nur noch jährliche Verbraucherpreise, deshalb ist diese Reihe jährlich.",
+        "en": "Inflation rate in the UK minus in the US. For at least one side FRED only has annual consumer prices now, so this series is annual."
       },
       "interpretation": {
         "de": "Höhere Inflation zehrt auf Dauer an der Kaufkraft einer Währung (Kaufkraftparität). Im Score zählt eine höhere Inflation im Vereinigten Königreich deshalb negativ für den GBP. Kurzfristig kann sie den GBP aber stützen, wenn die Notenbank deswegen die Zinsen erhöht, siehe Zinsdifferenz.",

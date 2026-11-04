@@ -9,10 +9,10 @@ und ein Länderradar, das alle Länder nebeneinanderstellt.
 
 ```
 config/countries/us.json   ← EIN Land = EINE Datei: Kategorien, Indikatoren, Quellen, Texte (DE/EN)
-config/countries/de.json … ← DE, FR, IT, ES, GB, JP, CA, AU: von pipeline/make_countries.py erzeugt
+config/countries/de.json … ← 32 weitere Länder (Euroraum, Europa, Asien-Pazifik, Amerika, Südafrika): von pipeline/make_countries.py erzeugt
 pipeline/fetch.py          ← lädt Rohdaten (FRED-CSV, kein API-Key), rechnet um, schreibt site/data/
 pipeline/make_countries.py ← Vorlage für die internationalen Länder (gemeinsame Indikatoren, Serien-IDs je Land)
-pipeline/make_pairs.py     ← Vorlage für die Währungspaare (eurusd.json, gbpusd.json …; audusd.json bleibt handgepflegt)
+pipeline/make_pairs.py     ← Vorlage für die 27 Währungspaare (eurusd.json, usdchf.json, eurpln.json …; audusd.json bleibt handgepflegt)
 site/                      ← die fertige Website (statisch, kein Build-Schritt)
   index.html, sw.js, manifest.webmanifest   (PWA: installierbar, offline-fähig)
   src/analysis.js          ← alle Berechnungen (Score, Statistik, Regression, Zyklen, Sahm, …)

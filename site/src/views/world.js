@@ -22,8 +22,16 @@ const KEYS = [
   { k: 'jobs', ids: ['indeed'], dec: 0 },
 ];
 const CHART_KEYS = ['gdp', 'unemp', 'infl', 'policy', 't10', 'curve', 'hp', 'credit'];
-export const COUNTRY_COLORS = { us: '#ececec', de: '#a3c4e8', fr: '#6f8fb8', it: '#c4a47c', es: '#e2c08d', gb: '#b8a6e0', jp: '#d9928f', ca: '#8fcfb2', au: '#d8c27a' };
-const colorOf = (id, i) => COUNTRY_COLORS[id] || ['#9b9da1', '#7f9bbd', '#c4a47c'][i % 3];
+// Lines in the comparison chart: one muted hue per country of the selected group (at most ~12 at once).
+const PALETTE = ['#ececec', '#a3c4e8', '#c4a47c', '#8fcfb2', '#b8a6e0', '#d9928f', '#e2c08d', '#6f8fb8', '#d8c27a', '#9fb7a0', '#c99fc1', '#7fb6c9', '#b9b0a2'];
+// Groups for the chart and the key-figure table; the ranking and the heat map always show every country.
+const GROUPS = {
+  major: (c) => ['us', 'gb', 'de', 'fr', 'it', 'jp', 'ca', 'au'].includes(c.id),
+  euro: (c) => c.currency === 'EUR',
+  europe: (c) => c.continent === 'europe' && c.currency !== 'EUR',
+  americas: (c) => c.continent === 'north-america' || c.continent === 'south-america',
+  apac: (c) => ['asia', 'oceania', 'africa'].includes(c.continent),
+};
 
 const pctOf = (items) => {
   const sc = items.filter((x) => x.sc && x.sc.total !== null);
@@ -61,7 +69,10 @@ export async function renderWorld(el) {
   // Bars use the widest country as full length (at least ±20 %) so differences stay visible.
   const barScale = Math.max(20, ...ranked.map((r) => Math.abs(r.score.total)));
 
-  const code = (r) => `<span class="cc" style="--cc:${colorOf(r.id, 0)}">${esc(r.id.toUpperCase())}</span>`;
+  const code = (r) => `<span class="cc">${esc(r.id.toUpperCase())}</span>`;
+  let group = 'major';
+  const inGroup = () => ranked.filter((r) => GROUPS[group](r.cfg));
+  const groupBtns = (id) => `<div class="range-btns" id="${id}">${Object.keys(GROUPS).map((g) => `<button class="range-btn${g === group ? ' active' : ''}" data-g="${g}">${t('world.g.' + g)}</button>`).join('')}</div>`;
   const keyCell = (r, k) => {
     const it = r.key[k.k];
     if (!it) return '<td class="num muted">—</td>';
@@ -130,6 +141,7 @@ export async function renderWorld(el) {
     <div class="chart-title"><span class="dot" style="background:${C.gold}"></span>${t('world.chart')}
       <div class="range-btns" id="w-keys">${CHART_KEYS.map((k, i) => `<button class="range-btn${i === 0 ? ' active' : ''}" data-k="${k}">${t('world.k.' + k)}</button>`).join('')}</div>
     </div>
+    ${groupBtns('w-groups')}
     <div class="range-btns" id="w-years">${[5, 10, 20].map((n) => `<button class="range-btn${n === 10 ? ' active' : ''}" data-n="${n}">${t('world.years', { n })}</button>`).join('')}</div>
     <div class="chart-box h-lg"><canvas id="w-chart"></canvas></div>
   </section>
@@ -137,18 +149,23 @@ export async function renderWorld(el) {
   <section class="chart-card glass reveal">
     <div class="chart-title"><span class="dot" style="background:${C.green}"></span>${t('world.key')}</div>
     <p class="fine">${t('world.keyHint')} ${t('world.note.us')}</p>
-    <div class="table-wrap"><table class="key-table">
-      <thead><tr><th></th>${ranked.map((r) => `<th class="num">${code(r)}</th>`).join('')}</tr></thead>
-      <tbody>${KEYS.map((k) => `<tr><td class="key-name">${t('world.k.' + k.k)}</td>${ranked.map((r) => keyCell(r, k)).join('')}</tr>`).join('')}</tbody>
-    </table></div>
+    ${groupBtns('w-groups2')}
+    <div class="table-wrap" id="w-key"></div>
   </section>`;
 
-  el.querySelectorAll('canvas.spark.mini').forEach((cv) => {
-    const r = rows.find((x) => x.id === cv.dataset.c);
-    const it = r?.key[cv.dataset.k];
-    if (!it) return;
-    sparkline(cv, values(lastYears(it.data.values, it.ind.frequency, it.ind.frequency === 'A' ? 15 : 5)), { color: colorOf(r.id, 0) });
-  });
+  const drawKeys = () => {
+    const list = inGroup();
+    el.querySelector('#w-key').innerHTML = `<table class="key-table">
+      <thead><tr><th></th>${list.map((r) => `<th class="num" title="${esc(L(r.cfg.name))}">${code(r)}</th>`).join('')}</tr></thead>
+      <tbody>${KEYS.map((k) => `<tr><td class="key-name">${t('world.k.' + k.k)}</td>${list.map((r) => keyCell(r, k)).join('')}</tr>`).join('')}</tbody>
+    </table>`;
+    el.querySelectorAll('#w-key canvas.spark.mini').forEach((cv) => {
+      const r = rows.find((x) => x.id === cv.dataset.c);
+      const it = r?.key[cv.dataset.k];
+      if (!it) return;
+      sparkline(cv, values(lastYears(it.data.values, it.ind.frequency, it.ind.frequency === 'A' ? 15 : 5)), { color: C.text2 });
+    });
+  };
   el.querySelectorAll('tr[data-href]').forEach((tr) => tr.addEventListener('click', () => { location.hash = tr.dataset.href; }));
 
   const charts = new ChartSet();
@@ -159,11 +176,11 @@ export async function renderWorld(el) {
     // Annual readings sit mid-year so they line up with monthly and quarterly ones.
     const norm = (l) => (l.length === 4 ? `${l}-07` : l);
     const cutoff = `${new Date().getFullYear() - years}`;
-    const series = ranked.map((r) => ({ r, it: r.key[curKey] })).filter((x) => x.it);
+    const series = inGroup().map((r) => ({ r, it: r.key[curKey] })).filter((x) => x.it);
     const lbls = [...new Set(series.flatMap(({ it }) => it.data.values.map((p) => norm(p[0])).filter((l) => l >= cutoff)))].sort();
     const datasets = series.map(({ r, it }, i) => {
       const m = new Map(it.data.values.map((p) => [norm(p[0]), p[1]]));
-      return { label: L(r.cfg.name), data: lbls.map((l) => m.get(l) ?? null), borderColor: colorOf(r.id, i), borderWidth: r.id === 'us' ? 2 : 1.5, spanGaps: true, pointRadius: 0 };
+      return { label: L(r.cfg.name), data: lbls.map((l) => m.get(l) ?? null), borderColor: PALETTE[i % PALETTE.length], borderWidth: i === 0 ? 2 : 1.5, spanGaps: true, pointRadius: 0 };
     });
     // Pandemic quarters (GDP ±30–90 % annualised) would flatten everything else: clip the axis to
     // the bulk of the data when single readings sit far outside it.
@@ -189,7 +206,15 @@ export async function renderWorld(el) {
     el.querySelectorAll('#w-years .range-btn').forEach((x) => x.classList.toggle('active', x === b));
     draw();
   });
-  draw();
+  const setGroup = (e) => {
+    const b = e.target.closest('[data-g]'); if (!b) return;
+    group = b.dataset.g;
+    el.querySelectorAll('[data-g]').forEach((x) => x.classList.toggle('active', x.dataset.g === group));
+    draw(); drawKeys();
+  };
+  el.querySelector('#w-groups').addEventListener('click', setGroup);
+  el.querySelector('#w-groups2').addEventListener('click', setGroup);
+  draw(); drawKeys();
   countUp(el);
   document.title = `${t('nav.world')} · FreemanMacroScope`;
   const stopBoard = startMarketBoard(el);

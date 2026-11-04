@@ -658,8 +658,8 @@
         "en": "Average consumer price inflation in Australia over the calendar year, per the World Bank."
       },
       "interpretation": {
-        "de": "die Reserve Bank of Australia (RBA) strebt eine Inflation von rund 2 % an. Die Linie bei 2 % dient als Orientierung.",
-        "en": "the Reserve Bank of Australia (RBA) targets inflation of around 2%. The 2% line is a reference point."
+        "de": "Die Reserve Bank of Australia (RBA) strebt eine Inflation von rund 2 % an. Die Linie bei 2 % dient als Orientierung.",
+        "en": "The Reserve Bank of Australia (RBA) targets inflation of around 2%. The 2% line is a reference point."
       },
       "replaces": {
         "de": "Die monatlichen Verbraucherpreise in Australien sind über FRED nicht mehr aktuell verfügbar (die OECD hat die Reihe 2025 eingestellt). Bis eine aktuelle Monatsquelle verfügbar ist, steht hier die Jahresinflation der Weltbank.",
@@ -718,8 +718,8 @@
         "en": "Unemployed as a share of the labour force in Australia using the internationally comparable ILO definition, seasonally adjusted. National rates may differ because of other definitions."
       },
       "interpretation": {
-        "de": "Steigt die Quote, schrumpft die Wirtschaft meist (Okun'sches Gesetz). Deshalb verwendet die BIP-Scorecard die monatliche Veränderung, nicht das Niveau.",
-        "en": "When the rate rises the economy usually contracts (Okun's law). That's why the GDP scorecard uses the monthly change, not the level."
+        "de": "Steigt die Quote, schrumpft die Wirtschaft meist (Okun'sches Gesetz). Deshalb verwendet die BIP-Scorecard die Veränderung, nicht das Niveau.",
+        "en": "When the rate rises the economy usually contracts (Okun's law). That's why the GDP scorecard uses the change, not the level."
       },
       "license": "citation"
     },
