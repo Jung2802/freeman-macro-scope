@@ -5,6 +5,7 @@
     "en": "Japan"
   },
   "currency": "JPY",
+  "continent": "asia",
   "selector": [
     {
       "land": "jp",

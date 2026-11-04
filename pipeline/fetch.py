@@ -267,7 +267,7 @@ def run_country(cfg_path: Path) -> tuple[dict, list[str]]:
     write_json(out_dir / "config.json", cfg)
     index = {"country": cid, "fetchedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"), "indicators": status}
     write_json(out_dir / "index.json", index)
-    return {"id": cid, "name": cfg["name"], "currency": cfg.get("currency"), "selector": cfg.get("selector", [])}, errors
+    return {"id": cid, "name": cfg["name"], "currency": cfg.get("currency"), "continent": cfg.get("continent"), "selector": cfg.get("selector", [])}, errors
 
 
 def main() -> int:
@@ -280,7 +280,7 @@ def main() -> int:
 
     countries, errors = [], []
     # Selector order: countries, then USD majors before crosses (the first pair is the default vs-currency).
-    order = ["us", "de", "fr", "it", "es", "gb", "jp", "ca", "eurusd", "gbpusd", "usdjpy", "usdcad", "audusd", "eurgbp", "eurjpy", "gbpjpy", "eurcad"]
+    order = ["us", "de", "fr", "it", "es", "gb", "jp", "ca", "au", "eurusd", "gbpusd", "usdjpy", "usdcad", "audusd", "eurgbp", "eurjpy", "gbpjpy", "eurcad"]
     rank = lambda p: (order.index(p.stem) if p.stem in order else len(order), p.stem)
     for cfg_path in sorted(CONFIG_DIR.glob("*.json"), key=rank):
         if args.only and cfg_path.stem != args.only:

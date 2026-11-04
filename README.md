@@ -1,7 +1,7 @@
 # FreemanMacroScope
 
 Makrodaten-Dashboards für Trader. Die Daten werden automatisch aktualisiert und kommen mit Analyse und Quellen.
-Binnenwirtschaft (Endogenous Drivers) für USA, Deutschland, Frankreich, Italien, Spanien, Vereinigtes Königreich, Japan und Kanada,
+Binnenwirtschaft (Endogenous Drivers) für USA, Deutschland, Frankreich, Italien, Spanien, Vereinigtes Königreich, Japan, Kanada und Australien,
 dazu Währungsvergleiche (Exogenous Drivers: EUR/USD, GBP/USD, USD/JPY, USD/CAD, AUD/USD, EUR/GBP, EUR/JPY, GBP/JPY, EUR/CAD)
 und ein Länderradar, das alle Länder nebeneinanderstellt.
 
@@ -9,7 +9,7 @@ und ein Länderradar, das alle Länder nebeneinanderstellt.
 
 ```
 config/countries/us.json   ← EIN Land = EINE Datei: Kategorien, Indikatoren, Quellen, Texte (DE/EN)
-config/countries/de.json … ← DE, FR, IT, ES, GB, JP, CA: von pipeline/make_countries.py erzeugt
+config/countries/de.json … ← DE, FR, IT, ES, GB, JP, CA, AU: von pipeline/make_countries.py erzeugt
 pipeline/fetch.py          ← lädt Rohdaten (FRED-CSV, kein API-Key), rechnet um, schreibt site/data/
 pipeline/make_countries.py ← Vorlage für die internationalen Länder (gemeinsame Indikatoren, Serien-IDs je Land)
 pipeline/make_pairs.py     ← Vorlage für die Währungspaare (eurusd.json, gbpusd.json …; audusd.json bleibt handgepflegt)
@@ -58,7 +58,9 @@ ein Lizenzhinweis (`license`: `public` / `citation` / `restricted`) in der Konfi
 ISM-PMIs sind bewusst nicht enthalten (Lizenz nur privat/nicht-kommerziell) und werden durch die regionalen
 Fed-Umfragen ersetzt. Details: Seite „Methodik" und „Quellen".
 
-Die Erde ist das Original-Heldenbild (`earth.webp`), fest und vertikal mittig rechts.
+Die Erde zeigt den Kontinent des gewählten Landes (`site/assets/img/earth/<kontinent>.webp`, Feld `continent` in der
+Länder-Konfiguration); Währungsvergleiche und das Länderradar zeigen `neutral.webp`. Die Horizontkreise der Bilder
+stehen in `site/src/horizon.js` – ein neues Bild braucht dort einen Eintrag.
 
 ## Sicherung / Zurücksetzen
 

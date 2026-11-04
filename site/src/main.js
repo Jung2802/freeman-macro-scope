@@ -8,7 +8,7 @@ import { renderIndicator } from './views/indicator.js';
 import { renderCompare } from './views/compare.js';
 import { renderPage } from './views/pages.js';
 import { renderWorld } from './views/world.js';
-import { initCosmos, reveal } from './cosmos.js';
+import { initCosmos, reveal, setEarth, preloadEarths } from './cosmos.js';
 
 const app = document.getElementById('app');
 const PAGES = new Set(['methodik', 'quellen', 'impressum', 'datenschutz', 'disclaimer', 'pro']);
@@ -111,6 +111,8 @@ async function render() {
   if (r.country) country = r.country;
   if (!entries().some((e) => e.id === country && e.land === land)) land = entries().find((e) => e.id === country)?.land ?? null;
   header();
+  // the earth shows the selected country's continent; currency pairs and the radar get the neutral one
+  setEarth(r.view === 'world' ? 'neutral' : countries.find((c) => c.id === country)?.continent || 'neutral');
   cleanup();
   cleanup = () => {};
   // The view is attached before rendering so charts measure a real container.
@@ -160,6 +162,7 @@ window.addEventListener('hashchange', render);
   try { countries = await loadCountries(); } catch { /* keep default */ }
   footer();
   await render();
+  setTimeout(() => preloadEarths([...new Set(countries.map((c) => c.continent || 'neutral'))]), 2500);
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
     // When a new deploy's worker takes over an already-controlled page, reload once so it shows the new version.
     const hadController = !!navigator.serviceWorker.controller;

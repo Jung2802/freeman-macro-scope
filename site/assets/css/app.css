@@ -313,12 +313,14 @@ footer .ad-slot { max-width: var(--max); margin: 24px auto 0; }
 html { background: var(--bg); }
 .cosmos { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; contain: strict; }
 .stars { position: absolute; inset: 0; opacity: 0.9; }
-/* the earth exactly as in the saved version (original photo, original size), centred vertically on the
-   right and still: it no longer moves with the scroll, it only dims a little behind the content */
-.planet { position: absolute; right: -9vw; top: 50%; transform: translateY(-50%); width: min(80vw, 1280px); aspect-ratio: 744 / 511;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%), linear-gradient(180deg, #000 70%, transparent 100%); -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(90deg, transparent 0%, #000 34%), linear-gradient(180deg, #000 70%, transparent 100%); mask-composite: intersect; }
-.planet img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(calc(0.42 + var(--glow, 1) * 0.58)) saturate(1.05); }
+/* the earth: one photo per continent, cross-faded, each placed so its horizon sits in the same spot
+   (see horizon.js); it stays put while scrolling and only dims a little behind the content */
+.planet { position: absolute; inset: 0; }
+.earth-img { position: absolute; display: block; max-width: none; opacity: 0; transition: opacity 1.1s var(--ease);
+  filter: brightness(calc(0.42 + var(--glow, 1) * 0.58));
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 32%), linear-gradient(180deg, #000 86%, transparent 100%); -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 32%), linear-gradient(180deg, #000 86%, transparent 100%); mask-composite: intersect; }
+.earth-img.on { opacity: 1; }
 .aurora { position: absolute; right: -10vw; top: -12vh; width: 70vw; height: 60vh; background: radial-gradient(closest-side, rgba(150,190,240,0.14), transparent 70%); filter: blur(10px); }
 html.motion .aurora { animation: breathe 7s ease-in-out infinite alternate; }
 @keyframes breathe { from { opacity: 0.55; transform: scale(0.96); } to { opacity: 1; transform: scale(1.06); } }
@@ -356,7 +358,7 @@ html.motion .ticker-track { animation: tick calc(var(--n, 20) * 3.4s) linear inf
 /* ticker of exchange rates along the horizon */
 .horizon-layer { position: absolute; inset: 0; }
 .horizon-ticker { position: absolute; inset: 0; width: 100%; height: 100%; display: block;
-  -webkit-mask-image: linear-gradient(90deg, transparent 36%, #000 54%); mask-image: linear-gradient(90deg, transparent 36%, #000 54%); }
+  -webkit-mask-image: linear-gradient(90deg, transparent 52%, #000 66%); mask-image: linear-gradient(90deg, transparent 52%, #000 66%); }
 @media (max-width: 900px) {
   .horizon-ticker { -webkit-mask-image: linear-gradient(180deg, #000 38%, transparent 56%); mask-image: linear-gradient(180deg, #000 38%, transparent 56%); }
 }
@@ -434,7 +436,6 @@ html.motion .reveal.in .divbar-fill.grow { width: var(--w); }
   .hero { min-height: 0; }
   .hero-copy { padding-top: 16vh; }
   .ticker-live { padding-left: 16px; }
-  .planet { width: 150vw; right: -52vw; top: 1vh; transform: none; }
   .cosmos-shade { background: linear-gradient(180deg, rgba(8,9,10,0) 0%, rgba(8,9,10,0.25) 30%, rgba(8,9,10,0.7) 62%, rgba(8,9,10,0.82) 100%); }
   .rank-row { grid-template-columns: 26px 1fr 70px; }
   .rank-row .divbar { grid-column: 2 / 4; grid-row: 2; }

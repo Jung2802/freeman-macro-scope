@@ -5,6 +5,7 @@
     "en": "Germany"
   },
   "currency": "EUR",
+  "continent": "europe",
   "selector": [
     {
       "land": "de",

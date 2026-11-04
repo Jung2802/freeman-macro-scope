@@ -5,6 +5,7 @@
     "en": "Spain"
   },
   "currency": "EUR",
+  "continent": "europe",
   "selector": [
     {
       "land": "es",

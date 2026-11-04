@@ -22,7 +22,7 @@ const KEYS = [
   { k: 'jobs', ids: ['indeed'], dec: 0 },
 ];
 const CHART_KEYS = ['gdp', 'unemp', 'infl', 'policy', 't10', 'curve', 'hp', 'credit'];
-export const COUNTRY_COLORS = { us: '#ececec', de: '#a3c4e8', fr: '#6f8fb8', it: '#c4a47c', es: '#e2c08d', gb: '#b8a6e0', jp: '#d9928f', ca: '#8fcfb2' };
+export const COUNTRY_COLORS = { us: '#ececec', de: '#a3c4e8', fr: '#6f8fb8', it: '#c4a47c', es: '#e2c08d', gb: '#b8a6e0', jp: '#d9928f', ca: '#8fcfb2', au: '#d8c27a' };
 const colorOf = (id, i) => COUNTRY_COLORS[id] || ['#9b9da1', '#7f9bbd', '#c4a47c'][i % 3];
 
 const pctOf = (items) => {

@@ -5,6 +5,7 @@
     "en": "Canada"
   },
   "currency": "CAD",
+  "continent": "north-america",
   "selector": [
     {
       "land": "ca",

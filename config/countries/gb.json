@@ -5,6 +5,7 @@
     "en": "United Kingdom"
   },
   "currency": "GBP",
+  "continent": "europe",
   "selector": [
     {
       "land": "gb",

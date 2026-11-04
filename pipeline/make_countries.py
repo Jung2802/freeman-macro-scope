@@ -62,13 +62,13 @@ def ez(iso2, iso3, de, en, de_in, en_in, epu=None, indeed=False, ip=True, svc=Tr
     if gdpl: s["gdp_yoy"] = f"NGDPRSAXDC{iso2}Q"
     if spread: s["bund_spread"] = f"IRLTLT01{iso2}M156N"
     return {"id": iso2.lower(), "name": {"de": de, "en": en}, "in": {"de": de_in, "en": en_in}, "currency": "EUR",
-            "euro": True, "cb": {"de": "die Europäische Zentralbank (EZB)", "en": "the European Central Bank (ECB)"},
+            "continent": "europe", "euro": True, "cb": {"de": "die Europäische Zentralbank (EZB)", "en": "the European Central Bank (ECB)"},
             "cbShort": {"de": "EZB", "en": "ECB"}, "s": s}
 
 
-def other(iso2, iso3, de, en, de_in, en_in, cur, cb, cb_short, s):
+def other(iso2, iso3, de, en, de_in, en_in, cur, cb, cb_short, s, continent):
     return {"id": iso2.lower(), "name": {"de": de, "en": en}, "in": {"de": de_in, "en": en_in}, "currency": cur,
-            "euro": False, "cb": cb, "cbShort": cb_short, "s": s}
+            "continent": continent, "euro": False, "cb": cb, "cbShort": cb_short, "s": s}
 
 
 COUNTRIES = [
@@ -85,7 +85,7 @@ COUNTRIES = [
               "wb_cpi": "FPCPITOTLZGGBR",
               "unemp": "LRHUTTTTGBM156S", "emp": "LFEMTTTTGBQ647S", "emprate": "LREMTTTTGBQ156S", "indeed": "IHLIDXGB",
               "gdp": "NAEXKP01GBQ657S", "gdp_yoy": "NGDPRSAXDCGBQ", "ip": "GBRPRINTO01GYSAM", "retail": "GBRSLRTTO01GYSAM",
-              "debt": "GGGDTAGBA188N", "deficit": "GGNLBAGBA188N"}),
+              "debt": "GGGDTAGBA188N", "deficit": "GGNLBAGBA188N"}, "europe"),
     other("JP", "JPN", "Japan", "Japan", "in Japan", "in Japan", "JPY",
           {"de": "die Bank of Japan (BoJ)", "en": "the Bank of Japan (BoJ)"}, {"de": "BoJ", "en": "BoJ"}, {
               "cons_conf": "CSCICP02JPM460S", "retail_conf": "JPNBRCICP02STSAQ",
@@ -95,7 +95,7 @@ COUNTRIES = [
               "wb_cpi": "FPCPITOTLZGJPN",
               "unemp": "LRHUTTTTJPM156S", "emp": "LFEMTTTTJPQ647S", "emprate": "LREMTTTTJPQ156S",
               "gdp": "NAEXKP01JPQ657S", "gdp_yoy": "NGDPRSAXDCJPQ", "ip": "JPNPRINTO01GYSAM", "retail": "JPNSLRTTO01GYSAM",
-              "debt": "GGGDTAJPA188N", "deficit": "GGNLBAJPA188N"}),
+              "debt": "GGGDTAJPA188N", "deficit": "GGNLBAJPA188N"}, "asia"),
     other("CA", "CAN", "Kanada", "Canada", "in Kanada", "in Canada", "CAD",
           {"de": "die Bank of Canada (BoC)", "en": "the Bank of Canada (BoC)"}, {"de": "BoC", "en": "BoC"}, {
               "epu": "CANEPUINDXM",
@@ -105,7 +105,17 @@ COUNTRIES = [
               "wb_cpi": "FPCPITOTLZGCAN",
               "unemp": "LRHUTTTTCAM156S", "emp": "LFEMTTTTCAQ647S", "emprate": "LREMTTTTCAQ156S", "indeed": "IHLIDXCA",
               "gdp": "NAEXKP01CAQ657S", "gdp_yoy": "NGDPRSAXDCCAQ", "ip": "CANPRINTO01GYSAM", "retail": "CANSLRTTO01GYSAM",
-              "debt": "GGGDTACAA188N", "deficit": "GGNLBACAA188N"}),
+              "debt": "GGGDTACAA188N", "deficit": "GGNLBACAA188N"}, "north-america"),
+    other("AU", "AUS", "Australien", "Australia", "in Australien", "in Australia", "AUD",
+          {"de": "die Reserve Bank of Australia (RBA)", "en": "the Reserve Bank of Australia (RBA)"}, {"de": "RBA", "en": "RBA"}, {
+              "cons_conf": "CSCICP02AUM460S",
+              "hp": "QAUR628BIS", "constr_out": "PRCNTO01AUQ659S",
+              "credit": "QAUPAM770A", "hh_debt": "QAUHAM770A", "reer": "RBAUBIS",
+              "policy": "IRSTCI01AUM156N", "t10": "IRLTLT01AUM156N", "short": "IRSTCI01AUM156N",
+              "wb_cpi": "FPCPITOTLZGAUS",
+              "unemp": "LRHUTTTTAUM156S", "emp": "LFEMTTTTAUQ647S", "emprate": "LREMTTTTAUQ156S", "indeed": "IHLIDXAU",
+              "gdp": "NAEXKP01AUQ657S", "gdp_yoy": "NGDPRSAXDCAUQ",
+              "debt": "GGGDTAAUA188N", "deficit": "GGNLBAAUA188N"}, "oceania"),
 ]
 
 CATEGORIES = [
@@ -439,7 +449,7 @@ def indicators(c):
                          "Negative rates show a contracting industrial sector. Complements the sentiment surveys with actual volumes."))
     add("retail", category="activity", code="RETAIL",
         name=T("Einzelhandelsumsätze (real)", "Retail Sales (volume)"), short=T("Einzelhandel", "Retail Sales"), unit=YOY,
-        threshold=0, zones=GROWZ, direction=1, gdpRegression=True, sources=src("oecd_mei", fred=[s["retail"]]),
+        threshold=0, zones=GROWZ, direction=1, gdpRegression=True, sources=src("oecd_mei", fred=[s.get("retail", "")]),
         description=T("Preisbereinigte Umsätze im Einzelhandel {in}, Veränderung gegenüber dem Vorjahresmonat, saisonbereinigt. Der zeitnaheste Indikator für den privaten Konsum.",
                       "Inflation-adjusted retail sales {in}, change versus the same month a year earlier, seasonally adjusted. The most timely gauge of private consumption."),
         interpretation=T("Anders als in den USA ist die Reihe real, also bereits um Preissteigerungen bereinigt. Über 0: die Haushalte kaufen mehr als vor einem Jahr.",
@@ -487,6 +497,7 @@ def config(c):
         "id": c["id"],
         "name": name,
         "currency": c["currency"],
+        "continent": c["continent"],
         "selector": [{"land": c["id"], "landName": name, "group": "endogenous"}],
         "gdpIndicator": "gdp",
         "groups": [{

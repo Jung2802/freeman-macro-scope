@@ -5,6 +5,7 @@
     "en": "Italy"
   },
   "currency": "EUR",
+  "continent": "europe",
   "selector": [
     {
       "land": "it",

@@ -1,10 +1,15 @@
-// The backdrop shared by every page: the original earth photo, still and fixed on the right with a
-// ticker of exchange rates along its horizon, a parallax starfield with the odd shooting star, a
-// scroll-progress line, reveal-on-scroll and count-up numbers.
+// The backdrop shared by every page: the earth (the selected country's continent, fixed on the right)
+// with a ticker of exchange rates along its horizon, a parallax starfield with the odd shooting star,
+// a scroll-progress line, reveal-on-scroll and count-up numbers.
 import { signed, num } from './format.js';
 import { initHorizon } from './horizon.js';
 
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+let horizon = null;
+
+// Shows the earth photo for a continent ('europe', 'asia', …) or 'neutral'.
+export const setEarth = (key) => horizon?.setEarth(key);
+export const preloadEarths = (keys) => horizon?.preload(keys);
 
 export function initCosmos() {
   if (document.querySelector('.cosmos')) return;
@@ -13,7 +18,7 @@ export function initCosmos() {
   root.setAttribute('aria-hidden', 'true');
   root.innerHTML = `
     <canvas class="stars"></canvas>
-    <div class="planet"><img src="assets/img/earth.webp" alt="" width="744" height="511" fetchpriority="high" decoding="async"></div>
+    <div class="planet"></div>
     <div class="aurora"></div>
     <div class="horizon-layer"></div>
     <div class="cosmos-shade"></div>`;
@@ -29,7 +34,7 @@ export function initCosmos() {
   const canvas = root.querySelector('.stars');
   const stars = makeStars();
   const meteors = [];
-  const horizon = initHorizon(planet, root.querySelector('.horizon-layer'));
+  horizon = initHorizon(planet, root.querySelector('.horizon-layer'));
   let y = window.scrollY, raf = 0, timer = 0, running = !document.hidden;
 
   const onScroll = () => {

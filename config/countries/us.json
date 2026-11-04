@@ -2,6 +2,7 @@
   "id": "us",
   "name": { "de": "USA", "en": "United States" },
   "currency": "USD",
+  "continent": "north-america",
   "selector": [
     { "land": "us", "landName": { "de": "USA", "en": "United States" }, "group": "endogenous" }
   ],
