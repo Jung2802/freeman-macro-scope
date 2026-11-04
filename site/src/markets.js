@@ -12,12 +12,6 @@ export const EXCHANGES = [
   { id: 'asx', city: { de: 'Sydney', en: 'Sydney' }, short: 'SYD', ex: 'ASX', tz: 'Australia/Sydney', lat: -33.87, lon: 151.21, sessions: [['10:00', '16:00']] },
 ];
 
-// Capital-flow routes drawn on the globe.
-export const ROUTES = [
-  ['nyse', 'lse'], ['lse', 'xetra'], ['xetra', 'tse'], ['nyse', 'tse'], ['tsx', 'nyse'], ['epa', 'bit'],
-  ['bme', 'lse'], ['lse', 'tse'], ['asx', 'tse'], ['nyse', 'xetra'], ['tsx', 'lse'], ['epa', 'nyse'], ['asx', 'nyse'],
-];
-
 const fmtCache = new Map();
 function parts(tz, now) {
   if (!fmtCache.has(tz)) {
@@ -32,19 +26,4 @@ export function status(ex, now = new Date()) {
   const weekend = wd === 'Sat' || wd === 'Sun';
   const open = !weekend && ex.sessions.some(([a, b]) => hm >= a && hm < b);
   return { open, local: hm, weekend };
-}
-
-// Sub-solar point (where the sun is overhead) for a moment in time, in degrees.
-export function subsolar(now = new Date()) {
-  const d = (now.getTime() - Date.UTC(2000, 0, 1, 12)) / 864e5; // days since J2000
-  const g = ((357.529 + 0.98560028 * d) % 360) * Math.PI / 180;
-  const q = (280.459 + 0.98564736 * d) % 360;
-  const L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * Math.PI / 180;
-  const e = (23.439 - 0.00000036 * d) * Math.PI / 180;
-  const ra = Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L));
-  const dec = Math.asin(Math.sin(e) * Math.sin(L));
-  const gmst = (18.697374558 + 24.06570982441908 * d) % 24; // hours
-  let lon = (ra * 180 / Math.PI) - gmst * 15;
-  lon = ((lon + 540) % 360) - 180;
-  return { lat: dec * 180 / Math.PI, lon };
 }

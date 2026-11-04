@@ -17,10 +17,9 @@ site/                      ← die fertige Website (statisch, kein Build-Schritt
   index.html, sw.js, manifest.webmanifest   (PWA: installierbar, offline-fähig)
   src/analysis.js          ← alle Berechnungen (Score, Statistik, Regression, Zyklen, Sahm, …)
   src/views/*.js           ← Übersicht, Indikator-Detail, Vergleich, Länderradar (world.js), Inhaltsseiten
-  src/cosmos.js            ← Live-Hintergrund: Sterne, Sternschnuppen, Scroll-Effekte, Einblend-Animationen
-  src/globe.js             ← Live-Erde (WebGL2) auf Basis des Original-Heldenbilds: ziehende Wolken, echte Stadtlichter
-                              auf der Nachtseite, Börsen & Kapitalströme, Wechselkurs-Laufband entlang des Horizonts
-  src/markets.js           ← Börsen, Handelszeiten und Sonnenstand (auch für die Box „Weltbörsen jetzt“)
+  src/cosmos.js            ← Hintergrund: Sterne, Sternschnuppen, Scroll-Effekte, Einblend-Animationen
+  src/horizon.js           ← Erde (Originalfoto, fest rechts) und Wechselkurs-Laufband entlang ihres Horizonts
+  src/markets.js           ← Börsen und Handelszeiten für die Box „Weltbörsen jetzt“
   src/site-config.js       ← Werbung, Pro-Version, Impressum-Kontakt
   data/                    ← von der Pipeline erzeugt (nicht von Hand bearbeiten)
 tests/                     ← Tests (node --test)
@@ -59,9 +58,7 @@ ein Lizenzhinweis (`license`: `public` / `citation` / `restricted`) in der Konfi
 ISM-PMIs sind bewusst nicht enthalten (Lizenz nur privat/nicht-kommerziell) und werden durch die regionalen
 Fed-Umfragen ersetzt. Details: Seite „Methodik" und „Quellen".
 
-Die Erde ist das Original-Heldenbild (`earth.webp`, für große Bildschirme 2× hochgerechnet als `earth-2x.webp`).
-Die Stadtlichter (`earth-lights-*.webp`) stammen aus NASA Black Marble (gemeinfrei), aus dem Beispielordner des
-npm-Pakets three-globe (MIT). Ohne WebGL2 zeigt die Seite das Standbild; bei „Bewegung reduzieren“ steht die Erde still.
+Die Erde ist das Original-Heldenbild (`earth.webp`), fest und vertikal mittig rechts.
 
 ## Sicherung / Zurücksetzen
 

@@ -1,8 +1,8 @@
-// The live backdrop shared by every page: a WebGL earth with the real day/night line that the camera
-// slowly circles (the photo stays as fallback), a parallax starfield with the odd shooting star, a
+// The backdrop shared by every page: the original earth photo, still and fixed on the right with a
+// ticker of exchange rates along its horizon, a parallax starfield with the odd shooting star, a
 // scroll-progress line, reveal-on-scroll and count-up numbers.
 import { signed, num } from './format.js';
-import { initGlobe } from './globe.js';
+import { initHorizon } from './horizon.js';
 
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -15,7 +15,7 @@ export function initCosmos() {
     <canvas class="stars"></canvas>
     <div class="planet"><img src="assets/img/earth.webp" alt="" width="744" height="511" fetchpriority="high" decoding="async"></div>
     <div class="aurora"></div>
-    <div class="globe-stage"></div>
+    <div class="horizon-layer"></div>
     <div class="cosmos-shade"></div>`;
   document.body.prepend(root);
   const bar = document.createElement('div');
@@ -29,42 +29,36 @@ export function initCosmos() {
   const canvas = root.querySelector('.stars');
   const stars = makeStars();
   const meteors = [];
-  let globe = null;
+  const horizon = initHorizon(planet, root.querySelector('.horizon-layer'));
   let y = window.scrollY, raf = 0, timer = 0, running = !document.hidden;
 
   const onScroll = () => {
     y = window.scrollY;
     const max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
-    const p = Math.min(1, y / max);
-    bar.style.transform = `scaleX(${p.toFixed(4)})`;
-    if (reduced()) { globe?.render(performance.now(), y, true); return; }
-    // The planet rises slower than the page and grows; the globe itself turns with the scroll.
-    // It never leaves: it settles as a dim backdrop.
-    const vh = innerHeight || 800;
-    const near = Math.min(1, y / (vh * 1.4));
-    planet.style.setProperty('--rise', `${(-near * vh * 0.22).toFixed(1)}px`);
-    planet.style.setProperty('--turn', `${(-(globe ? 4 : 18) * p - near * (globe ? 2 : 6)).toFixed(2)}deg`);
-    planet.style.setProperty('--grow', (1 + near * 0.28 + p * 0.12).toFixed(3));
+    bar.style.transform = `scaleX(${Math.min(1, y / max).toFixed(4)})`;
+    // The earth stays where it is; it only dims a little behind the content.
+    const near = Math.min(1, y / ((innerHeight || 800) * 1.1));
     planet.style.setProperty('--glow', (1 - near * 0.62).toFixed(3));
-    schedule();
+    if (reduced()) horizon.render(performance.now(), y, true);
+    else schedule();
   };
 
-  // ~30 fps while the tab is visible keeps phones cool; the globe moves slowly enough for it.
+  // ~30 fps while the tab is visible keeps phones cool.
   const schedule = () => { if (!raf && !timer && running) raf = requestAnimationFrame(frame); };
   function frame(ts) {
     raf = 0;
     drawStars(canvas, stars, y, ts / 1000, meteors);
-    globe?.render(ts, y, false);
+    horizon.render(ts, y, false);
     if (running && !reduced()) timer = setTimeout(() => { timer = 0; schedule(); }, 33);
   }
 
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', () => {
     sizeCanvas(canvas);
-    globe?.resize();
+    horizon.resize();
     onScroll();
     drawStars(canvas, stars, y, performance.now() / 1000, meteors);
-    globe?.render(performance.now(), y, reduced());
+    horizon.render(performance.now(), y, reduced());
   }, { passive: true });
   document.addEventListener('visibilitychange', () => {
     running = !document.hidden;
@@ -73,18 +67,8 @@ export function initCosmos() {
   sizeCanvas(canvas);
   onScroll();
   drawStars(canvas, stars, y, 0, meteors);
-  if (!reduced()) schedule();
-
-  // The globe loads after the page itself, then fades in over the photo.
-  const start = () => initGlobe(root.querySelector('.globe-stage')).then((g) => {
-    if (!g) return;
-    globe = g;
-    root.classList.add('globe-on');
-    globe.render(performance.now(), y, reduced());
-    onScroll();
-  }).catch((err) => console.warn('globe:', err));
-  if (document.readyState === 'complete') setTimeout(start, 150);
-  else addEventListener('load', () => setTimeout(start, 150), { once: true });
+  if (reduced()) setTimeout(() => horizon.render(performance.now(), y, true), 800); // once the rates have loaded
+  else schedule();
 }
 
 function makeStars() {
