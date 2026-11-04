@@ -15,6 +15,7 @@ export function initCosmos() {
     <canvas class="stars"></canvas>
     <div class="planet"><img src="assets/img/earth.webp" alt="" width="744" height="511" fetchpriority="high" decoding="async"></div>
     <div class="aurora"></div>
+    <div class="globe-stage"></div>
     <div class="cosmos-shade"></div>`;
   document.body.prepend(root);
   const bar = document.createElement('div');
@@ -75,10 +76,10 @@ export function initCosmos() {
   if (!reduced()) schedule();
 
   // The globe loads after the page itself, then fades in over the photo.
-  const start = () => initGlobe(planet).then((g) => {
+  const start = () => initGlobe(root.querySelector('.globe-stage')).then((g) => {
     if (!g) return;
     globe = g;
-    planet.classList.add('live');
+    root.classList.add('globe-on');
     globe.render(performance.now(), y, reduced());
     onScroll();
   }).catch((err) => console.warn('globe:', err));

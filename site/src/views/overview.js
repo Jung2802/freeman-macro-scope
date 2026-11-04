@@ -211,8 +211,8 @@ export async function renderOverview(el, { country }) {
         <a class="text-link" href="#/methodik">${t('ov.terms')} ${ARROW}</a>
       </div>
       <p class="hero-meta"><span class="live-dot"></span>${t('ov.dataAsOf')} <strong>${dateTime(index.fetchedAt)}</strong> · ${t('ov.autoUpdate')}</p>
+      ${marketBoard()}
     </div>
-    ${marketBoard()}
   </section>
   ${ticker}
 

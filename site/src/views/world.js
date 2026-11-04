@@ -77,8 +77,8 @@ export async function renderWorld(el) {
       <p class="eyebrow"><span class="live-dot"></span>${t('world.eyebrow')}</p>
       <h1>${t('world.title', { n: rows.length })}<br><span class="h1-line">${t('world.titleLine')}</span></h1>
       <p class="hero-sub">${t('world.intro')}</p>
+      ${marketBoard()}
     </div>
-    ${marketBoard()}
   </section>
 
   <section class="feature-row world-stats">

@@ -18,7 +18,8 @@ site/                      ← die fertige Website (statisch, kein Build-Schritt
   src/analysis.js          ← alle Berechnungen (Score, Statistik, Regression, Zyklen, Sahm, …)
   src/views/*.js           ← Übersicht, Indikator-Detail, Vergleich, Länderradar (world.js), Inhaltsseiten
   src/cosmos.js            ← Live-Hintergrund: Sterne, Sternschnuppen, Scroll-Effekte, Einblend-Animationen
-  src/globe.js             ← Live-Erde (WebGL2): echte Tag-Nacht-Grenze, Stadtlichter, Wolken, Börsen & Kapitalströme
+  src/globe.js             ← Live-Erde (WebGL2) auf Basis des Original-Heldenbilds: ziehende Wolken, echte Stadtlichter
+                              auf der Nachtseite, Börsen & Kapitalströme, Wechselkurs-Laufband entlang des Horizonts
   src/markets.js           ← Börsen, Handelszeiten und Sonnenstand (auch für die Box „Weltbörsen jetzt“)
   src/site-config.js       ← Werbung, Pro-Version, Impressum-Kontakt
   data/                    ← von der Pipeline erzeugt (nicht von Hand bearbeiten)
@@ -58,9 +59,9 @@ ein Lizenzhinweis (`license`: `public` / `citation` / `restricted`) in der Konfi
 ISM-PMIs sind bewusst nicht enthalten (Lizenz nur privat/nicht-kommerziell) und werden durch die regionalen
 Fed-Umfragen ersetzt. Details: Seite „Methodik" und „Quellen".
 
-Die Erdtexturen (`site/assets/img/earth-*.webp`) stammen aus NASA Blue Marble / Black Marble (gemeinfrei),
-verkleinert aus dem Beispielordner des npm-Pakets three-globe (MIT). Ohne WebGL2 oder bei „Bewegung reduzieren“
-zeigt die Seite ein Standbild bzw. die Erde ohne Animation.
+Die Erde ist das Original-Heldenbild (`earth.webp`, für große Bildschirme 2× hochgerechnet als `earth-2x.webp`).
+Die Stadtlichter (`earth-lights-*.webp`) stammen aus NASA Black Marble (gemeinfrei), aus dem Beispielordner des
+npm-Pakets three-globe (MIT). Ohne WebGL2 zeigt die Seite das Standbild; bei „Bewegung reduzieren“ steht die Erde still.
 
 ## Sicherung / Zurücksetzen
 
