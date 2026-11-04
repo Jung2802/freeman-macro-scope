@@ -1,6 +1,8 @@
-// The live backdrop shared by every page: a fixed earth that rises and turns with the scroll,
-// a parallax starfield, a scroll-progress line, reveal-on-scroll and count-up numbers.
+// The live backdrop shared by every page: a WebGL earth with the real day/night line that the camera
+// slowly circles (the photo stays as fallback), a parallax starfield with the odd shooting star, a
+// scroll-progress line, reveal-on-scroll and count-up numbers.
 import { signed, num } from './format.js';
+import { initGlobe } from './globe.js';
 
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -25,43 +27,63 @@ export function initCosmos() {
   const planet = root.querySelector('.planet');
   const canvas = root.querySelector('.stars');
   const stars = makeStars();
-  let y = window.scrollY, raf = 0, last = 0, running = !document.hidden;
+  const meteors = [];
+  let globe = null;
+  let y = window.scrollY, raf = 0, timer = 0, running = !document.hidden;
 
   const onScroll = () => {
     y = window.scrollY;
     const max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
     const p = Math.min(1, y / max);
     bar.style.transform = `scaleX(${p.toFixed(4)})`;
-    if (reduced()) return;
-    // The planet rises slower than the page, grows and turns around its own centre (far below the
-    // frame), so the horizon slides along itself. It never leaves: it settles as a dim backdrop.
+    if (reduced()) { globe?.render(performance.now(), y, true); return; }
+    // The planet rises slower than the page and grows; the globe itself turns with the scroll.
+    // It never leaves: it settles as a dim backdrop.
     const vh = innerHeight || 800;
     const near = Math.min(1, y / (vh * 1.4));
     planet.style.setProperty('--rise', `${(-near * vh * 0.22).toFixed(1)}px`);
-    planet.style.setProperty('--turn', `${(-p * 18 - near * 6).toFixed(2)}deg`);
+    planet.style.setProperty('--turn', `${(-(globe ? 4 : 18) * p - near * (globe ? 2 : 6)).toFixed(2)}deg`);
     planet.style.setProperty('--grow', (1 + near * 0.28 + p * 0.12).toFixed(3));
     planet.style.setProperty('--glow', (1 - near * 0.62).toFixed(3));
-    if (!raf && running) raf = requestAnimationFrame(frame);
+    schedule();
   };
 
+  // ~30 fps while the tab is visible keeps phones cool; the globe moves slowly enough for it.
+  const schedule = () => { if (!raf && !timer && running) raf = requestAnimationFrame(frame); };
   function frame(ts) {
     raf = 0;
-    drawStars(canvas, stars, y, ts / 1000);
-    // keep twinkling while the tab is visible, at ~30 fps to stay light on phones
-    if (running && !reduced()) setTimeout(() => { if (!raf) raf = requestAnimationFrame(frame); }, Math.max(0, 33 - (ts - last)));
-    last = ts;
+    drawStars(canvas, stars, y, ts / 1000, meteors);
+    globe?.render(ts, y, false);
+    if (running && !reduced()) timer = setTimeout(() => { timer = 0; schedule(); }, 33);
   }
 
   addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', () => { sizeCanvas(canvas); onScroll(); drawStars(canvas, stars, y, performance.now() / 1000); }, { passive: true });
+  addEventListener('resize', () => {
+    sizeCanvas(canvas);
+    globe?.resize();
+    onScroll();
+    drawStars(canvas, stars, y, performance.now() / 1000, meteors);
+    globe?.render(performance.now(), y, reduced());
+  }, { passive: true });
   document.addEventListener('visibilitychange', () => {
     running = !document.hidden;
-    if (running && !raf) raf = requestAnimationFrame(frame);
+    if (running) schedule();
   });
   sizeCanvas(canvas);
   onScroll();
-  drawStars(canvas, stars, y, 0);
-  if (!reduced()) raf = requestAnimationFrame(frame);
+  drawStars(canvas, stars, y, 0, meteors);
+  if (!reduced()) schedule();
+
+  // The globe loads after the page itself, then fades in over the photo.
+  const start = () => initGlobe(planet).then((g) => {
+    if (!g) return;
+    globe = g;
+    planet.classList.add('live');
+    globe.render(performance.now(), y, reduced());
+    onScroll();
+  }).catch((err) => console.warn('globe:', err));
+  if (document.readyState === 'complete') setTimeout(start, 150);
+  else addEventListener('load', () => setTimeout(start, 150), { once: true });
 }
 
 function makeStars() {
@@ -82,7 +104,7 @@ function sizeCanvas(cv) {
   cv.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-function drawStars(cv, stars, scrollY, t) {
+function drawStars(cv, stars, scrollY, t, meteors) {
   const ctx = cv.getContext('2d');
   const w = innerWidth, h = innerHeight;
   ctx.clearRect(0, 0, w, h);
@@ -96,6 +118,27 @@ function drawStars(cv, stars, scrollY, t) {
     ctx.beginPath(); ctx.arc(xx, yy, st.r, 0, Math.PI * 2); ctx.fill();
   }
   ctx.globalAlpha = 1;
+  if (!meteors || reduced()) return;
+  // a shooting star every 5–14 s, falling from the upper left towards the planet
+  if (!meteors.next) meteors.next = t + 2.5;
+  if (t > meteors.next) {
+    meteors.push({ x: Math.random() * w * 0.7, y: Math.random() * h * 0.35, born: t, life: 0.75 + Math.random() * 0.5, len: 90 + Math.random() * 140, ang: (18 + Math.random() * 22) * Math.PI / 180 });
+    meteors.next = t + 5 + Math.random() * 9;
+  }
+  for (let i = meteors.length - 1; i >= 0; i--) {
+    const m = meteors[i], k = (t - m.born) / m.life;
+    if (k >= 1) { meteors.splice(i, 1); continue; }
+    const dist = k * m.len * 2.4;
+    const hx = m.x + Math.cos(m.ang) * dist, hy = m.y + Math.sin(m.ang) * dist;
+    const tx = hx - Math.cos(m.ang) * m.len * Math.min(1, k * 3), ty = hy - Math.sin(m.ang) * m.len * Math.min(1, k * 3);
+    const a = Math.sin(Math.PI * k);
+    const g = ctx.createLinearGradient(tx, ty, hx, hy);
+    g.addColorStop(0, 'rgba(220,232,250,0)'); g.addColorStop(1, `rgba(235,242,255,${0.85 * a})`);
+    ctx.strokeStyle = g; ctx.lineWidth = 1.3; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(hx, hy); ctx.stroke();
+    ctx.fillStyle = `rgba(255,255,255,${0.9 * a})`;
+    ctx.beginPath(); ctx.arc(hx, hy, 1.4, 0, Math.PI * 2); ctx.fill();
+  }
 }
 
 // Fade/slide elements in as they enter the viewport. Without motion everything is shown at once.

@@ -5,6 +5,7 @@ import { t, tc, L } from '../i18n.js';
 import { num, signed, period, dateTime, esc } from '../format.js';
 import { adSlot, fillAds } from '../ads.js';
 import { countUp } from '../cosmos.js';
+import { marketBoard, startMarketBoard } from '../market-board.js';
 
 export const scoreClass = (s) => (s === null || s === undefined ? 'na' : s > 0 ? 'pos' : s < 0 ? 'neg' : 'zero');
 export const scoreChip = (s, title = '') =>
@@ -211,6 +212,7 @@ export async function renderOverview(el, { country }) {
       </div>
       <p class="hero-meta"><span class="live-dot"></span>${t('ov.dataAsOf')} <strong>${dateTime(index.fetchedAt)}</strong> · ${t('ov.autoUpdate')}</p>
     </div>
+    ${marketBoard()}
   </section>
   ${ticker}
 
@@ -311,5 +313,5 @@ export async function renderOverview(el, { country }) {
   }));
   fillAds(el);
   countUp(el);
-  return () => {};
+  return startMarketBoard(el);
 }

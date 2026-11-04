@@ -5,6 +5,7 @@ import { lineChart, sparkline, ChartSet, zeroLine, C, rgba } from '../charts.js'
 import { t, L } from '../i18n.js';
 import { num, signed, period, esc } from '../format.js';
 import { countUp } from '../cosmos.js';
+import { marketBoard, startMarketBoard } from '../market-board.js';
 
 // One concept → the indicator id that carries it in each config (first match wins).
 const KEYS = [
@@ -77,6 +78,7 @@ export async function renderWorld(el) {
       <h1>${t('world.title', { n: rows.length })}<br><span class="h1-line">${t('world.titleLine')}</span></h1>
       <p class="hero-sub">${t('world.intro')}</p>
     </div>
+    ${marketBoard()}
   </section>
 
   <section class="feature-row world-stats">
@@ -190,5 +192,6 @@ export async function renderWorld(el) {
   draw();
   countUp(el);
   document.title = `${t('nav.world')} · FreemanMacroScope`;
-  return () => charts.destroy();
+  const stopBoard = startMarketBoard(el);
+  return () => { charts.destroy(); stopBoard(); };
 }

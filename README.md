@@ -2,7 +2,8 @@
 
 Makrodaten-Dashboards für Trader. Die Daten werden automatisch aktualisiert und kommen mit Analyse und Quellen.
 Binnenwirtschaft (Endogenous Drivers) für USA, Deutschland, Frankreich, Italien, Spanien, Vereinigtes Königreich, Japan und Kanada,
-dazu ein Währungsvergleich (AUD/USD) und ein Länderradar, das alle Länder nebeneinanderstellt.
+dazu Währungsvergleiche (Exogenous Drivers: EUR/USD, GBP/USD, USD/JPY, USD/CAD, AUD/USD, EUR/GBP, EUR/JPY, GBP/JPY, EUR/CAD)
+und ein Länderradar, das alle Länder nebeneinanderstellt.
 
 ## Aufbau
 
@@ -11,11 +12,14 @@ config/countries/us.json   ← EIN Land = EINE Datei: Kategorien, Indikatoren, Q
 config/countries/de.json … ← DE, FR, IT, ES, GB, JP, CA: von pipeline/make_countries.py erzeugt
 pipeline/fetch.py          ← lädt Rohdaten (FRED-CSV, kein API-Key), rechnet um, schreibt site/data/
 pipeline/make_countries.py ← Vorlage für die internationalen Länder (gemeinsame Indikatoren, Serien-IDs je Land)
+pipeline/make_pairs.py     ← Vorlage für die Währungspaare (eurusd.json, gbpusd.json …; audusd.json bleibt handgepflegt)
 site/                      ← die fertige Website (statisch, kein Build-Schritt)
   index.html, sw.js, manifest.webmanifest   (PWA: installierbar, offline-fähig)
   src/analysis.js          ← alle Berechnungen (Score, Statistik, Regression, Zyklen, Sahm, …)
   src/views/*.js           ← Übersicht, Indikator-Detail, Vergleich, Länderradar (world.js), Inhaltsseiten
-  src/cosmos.js            ← Live-Hintergrund: Erde & Sterne bewegen sich mit dem Scrollen, Einblend-Animationen
+  src/cosmos.js            ← Live-Hintergrund: Sterne, Sternschnuppen, Scroll-Effekte, Einblend-Animationen
+  src/globe.js             ← Live-Erde (WebGL2): echte Tag-Nacht-Grenze, Stadtlichter, Wolken, Börsen & Kapitalströme
+  src/markets.js           ← Börsen, Handelszeiten und Sonnenstand (auch für die Box „Weltbörsen jetzt“)
   src/site-config.js       ← Werbung, Pro-Version, Impressum-Kontakt
   data/                    ← von der Pipeline erzeugt (nicht von Hand bearbeiten)
 tests/                     ← Tests (node --test)
@@ -53,3 +57,11 @@ Alle Reihen werden über FRED® (Federal Reserve Bank of St. Louis) abgerufen, a
 ein Lizenzhinweis (`license`: `public` / `citation` / `restricted`) in der Konfiguration.
 ISM-PMIs sind bewusst nicht enthalten (Lizenz nur privat/nicht-kommerziell) und werden durch die regionalen
 Fed-Umfragen ersetzt. Details: Seite „Methodik" und „Quellen".
+
+Die Erdtexturen (`site/assets/img/earth-*.webp`) stammen aus NASA Blue Marble / Black Marble (gemeinfrei),
+verkleinert aus dem Beispielordner des npm-Pakets three-globe (MIT). Ohne WebGL2 oder bei „Bewegung reduzieren“
+zeigt die Seite ein Standbild bzw. die Erde ohne Animation.
+
+## Sicherung / Zurücksetzen
+
+Der Stand vor dem Live-Hintergrund liegt im Branch `backup/upgrade-1` (Commit `4acddd3`).

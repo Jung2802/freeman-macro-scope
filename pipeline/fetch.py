@@ -279,7 +279,8 @@ def main() -> int:
     args = parser.parse_args()
 
     countries, errors = [], []
-    order = ["us", "de", "fr", "it", "es", "gb", "jp", "ca"]  # selector order; pairs and new files follow
+    # Selector order: countries, then USD majors before crosses (the first pair is the default vs-currency).
+    order = ["us", "de", "fr", "it", "es", "gb", "jp", "ca", "eurusd", "gbpusd", "usdjpy", "usdcad", "audusd", "eurgbp", "eurjpy", "gbpjpy", "eurcad"]
     rank = lambda p: (order.index(p.stem) if p.stem in order else len(order), p.stem)
     for cfg_path in sorted(CONFIG_DIR.glob("*.json"), key=rank):
         if args.only and cfg_path.stem != args.only:
