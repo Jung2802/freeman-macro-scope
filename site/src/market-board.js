@@ -15,7 +15,7 @@ export function marketBoard() {
   const now = new Date();
   const n = EXCHANGES.filter((e) => status(e, now).open).length;
   return `<aside class="market-board" aria-label="${esc(t('mk.title'))}">
-    <div class="mk-head"><span class="live-dot"></span>${t('mk.title')}<span class="mk-count">${t('mk.count', { n, m: EXCHANGES.length })}</span></div>
+    <div class="mk-head">${t('mk.title')}<span class="mk-count">${t('mk.count', { n, m: EXCHANGES.length })}</span></div>
     <ul class="mk-list">${rows(now)}</ul>
     <p class="mk-note">${t('mk.note')}</p>
   </aside>`;

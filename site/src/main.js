@@ -92,7 +92,6 @@ function footer() {
     <div class="foot-inner">
       <div class="foot-brand">
         <img src="assets/img/logo.png" alt="${SITE.name}" width="774" height="157" loading="lazy">
-        <p class="foot-tagline">Macro data. Clearer decisions.</p>
         <p>${t('app.tagline')}. ${t('foot.disclaimer')}</p>
         <p class="muted">${t('foot.data')}</p>
       </div>

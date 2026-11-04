@@ -19,10 +19,12 @@ site/                      ← die fertige Website (statisch, kein Build-Schritt
   src/views/*.js           ← Übersicht, Indikator-Detail, Vergleich, Länderradar (world.js), Inhaltsseiten
   src/cosmos.js            ← Hintergrund: Sterne, Sternschnuppen, Scroll-Effekte, Einblend-Animationen
   src/horizon.js           ← Erde (Originalfoto, fest rechts) und Wechselkurs-Laufband entlang ihres Horizonts
-  src/markets.js           ← Börsen und Handelszeiten für die Box „Weltbörsen jetzt“
+  src/markets.js           ← Börsen und Handelszeiten für die Box „Börsen gerade“
+  assets/css/app.css       ← gesamtes Design: Tokens oben (Farben, Radien, Schriften Inter + IBM Plex Mono)
   src/site-config.js       ← Werbung, Pro-Version, Impressum-Kontakt
   data/                    ← von der Pipeline erzeugt (nicht von Hand bearbeiten)
 tests/                     ← Tests (node --test)
+.claude/skills/unslop/     ← Design-Skill „unslop“ von Damir Sokolovsky (@heydamir), CC BY 4.0; Grundlage des Designs
 .github/workflows/         ← holt Daten jeden Werktag, testet, veröffentlicht auf GitHub Pages
 ```
 

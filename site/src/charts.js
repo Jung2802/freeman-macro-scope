@@ -8,7 +8,7 @@ export const C = {
   green: '#a3c4e8', red: '#c4a47c', gold: '#c4a47c', blue: '#7f9bbd', purple: '#b8cce4',
   sky: '#a3c4e8', amber: '#c4a47c', grid: 'rgba(255,255,255,0.05)', line: '#d3d8df',
 };
-const FONT = "'Inter', system-ui, sans-serif";
+const FONT = "'IBM Plex Mono', ui-monospace, monospace";   // axis ticks, tooltips and legends read as instrument values
 
 export function rgba(hex, a) {
   const h = hex.replace('#', '');

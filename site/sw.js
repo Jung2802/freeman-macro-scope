@@ -1,6 +1,6 @@
 // Offline support: always try the network first (revalidated, so a new deploy shows at once),
 // fall back to the last cached copy only when offline.
-const VERSION = 'fms-v12';
+const VERSION = 'fms-v13';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'favicon.ico', 'assets/css/app.css', 'assets/vendor/chart.umd.min.js',
   'assets/icons/icon-192.png', 'assets/img/logo-freeman.png', 'assets/img/logo.png', 'assets/img/earth/neutral.webp', 'assets/img/earth/europe.webp', 'assets/img/earth/north-america.webp',

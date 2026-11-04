@@ -21,12 +21,6 @@ export function zoneLabel(ind, sc) {
 }
 
 const ARROW = '<svg class="arrow" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const svgIcon = (d) => `<svg class="feature-icon" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
-const ICON = {
-  gauge: svgIcon('<path d="M4 22a12 12 0 0 1 24 0"/><path d="M16 22l6-7"/><circle cx="16" cy="22" r="1.6"/><path d="M8 22h-1M25 22h-1M16 11v1"/>'),
-  clock: svgIcon('<circle cx="16" cy="16" r="11"/><path d="M16 9v7l5 3"/>'),
-  horizon: svgIcon('<path d="M3 24c6-7 15-10 26-10"/><path d="M5 28c6-5 13-7 24-7"/><path d="M6 13l5-4 4 3 6-6"/>'),
-};
 
 // Diverging bar: value in [-max, max] → filled half-bar.
 function divBar(v, max) {
@@ -195,7 +189,7 @@ export async function renderOverview(el, { country }) {
     return `<a class="tick" href="#/${country}/${ind.id}" tabindex="-1"><span class="tick-name">${esc(L(ind.short))}</span><span class="tick-val">${num(s.latest, ind.decimals)}</span><span class="tick-chg ${scoreClass(d)}">${d > 0 ? '▲' : d < 0 ? '▼' : '▶'} ${signed(d, ind.decimals)}</span></a>`;
   }).join('');
   const ticker = ok.length ? `<div class="ticker" aria-label="${esc(t('live.ticker'))}">
-    <span class="ticker-live"><span class="live-dot"></span>${t('live.badge')}</span>
+    <span class="ticker-live">${t('live.badge')}</span>
     <div class="ticker-track" style="--n:${ok.length}"><div class="ticker-run">${tickItems}</div><div class="ticker-run" aria-hidden="true">${tickItems}</div></div>
   </div>` : '';
 
@@ -203,22 +197,20 @@ export async function renderOverview(el, { country }) {
   <section class="hero">
     <div class="hero-copy">
       <p class="eyebrow">${esc(L(group.name))}</p>
-      <h1>${esc(L(cfg.name))}<br><span class="h1-line">${t('ov.heroLine')}</span></h1>
+      <h1>${esc(L(cfg.name))}<br><span class="h1-line">${t('ov.heroLine', { n: ok.length })}</span></h1>
       <p class="hero-sub">${tc(cfg, 'ov.subtitle')}</p>
       <div class="hero-actions">
-        <a class="btn-outline" href="#indicators" data-scroll>${t('ov.toIndicators')} ${ARROW}</a>
-        <a class="text-link" href="#/world">${t('nav.world')} ${ARROW}</a>
-        <a class="text-link" href="#/methodik">${t('ov.terms')} ${ARROW}</a>
+        <a class="btn-primary" href="#indicators" data-scroll>${t('ov.toIndicators')} ${ARROW}</a>
+        <a class="text-link" href="#/world">${t('ov.toWorld')} ${ARROW}</a>
       </div>
-      <p class="hero-meta"><span class="live-dot"></span>${t('ov.dataAsOf')} <strong>${dateTime(index.fetchedAt)}</strong> · ${t('ov.autoUpdate')}</p>
+      <p class="hero-meta"><span class="state-dot"></span>${t('ov.dataAsOf')} <strong>${dateTime(index.fetchedAt)}</strong> · ${t('ov.autoUpdate')}</p>
       ${marketBoard()}
     </div>
   </section>
   ${ticker}
 
-  <section class="feature-row">
+  <section class="feature-row score-row">
     <div class="feature">
-      ${ICON.gauge}
       <h2 title="${esc(t('ov.totalScore'))}">${t('ov.totalShort')}</h2>
       <div class="feature-value" data-count="${total}" data-signed="1">${signed(total, 0)}<small> / ±${max}</small></div>
       ${gauge(total, max)}
@@ -226,14 +218,12 @@ export async function renderOverview(el, { country }) {
       <a class="feature-link" href="#/methodik">${t('nav.method')} ${ARROW}</a>
     </div>
     <div class="feature">
-      ${ICON.clock}
       <h2>${t('score.shortLong')}</h2>
       <div class="feature-value" data-count="${totShort}" data-signed="1">${signed(totShort, 0)}</div>
       <p>${t('ov.shortHint')}</p>
       <a class="feature-link" href="#/${country}/compare">${t('nav.compare')} ${ARROW}</a>
     </div>
     <div class="feature">
-      ${ICON.horizon}
       <h2>${t('score.longLong')}</h2>
       <div class="feature-value" data-count="${totLong}" data-signed="1">${signed(totLong, 0)}</div>
       <p>${t('ov.longHint')} · ${ok.length} ${t('ov.indicators')}, ${t('ov.scoredOf', { n: scored.length })}</p>
@@ -242,7 +232,7 @@ export async function renderOverview(el, { country }) {
   </section>
 
   <section class="section cat-overview">
-    <p class="eyebrow">${t('ov.byCategory')}</p>
+    <h2 class="section-title">${t('ov.byCategory')}</h2>
     <p class="section-intro">${esc(L(group.description))}</p>
     <div class="score-cats">${catBars}</div>
     <p class="fine">${tc(cfg, 'ov.scoreLegend')}</p>
@@ -269,7 +259,7 @@ export async function renderOverview(el, { country }) {
 
   <div class="toolbar" id="indicators">
     <input type="search" id="ind-filter" placeholder="${esc(t('ov.filter'))}" aria-label="${esc(t('ov.filter'))}">
-    <a class="btn" href="#/${country}/compare">${t('nav.compare')} →</a>
+    <a class="btn" href="#/${country}/compare">${t('nav.compare')} ${ARROW}</a>
   </div>
 
   ${catHtml}
